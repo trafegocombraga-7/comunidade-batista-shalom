@@ -597,6 +597,31 @@ nav { display:flex; align-items:center; gap:clamp(18px,3vw,46px); }
   padding:16px 28px;
 }
 
+/* ── layout maior/mais parecido com a referência em telas largas ── */
+@media(min-width:860px){
+  #sec-junte { padding:clamp(70px,10vh,120px) 6vw clamp(56px,8vh,96px); }
+  .junte-comp {
+    width:min(980px,86vw);
+    gap:16px;
+    align-items:flex-start;
+  }
+  .junte-card { aspect-ratio:3/3.9; }
+  .junte-card--right { margin-top:clamp(50px,9vw,110px); }
+  .junte-comp::after { height:70%; }
+  .junte-text { padding:0 4% clamp(24px,4vw,44px); }
+  .junte-h2 { font-size:clamp(90px,9vw,148px); }
+  .junte-btns { flex-direction:row; max-width:none; gap:18px; }
+  .junte-btns .btn-outline { width:auto; min-width:260px; }
+}
+
+/* ── animação de entrada ao rolar até a seção ── */
+.reveal-up {
+  opacity:0;
+  transform:translateY(46px);
+  transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.reveal-up.in-view { opacity:1; transform:translateY(0); }
+
 /* ─────────────── PAGE: SOBRE ─────────────── */
 .page-hero {
   position:relative;
@@ -1468,7 +1493,7 @@ footer::before {
   <!-- JUNTE-SE A NÓS -->
   <section id="sec-junte">
     <!-- composição com duas fotos em retrato, escalonadas -->
-    <div class="junte-comp">
+    <div class="junte-comp reveal-up">
       <div class="junte-card junte-card--left">
         <img src="assets/casal-esquerda.png" alt="Pastores">
       </div>
@@ -1481,8 +1506,9 @@ footer::before {
       </div>
     </div>
     <!-- botões abaixo -->
-    <div class="junte-btns">
+    <div class="junte-btns reveal-up">
       <button class="btn-outline" onclick="abrirUltimaPregacao(this)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg>Assista à última mensagem</button>
+      <a class="btn-outline" href="https://www.youtube.com/@ComunidadeBatistaShalom/videos" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg>Veja mais pregações</a>
     </div>
   </section>
 
@@ -1957,6 +1983,7 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarCelulas();          // busca as células cadastradas no painel admin
   carregarSede();             // busca a localização da igreja cadastrada no painel admin
   document.getElementById('footer-year').textContent = new Date().getFullYear();
+  initReveal();
 
   /* scroll → header */
   window.addEventListener('scroll', () => {
@@ -2189,6 +2216,25 @@ window.scrollToMapa = function() { smoothScrollTo('sec-mapa'); };
 function smoothScrollTo(id) {
   const el = document.getElementById(id);
   if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+}
+
+/* revela elementos com fade + translateY conforme entram na tela ao rolar */
+function initReveal() {
+  const alvos = document.querySelectorAll('.reveal-up');
+  if (!alvos.length) return;
+  if (!window.IntersectionObserver) {
+    alvos.forEach(el => el.classList.add('in-view'));
+    return;
+  }
+  const obs = new IntersectionObserver((entradas) => {
+    entradas.forEach((entrada, i) => {
+      if (entrada.isIntersecting) {
+        setTimeout(() => entrada.target.classList.add('in-view'), i * 90);
+        obs.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: .18, rootMargin: '0px 0px -8% 0px' });
+  alvos.forEach(el => obs.observe(el));
 }
 
 /* ═══════════════════ MAPA ═══════════════════ */
