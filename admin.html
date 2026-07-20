@@ -84,7 +84,7 @@ a{color:#5bb8e8}
 .card h2{font-weight:300;font-size:21px;margin-bottom:4px}
 .card .kick{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5bb8e8;margin-bottom:20px}
 
-#map-pick{width:100%;height:340px;border-radius:12px;background:#e9eef2;margin-bottom:8px}
+#map-pick,#map-sede{width:100%;height:340px;border-radius:12px;background:#e9eef2;margin-bottom:8px}
 .coord{display:flex;gap:10px;align-items:center;font-size:13px;font-weight:300;color:rgba(255,255,255,.6);margin-bottom:16px}
 .coord strong{color:#5bb8e8;font-weight:500}
 
@@ -142,6 +142,40 @@ a{color:#5bb8e8}
   </div>
 
   <div class="painel ativo">
+
+    <!-- ---------- LOCALIZAÇÃO DA IGREJA ---------- -->
+    <div class="card" style="max-width:1500px;margin:0 auto 24px">
+      <h2>Localização da igreja</h2>
+      <div class="kick">Sede · aparece no mapa e no rodapé do site</div>
+
+      <div class="msg" id="sede-msg"></div>
+
+      <form id="form-sede">
+        <div class="campo">
+          <label for="s-nome">Nome</label>
+          <input type="text" id="s-nome" required placeholder="Ex.: Comunidade Batista Shalom">
+        </div>
+
+        <div class="campo">
+          <label for="s-end">Endereço</label>
+          <input type="text" id="s-end" required placeholder="Rua, número, bairro, cidade">
+          <div class="dica">Digite o endereço e clique em “Localizar no mapa”, ou clique direto no mapa para posicionar o pin.</div>
+        </div>
+
+        <button type="button" class="btn btn--azul btn--sm" id="btn-geo-sede" style="margin-bottom:14px">Localizar no mapa</button>
+
+        <div id="map-sede"></div>
+        <div class="coord">
+          Coordenadas: <strong id="s-coord">não definidas</strong>
+        </div>
+        <input type="hidden" id="s-lat"><input type="hidden" id="s-lng">
+
+        <div class="form-acoes">
+          <button class="btn" type="submit" id="btn-salvar-sede">Salvar localização</button>
+        </div>
+      </form>
+    </div>
+
     <div class="painel-grid">
 
       <!-- ---------- FORMULÁRIO ---------- -->
@@ -248,9 +282,11 @@ a{color:#5bb8e8}
 <script>
 const API_AUTH = 'api/auth.php';
 const API_CEL  = 'api/celulas.php';
+const API_SEDE = 'api/sede.php';
 const CENTRO   = [-23.7644, -53.3256]; // Umuarama/PR
 
 let mapa = null, pin = null, editandoId = null;
+let mapaSede = null, pinSede = null;
 
 /* ---------- utilidades ---------- */
 const $ = id => document.getElementById(id);
@@ -297,7 +333,9 @@ function abrirPainel() {
   $('tela-login').style.display = 'none';
   $('tela-painel').style.display = 'block';
   iniciarMapa();
+  iniciarMapaSede();
   carregarLista();
+  carregarSede();
 }
 
 /* ---------- mapa ---------- */
@@ -334,6 +372,94 @@ function limparPin() {
   if (pin && mapa) { mapa.removeLayer(pin); pin = null; }
   if (mapa) mapa.setView(CENTRO, 13);
 }
+
+/* ---------- mapa da sede ---------- */
+function iniciarMapaSede() {
+  if (mapaSede || !window.L) { if (!window.L) return setTimeout(iniciarMapaSede, 200); }
+  if (mapaSede) return;
+  mapaSede = L.map('map-sede').setView(CENTRO, 13);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 20
+  }).addTo(mapaSede);
+  mapaSede.on('click', e => posicionarPinSede(e.latlng.lat, e.latlng.lng));
+  setTimeout(() => mapaSede.invalidateSize(), 250);
+}
+
+function posicionarPinSede(lat, lng, zoom) {
+  $('s-lat').value = lat;
+  $('s-lng').value = lng;
+  $('s-coord').textContent = Number(lat).toFixed(6) + ', ' + Number(lng).toFixed(6);
+  if (!mapaSede) return;
+  if (pinSede) { pinSede.setLatLng([lat, lng]); }
+  else {
+    pinSede = L.marker([lat, lng], { draggable: true }).addTo(mapaSede);
+    pinSede.on('dragend', () => {
+      const p = pinSede.getLatLng();
+      posicionarPinSede(p.lat, p.lng);
+    });
+  }
+  mapaSede.setView([lat, lng], zoom || Math.max(mapaSede.getZoom(), 16));
+}
+
+async function carregarSede() {
+  try {
+    const s = await api(API_SEDE);
+    $('s-nome').value = s.nome;
+    $('s-end').value = s.endereco;
+    posicionarPinSede(s.lat, s.lng, 15);
+  } catch (err) {
+    msg($('sede-msg'), err.message, 'err');
+  }
+}
+
+$('btn-geo-sede').addEventListener('click', async () => {
+  const endereco = $('s-end').value.trim();
+  if (!endereco) return msg($('sede-msg'), 'Digite um endereço para localizar.', 'err');
+  const btn = $('btn-geo-sede');
+  btn.disabled = true; btn.textContent = 'Buscando…';
+  msg($('sede-msg'), '');
+  try {
+    const q = encodeURIComponent(endereco + (/umuarama/i.test(endereco) ? '' : ', Umuarama, PR, Brasil'));
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + q);
+    const d = await r.json();
+    if (!d || !d.length) {
+      msg($('sede-msg'), 'Endereço não encontrado. Clique direto no mapa para marcar.', 'err');
+    } else {
+      posicionarPinSede(parseFloat(d[0].lat), parseFloat(d[0].lon), 17);
+      msg($('sede-msg'), 'Localização encontrada. Ajuste o pin no mapa se precisar.', 'ok');
+    }
+  } catch (e) {
+    msg($('sede-msg'), 'Não foi possível buscar o endereço. Clique no mapa para marcar.', 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Localizar no mapa';
+  }
+});
+
+$('form-sede').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!$('s-lat').value || !$('s-lng').value) {
+    return msg($('sede-msg'), 'Defina a localização: busque o endereço ou clique no mapa.', 'err');
+  }
+  const btn = $('btn-salvar-sede');
+  btn.disabled = true; btn.textContent = 'Salvando…';
+  msg($('sede-msg'), '');
+  try {
+    await api(API_SEDE, {
+      method: 'POST',
+      body: JSON.stringify({
+        nome: $('s-nome').value.trim(),
+        endereco: $('s-end').value.trim(),
+        lat: parseFloat($('s-lat').value),
+        lng: parseFloat($('s-lng').value),
+      })
+    });
+    msg($('sede-msg'), 'Localização da igreja atualizada com sucesso.', 'ok');
+  } catch (err) {
+    msg($('sede-msg'), err.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Salvar localização';
+  }
+});
 
 /* geocodificação por endereço (Nominatim / OpenStreetMap) */
 $('btn-geo').addEventListener('click', async () => {

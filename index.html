@@ -1761,6 +1761,20 @@ async function carregarCelulas() {
   }
 }
 
+async function carregarSede() {
+  try {
+    const r = await fetch('api/sede.php', { headers: { 'Accept': 'application/json' } });
+    if (!r.ok) return;
+    const s = await r.json();
+    if (!s || typeof s.lat !== 'number' || typeof s.lng !== 'number') return;
+    PAINEL.igreja = { nome: s.nome, endereco: s.endereco, lat: s.lat, lng: s.lng };
+    hydrate();
+    if (mapInstance) { destroyMap(); initMap(); }
+  } catch (e) {
+    /* API fora do ar (ou dev local sem PHP): mantém o endereço padrão do PAINEL */
+  }
+}
+
 /* ═══════════════════ ÚLTIMO VÍDEO DO YOUTUBE ═══════════════════ */
 const YT_FALLBACK = 'https://www.youtube.com/@ComunidadeBatistaShalom/videos';
 
@@ -1791,6 +1805,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderContrib();
   renderCelulas();
   carregarCelulas();          // busca as células cadastradas no painel admin
+  carregarSede();             // busca a localização da igreja cadastrada no painel admin
   document.getElementById('footer-year').textContent = new Date().getFullYear();
 
   /* scroll → header */

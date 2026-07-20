@@ -53,11 +53,27 @@ function migrate(PDO $pdo): void {
     atualizado_em TEXT
   )");
 
+  $pdo->exec("CREATE TABLE IF NOT EXISTS sede (
+    id            INTEGER PRIMARY KEY CHECK (id = 1),
+    nome          TEXT NOT NULL,
+    endereco      TEXT NOT NULL,
+    lat           REAL NOT NULL,
+    lng           REAL NOT NULL,
+    atualizado_em TEXT
+  )");
+
   /* cria o admin apenas na primeira vez */
   $total = (int) $pdo->query('SELECT COUNT(*) FROM usuarios')->fetchColumn();
   if ($total === 0) {
     $st = $pdo->prepare('INSERT INTO usuarios (usuario, senha_hash) VALUES (?, ?)');
     $st->execute([ADMIN_USER, password_hash(ADMIN_PASS, PASSWORD_DEFAULT)]);
+  }
+
+  /* endereço padrão da sede, editável depois pelo painel */
+  $totalSede = (int) $pdo->query('SELECT COUNT(*) FROM sede')->fetchColumn();
+  if ($totalSede === 0) {
+    $st = $pdo->prepare('INSERT INTO sede (id, nome, endereco, lat, lng) VALUES (1, ?, ?, ?, ?)');
+    $st->execute(['Comunidade Batista Shalom', 'Av. Paraná, 3103, Zona I, Umuarama/PR', -23.7644, -53.3256]);
   }
 }
 
