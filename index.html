@@ -712,11 +712,20 @@ nav { display:flex; align-items:center; gap:clamp(18px,3vw,46px); }
 .ofertas-h2 {
   font-weight:700;
   font-size:clamp(48px,6.5vw,100px);
-  line-height:.98;
+  line-height:1.05;
   letter-spacing:-.01em;
   text-transform:uppercase;
 }
+.ofertas-h2 .conector {
+  display:block;
+  font-size:.34em;
+  font-weight:400;
+  color:rgba(255,255,255,.5);
+  text-transform:lowercase;
+  margin:.15em 0;
+}
 .ofertas-h2 span {
+  display:block;
   font-weight:700;
   color:#5bb8e8;
 }
@@ -1199,6 +1208,9 @@ nav { display:flex; align-items:center; gap:clamp(18px,3vw,46px); }
 .celula-card .distancia { color:#5bb8e8; font-weight:500; }
 
 #map-container {
+  position:relative;
+  z-index:0;
+  isolation:isolate;
   width:100%;
   height:100%;
   min-height:460px;
@@ -1568,7 +1580,7 @@ footer::before {
 
   <section class="ofertas-intro">
     <div class="ofertas-intro-grid">
-      <h2 class="ofertas-h2"><span>Dízimos</span><br>e <span>Ofertas</span></h2>
+      <h2 class="ofertas-h2"><span>Dízimos</span><span class="conector">e</span><span>Ofertas</span></h2>
       <p class="ofertas-p" id="ofertas-p1">A primeira vez que o dízimo é mencionado na Bíblia está registrada em Gênesis 14, quando Abraão honrou a Deus com seus dízimos por meio de Melquizedeque. Desde então, entregar dízimos e ofertas é uma forma de adoração e gratidão.</p>
       <p class="ofertas-p" id="ofertas-p2">Nós acreditamos que as ofertas são uma forma direta de adorar a Deus. Demonstramos com alegria a nossa devoção, reconhecendo que tudo o que temos vem das mãos do Senhor.</p>
     </div>
@@ -1627,8 +1639,8 @@ footer::before {
     <div class="celulas-info-grid">
       <div>
         <h2>Sobre as<br>células</h2>
-        <p id="celula-p1">As células são grupos de conexão que se reúnem como família nos lares, buscando a presença de Deus e compartilhando a vida cristã de forma presencial ou online.</p>
-        <p id="celula-p2">Os grupos são organizados por faixa etária: Rise (12 a 14), Flow (15 a 18), Vox (18 a 29), Eklektos (a partir de 30) e Famílias. Encontre uma célula perto de você!</p>
+        <p id="celula-p1">As células são grupos de conexão que se reúnem como família nos lares, buscando a presença de Deus e compartilhando a vida cristã.</p>
+        <p id="celula-p2" style="display:none"></p>
         <p class="cta-mapa">Use o mapa abaixo para escolher a sua célula!</p>
         <button class="btn-outline" style="margin-top:26px;min-width:0;" onclick="scrollToMapa()">Quero encontrar uma célula</button>
       </div>
@@ -1846,8 +1858,8 @@ const PAINEL = {
   ],
 
   celulaInfo: {
-    p1: 'As células são grupos de conexão que se reúnem como família nos lares, buscando a presença de Deus e compartilhando a vida cristã de forma presencial ou online. É onde a fé deixa de ser teoria e vira convivência.',
-    p2: 'Os grupos são organizados por faixa etária: Rise (12 a 14), Flow (15 a 18), Vox (18 a 29), Eklektos (a partir de 30) e Famílias. Encontre uma célula perto de você em Umuarama e região.',
+    p1: 'As células são grupos de conexão que se reúnem como família nos lares, buscando a presença de Deus e compartilhando a vida cristã. É onde a fé deixa de ser teoria e vira convivência.',
+    p2: '',
   },
 
   igreja: {
