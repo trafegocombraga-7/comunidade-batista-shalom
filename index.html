@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ── SEO básico ── -->
+<title>Comunidade Batista Shalom · Umuarama/PR</title>
+<meta name="description" content="Comunidade Batista Shalom, em Umuarama/PR. Cultos presenciais aos domingos às 9h30 e 19h. Venha nos visitar, há lugar para você aqui.">
+<meta name="keywords" content="igreja, comunidade batista, shalom, umuarama, culto, evangelico, celulas, pregação, cristão">
+<meta name="author" content="Comunidade Batista Shalom">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://comunidadebatistashalom.com.br/">
+
+<!-- ── Favicon ── -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<meta name="theme-color" content="#04111f">
+
+<!-- ── Open Graph (compartilhamento no WhatsApp, Facebook, etc.) ── -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Comunidade Batista Shalom">
+<meta property="og:title" content="Comunidade Batista Shalom · Umuarama/PR">
+<meta property="og:description" content="Há mais de 12 anos servindo Umuarama e região. Cultos aos domingos às 9h30 e 19h. Venha fazer parte dessa família.">
+<meta property="og:image" content="https://comunidadebatistashalom.com.br/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://comunidadebatistashalom.com.br/">
+<meta property="og:locale" content="pt_BR">
+
+<!-- ── Twitter / X Card ── -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Comunidade Batista Shalom · Umuarama/PR">
+<meta name="twitter:description" content="Há mais de 12 anos servindo Umuarama e região. Cultos aos domingos às 9h30 e 19h.">
+<meta name="twitter:image" content="https://comunidadebatistashalom.com.br/assets/og-image.jpg">
+
+<!-- ── Schema.org (Google entende a igreja como negócio local) ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Church",
+  "name": "Comunidade Batista Shalom",
+  "alternateName": "Shalom Umuarama",
+  "description": "Comunidade Batista Shalom, há mais de 12 anos servindo Umuarama e região com cultos, células e discipulado.",
+  "url": "https://comunidadebatistashalom.com.br",
+  "logo": "https://comunidadebatistashalom.com.br/assets/logo.png",
+  "image": "https://comunidadebatistashalom.com.br/assets/og-image.jpg",
+  "telephone": "+554499869-8763",
+  "email": "contato@comunidadebatistashalom.com.br",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Av. Paraná, 3103",
+    "addressLocality": "Umuarama",
+    "addressRegion": "PR",
+    "postalCode": "87501-000",
+    "addressCountry": "BR"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -23.7644,
+    "longitude": -53.3256
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Sunday",
+      "opens": "09:30",
+      "closes": "11:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Sunday",
+      "opens": "19:00",
+      "closes": "21:00"
+    }
+  ],
+  "sameAs": [
+    "https://www.youtube.com/@ComunidadeBatistaShalom",
+    "https://www.instagram.com/batistashalomumuarama/"
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<style>
+/* ─── reset & base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Jost', system-ui, sans-serif;
+  background: #04111f;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: rgba(43,179,232,.32); }
+
+/* ─── keyframes ─── */
+@keyframes heroZoom {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.16); }
+}
+@keyframes floatGlow {
+  0%,100% { opacity:.45; transform:translateY(0) scale(1); }
+  50%      { opacity:.8;  transform:translateY(-18px) scale(1.04); }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes ringPulse {
+  0%,100% { transform:scale(1);   opacity:.5; }
+  50%      { transform:scale(1.06); opacity:.8; }
+}
+
+/* ─── utilities ─── */
+.fade-up { animation: fadeUp .7s ease both; }
+.fade-up-2 { animation: fadeUp .7s .12s ease both; }
+.fade-up-3 { animation: fadeUp .7s .24s ease both; }
+
+/* ─── scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #04111f; }
+::-webkit-scrollbar-thumb { background: rgba(43,179,232,.35); border-radius: 4px; }
+
+/* ─── HEADER ─── */
+#header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px clamp(20px,5vw,64px);
+  transition: background .35s, backdrop-filter .35s, border-color .35s;
+  background: linear-gradient(180deg, rgba(4,16,28,.8), transparent);
+  border-bottom: 1px solid transparent;
+}
+#header.scrolled {
+  background: rgba(4,16,28,.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(255,255,255,.07);
+}
+.logo-wrap { display:flex; align-items:center; gap:12px; cursor:pointer; }
+.logo-wrap img { width:44px; height:44px; object-fit:contain; filter:brightness(0) invert(1); display:block; }
+nav { display:flex; align-items:center; gap:clamp(18px,3vw,46px); }
+.navlink {
+  cursor:pointer;
+  font-weight:300;
+  font-size:14px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#fff;
+  opacity:.6;
+  transition:opacity .25s;
+  padding-bottom:4px;
+  border-bottom:1px solid transparent;
+}
+.navlink:hover { opacity:1; }
+.navlink.active { opacity:1; border-color:#2bb3e8; }
+
+/* ─── pages ─── */
+.page { display:none; }
+.page.active { display:block; }
+
+/* ─── HERO ─── */
+#hero {
+  position:relative;
+  min-height: 100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.hero-bg {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+}
+.hero-bg img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  animation: heroZoom 22s ease-in-out infinite alternate;
+}
+.hero-overlay {
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg,
+    rgba(4,17,31,.55) 0%,
+    rgba(4,17,31,.25) 38%,
+    rgba(4,17,31,.92) 100%);
+}
+.hero-content {
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  text-align:center;
+  padding:0 24px;
+}
+.hero-logo {
+  width:clamp(90px,11vw,140px);
+  height:auto;
+  filter: brightness(0) invert(1) drop-shadow(0 8px 30px rgba(0,0,0,.5));
+}
+.hero-title {
+  font-weight:300;
+  letter-spacing:.46em;
+  font-size:clamp(26px,4.4vw,58px);
+  padding-left:.46em;
+  color:#fff;
+}
+.hero-sub {
+  font-weight:300;
+  letter-spacing:.34em;
+  font-size:clamp(10px,1.1vw,13px);
+  color:rgba(255,255,255,.7);
+  text-transform:uppercase;
+  padding-left:.34em;
+}
+.hero-btns {
+  position:absolute;
+  bottom:9vh;
+  left:0; right:0;
+  z-index:3;
+  display:flex;
+  gap:clamp(14px,2vw,32px);
+  justify-content:center;
+  flex-wrap:wrap;
+  padding:0 24px;
+}
+
+/* ─── BUTTONS ─── */
+.btn-outline {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:11px;
+  text-decoration:none;
+  background:transparent;
+  border:1px solid rgba(255,255,255,.52);
+  color:#fff;
+  padding:17px clamp(24px,3.5vw,60px);
+  font-family:inherit;
+  font-size:13px;
+  font-weight:300;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  cursor:pointer;
+  min-width:min(320px,42vw);
+  transition:background .28s, border-color .28s, transform .28s;
+}
+.btn-outline svg {
+  width:19px; height:19px;
+  flex-shrink:0;
+  stroke:currentColor;
+  opacity:.85;
+  transition:opacity .28s, transform .28s;
+}
+.btn-outline:hover {
+  background:rgba(255,255,255,.09);
+  border-color:#fff;
+}
+.btn-outline:hover svg { opacity:1; transform:rotate(90deg); }
+.btn-solid {
+  background: linear-gradient(135deg, #1a8fc4, #2bb3e8);
+  border:none;
+  color:#04111f;
+  padding:17px 44px;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  border-radius:40px;
+  transition:filter .28s, transform .28s, box-shadow .28s;
+}
+.btn-solid:hover {
+  filter:brightness(1.1);
+  transform:translateY(-2px);
+  box-shadow:0 14px 40px rgba(43,179,232,.38);
+}
+
+/* ─── SECTION: verso ─── */
+#sec-verso {
+  position:relative;
+  padding:clamp(80px,13vh,160px) clamp(24px,6vw,90px);
+  background:#06182e;
+  overflow:hidden;
+}
+.verso-rings {
+  position:absolute;
+  right:-32%;
+  top:50%;
+  transform:translateY(-50%);
+  width:min(880px,105vw);
+  aspect-ratio:1;
+  pointer-events:none;
+  /* núcleo brilhante + anéis concêntricos que se expandem, como a referência */
+  background:
+    radial-gradient(circle at center, rgba(150,225,255,.55) 0%, rgba(60,170,230,.18) 16%, transparent 26%),
+    repeating-radial-gradient(circle at center,
+      transparent 0 clamp(28px,5.4vw,52px),
+      rgba(80,190,240,.30) clamp(28px,5.4vw,52px) calc(clamp(28px,5.4vw,52px) + 2.5px));
+  -webkit-mask:radial-gradient(circle at center, #000 0%, #000 52%, transparent 80%);
+          mask:radial-gradient(circle at center, #000 0%, #000 52%, transparent 80%);
+  animation:ringPulse 9s ease-in-out infinite;
+}
+.verso-rings span { display:none; }
+.verso-text {
+  position:relative;
+  z-index:2;
+  max-width:780px;
+}
+.verso-text p:first-child {
+  font-weight:200;
+  font-size:clamp(32px,4.8vw,68px);
+  line-height:1.07;
+  letter-spacing:-.01em;
+}
+.verso-text p:last-child {
+  margin-top:24px;
+  font-weight:300;
+  font-size:clamp(16px,1.8vw,24px);
+  color:rgba(255,255,255,.62);
+  letter-spacing:.05em;
+}
+
+/* ─── SECTION: horários ─── */
+#sec-horarios {
+  position:relative;
+  padding:clamp(70px,10vh,130px) clamp(24px,6vw,90px) clamp(90px,13vh,160px);
+  background:radial-gradient(120% 120% at 50% 130%, rgba(20,90,150,.58), #06182e 62%);
+}
+#sec-horarios h2 {
+  font-weight:200;
+  font-size:clamp(52px,9vw,124px);
+  line-height:.9;
+  letter-spacing:-.03em;
+  text-align:center;
+  margin-bottom:clamp(32px,5vh,58px);
+}
+.hor-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(310px,1fr));
+  gap:clamp(16px,2vw,34px);
+  max-width:1060px;
+  margin:0 auto;
+}
+.hor-card {
+  position:relative;
+  border-radius:8px;
+  overflow:hidden;
+  min-height:300px;
+  display:flex;
+  align-items:flex-end;
+  background:#06182e;
+}
+.hor-card img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+}
+/* slideshow automático de fundo (não interativo) */
+.hor-slideshow {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  isolation:isolate;        /* o blend só mistura com as fotos, não com o fundo */
+}
+.hor-layer {
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.05);
+  transition:opacity 1.8s ease, transform 7s ease;
+  pointer-events:none;
+  /* dessatura com contraste cinematográfico · a cor vem do tint azul (como a capa) */
+  filter:grayscale(1) contrast(1.08) brightness(.9);
+}
+/* normaliza a EXPOSIÇÃO por card: clareia fotos escuras, escurece as claras,
+   para os dois blocos ficarem no mesmo nível de brilho */
+.hor-card[data-pool="cultos"] .hor-layer {
+  filter:grayscale(1) contrast(1.04) brightness(1.28);
+}
+.hor-card[data-pool="casa"] .hor-layer {
+  filter:grayscale(1) contrast(1.12) brightness(.66);
+}
+.hor-layer.active {
+  opacity:1;
+  transform:scale(1);
+}
+/* tint azul da marca, uniforme (mesmo duotone da capa, sem estourar) */
+.hor-slideshow::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:5;
+  background:#2e5d94;
+  mix-blend-mode:color;
+  pointer-events:none;
+}
+/* vinheta + gradiente navy (profundidade e base para o texto, como a capa) */
+.hor-slideshow::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:6;
+  background:
+    radial-gradient(130% 105% at 50% 26%, transparent 42%, rgba(3,13,26,.55) 100%),
+    linear-gradient(180deg, rgba(4,17,31,.42) 0%, rgba(4,17,31,.12) 42%, rgba(4,17,31,.92) 100%);
+  pointer-events:none;
+}
+.hor-card-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(4,17,31,.08) 28%, rgba(4,17,31,.92) 100%);
+}
+.hor-card-body {
+  position:relative;
+  z-index:2;
+  padding:28px 30px;
+}
+.hor-card-body h3 { font-weight:600; font-size:26px; margin-bottom:6px; }
+.hor-card-body p  { font-weight:300; font-size:17px; line-height:1.55; color:rgba(255,255,255,.82); }
+/* horários sublinhados, como na referência */
+.hor-card-body p b, .hor-card-body p .hora {
+  font-weight:400;
+  text-decoration:underline;
+  text-underline-offset:4px;
+  text-decoration-color:rgba(91,184,232,.6);
+}
+.hor-cta {
+  text-align:center;
+  margin-top:clamp(34px,5vh,52px);
+}
+.hor-cta p {
+  font-weight:200;
+  font-size:clamp(22px,2.8vw,38px);
+  color:rgba(255,255,255,.85);
+  margin-bottom:clamp(22px,3vh,34px);
+}
+
+/* ─── FOTO FULL-WIDTH (P&B granulado, estilo referência) ─── */
+#sec-foto-meio {
+  position:relative;
+  width:100%;
+  height:clamp(420px,72vh,760px);
+  overflow:hidden;
+  background:#05101d;
+}
+#sec-foto-meio img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center;
+  /* preto e branco contrastado */
+  filter:grayscale(1) contrast(1.12) brightness(.96);
+}
+/* grão de filme */
+#sec-foto-meio::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  opacity:.16;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+/* vinheta + fusão com o fundo escuro nas bordas superior/inferior */
+#sec-foto-meio::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(4,16,29,.9) 0%, transparent 18%, transparent 82%, rgba(4,16,29,.95) 100%),
+    radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(3,12,24,.5) 100%);
+}
+
+/* ── JUNTE-SE A NÓS (estilo referência) ── */
+#sec-junte {
+  position:relative;
+  background:#021520;
+  padding:clamp(56px,9vh,110px) 20px clamp(48px,8vh,90px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:clamp(30px,5vh,52px);
+  overflow:hidden;
+}
+/* brilho radial ao fundo, como a referência */
+#sec-junte::before {
+  content:'';
+  position:absolute;
+  right:-12%; bottom:-14%;
+  width:75%; height:75%;
+  background:radial-gradient(circle at center, rgba(20,90,150,.22), transparent 70%);
+  pointer-events:none;
+}
+/* composição: duas fotos em retrato, escalonadas */
+.junte-comp {
+  position:relative;
+  z-index:1;
+  width:min(560px,94vw);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  gap:12px;
+}
+.junte-card {
+  position:relative;
+  flex:1 1 0;
+  aspect-ratio:3 / 4.3;   /* retrato */
+  overflow:hidden;
+  background:#07182c;
+}
+/* foto da direita desce um pouco (escalonado) */
+.junte-card--right { margin-top:clamp(28px,7vw,60px); }
+.junte-card img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:top center;
+  filter:grayscale(1) contrast(1.12) brightness(.82);
+}
+.junte-card--left img  { object-position:left top; }
+.junte-card--right img { object-position:right top; }
+/* tint azul duotone (P&B + azul da marca) */
+.junte-card::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(20,70,130,.30) 0%, rgba(10,40,90,.5) 100%);
+  pointer-events:none;
+}
+/* escurece a base da composição para o texto */
+.junte-comp::after {
+  content:'';
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height:58%;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(to top, rgba(2,21,32,.9) 8%, transparent 100%);
+}
+/* texto grande sobreposto, duas cores (como a referência) */
+.junte-text {
+  position:absolute;
+  left:0; right:0; bottom:0;
+  z-index:3;
+  padding:0 5% clamp(14px,3vw,32px);
+  pointer-events:none;
+  text-align:left;
+}
+.junte-h2 {
+  font-weight:200;
+  font-size:clamp(56px,15.5vw,152px);
+  line-height:.82;
+  letter-spacing:-.035em;
+  text-shadow:0 2px 30px rgba(2,21,32,.7);
+}
+.junte-h2 .l1 { display:block; color:#fff; }
+.junte-h2 .l2 { display:block; color:rgba(255,255,255,.32); }
+/* botões abaixo */
+.junte-btns {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  max-width:clamp(260px,48vw,420px);
+}
+.junte-btns .btn-outline {
+  width:100%;
+  text-align:center;
+  padding:16px 28px;
+}
+
+/* ─────────────── PAGE: SOBRE ─────────────── */
+.page-hero {
+  position:relative;
+  min-height:46vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding-top:80px;
+}
+.page-hero img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+}
+.page-hero-overlay {
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(4,17,31,.72), rgba(4,17,31,.56));
+}
+.page-hero h1 {
+  position:relative;
+  z-index:2;
+  font-weight:200;
+  font-size:clamp(44px,8vw,108px);
+  letter-spacing:-.02em;
+}
+
+.sobre-body {
+  padding:clamp(70px,11vh,140px) clamp(24px,6vw,90px);
+  background:#06182e;
+}
+.sobre-grid {
+  max-width:1180px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:clamp(38px,6vw,90px);
+  align-items:start;
+}
+.sobre-kicker {
+  font-weight:300;
+  letter-spacing:.28em;
+  font-size:13px;
+  color:#5bb8e8;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+.sobre-h2 {
+  font-weight:200;
+  font-size:clamp(38px,5.5vw,80px);
+  line-height:1;
+  letter-spacing:-.02em;
+}
+.sobre-h2 span { font-weight:500; }
+.sobre-quote {
+  margin-top:32px;
+  font-weight:300;
+  font-size:clamp(18px,2.1vw,28px);
+  color:rgba(255,255,255,.7);
+  font-style:italic;
+  line-height:1.4;
+}
+.sobre-text p {
+  font-weight:300;
+  font-size:17px;
+  line-height:1.78;
+  color:rgba(255,255,255,.82);
+}
+.sobre-text p + p { margin-top:22px; }
+.stats-grid {
+  max-width:1180px;
+  margin:clamp(48px,8vh,88px) auto 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:clamp(14px,2vw,26px);
+}
+.stat-card {
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:8px;
+  padding:30px 28px;
+  background:rgba(20,80,140,.1);
+  transition:border-color .3s, transform .3s;
+}
+.stat-card:hover { border-color:rgba(43,179,232,.42); transform:translateY(-4px); }
+.stat-n {
+  font-weight:200;
+  font-size:48px;
+  color:#5bb8e8;
+  line-height:1;
+}
+.stat-label {
+  margin-top:10px;
+  font-weight:300;
+  font-size:15px;
+  color:rgba(255,255,255,.7);
+}
+
+/* ─────────────── PAGE: OFERTAS ─────────────── */
+.ofertas-intro {
+  padding:clamp(70px,11vh,140px) clamp(24px,6vw,90px);
+  background:#06182e;
+}
+.ofertas-intro-grid {
+  max-width:1180px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:clamp(32px,5vw,80px);
+  align-items:start;
+}
+.ofertas-h2 {
+  font-weight:700;
+  font-size:clamp(48px,6.5vw,100px);
+  line-height:.98;
+  letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+.ofertas-h2 span {
+  font-weight:700;
+  color:#5bb8e8;
+}
+.ofertas-p {
+  font-weight:300;
+  font-size:16px;
+  line-height:1.82;
+  color:rgba(255,255,255,.8);
+}
+
+.ofertas-verse {
+  position:relative;
+  padding:clamp(58px,9vh,120px) clamp(24px,6vw,90px);
+  overflow:hidden;
+}
+.ofertas-verse img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  filter:grayscale(.45) brightness(.5);
+}
+.ofertas-verse-overlay {
+  position:absolute;
+  inset:0;
+  background:rgba(4,17,31,.52);
+}
+.ofertas-verse-text {
+  position:relative;
+  z-index:2;
+  max-width:960px;
+  margin:0 auto;
+  text-align:center;
+}
+.ofertas-verse-text blockquote {
+  font-weight:300;
+  font-size:clamp(20px,2.5vw,34px);
+  line-height:1.35;
+}
+.ofertas-verse-text blockquote span { color:rgba(255,255,255,.65); }
+.ofertas-verse-text cite {
+  display:block;
+  margin-top:18px;
+  font-style:normal;
+  font-weight:300;
+  font-size:17px;
+  color:rgba(255,255,255,.65);
+  letter-spacing:.07em;
+}
+
+.ofertas-formas {
+  padding:clamp(70px,11vh,130px) clamp(24px,6vw,90px);
+  background:#06182e;
+}
+.ofertas-formas-inner { max-width:1180px; margin:0 auto; }
+.ofertas-formas h2 {
+  font-weight:200;
+  font-size:clamp(36px,5vw,70px);
+  line-height:1;
+  letter-spacing:-.02em;
+  margin-bottom:14px;
+}
+.divider { height:1px; background:rgba(255,255,255,.13); margin:clamp(38px,6vh,62px) 0; }
+.ofertas-formas h3 {
+  font-weight:600;
+  font-size:clamp(24px,3vw,38px);
+  margin-bottom:24px;
+}
+.pix-note {
+  font-weight:300;
+  letter-spacing:.2em;
+  font-size:12px;
+  color:rgba(255,255,255,.52);
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+.pix-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:13px;
+  max-width:900px;
+}
+.pix-card {
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:10px;
+  padding:18px 20px;
+  background:rgba(20,80,140,.08);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.pix-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.pix-card strong { font-weight:500; font-size:15px; }
+.pix-tipo {
+  font-style:normal;
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#5bb8e8;
+  border:1px solid rgba(91,184,232,.4);
+  border-radius:20px;
+  padding:3px 10px;
+}
+.pix-value {
+  font-weight:400;
+  font-size:17px;
+  color:#fff;
+  letter-spacing:.02em;
+  word-break:break-all;
+}
+/* botão copiar — mesmo estilo dos botões do site (contorno fino) */
+.pix-copy {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:100%;
+  margin-top:4px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,.52);
+  color:#fff;
+  font-family:inherit;
+  font-size:12px;
+  font-weight:300;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  padding:14px 20px;
+  cursor:pointer;
+  transition:background .28s, border-color .28s, color .28s;
+}
+.pix-copy svg { width:17px; height:17px; opacity:.85; transition:opacity .28s; }
+.pix-copy:hover { background:rgba(255,255,255,.09); border-color:#fff; }
+.pix-copy:hover svg { opacity:1; }
+.pix-copy.copied { border-color:rgba(90,210,140,.7); color:#7fe0a0; background:rgba(70,190,120,.1); }
+
+.ofertas-banco {
+  padding:clamp(70px,11vh,130px) clamp(24px,6vw,90px);
+  background:radial-gradient(120% 120% at 50% 0%, rgba(20,90,150,.5), #04111f 60%);
+}
+.ofertas-banco-inner {
+  max-width:780px;
+  margin:0 auto;
+  text-align:center;
+}
+.ofertas-banco h2 { font-weight:600; font-size:clamp(32px,4.5vw,58px); }
+.ofertas-banco .titular {
+  margin:26px 0 6px;
+  font-weight:300;
+  font-size:clamp(17px,2vw,24px);
+  color:rgba(255,255,255,.78);
+  letter-spacing:.06em;
+}
+.ofertas-banco .cnpj { font-weight:500; font-size:clamp(16px,1.8vw,22px); }
+.contrib-grid {
+  max-width:1080px;
+  margin:clamp(52px,8vh,88px) auto 0;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:clamp(16px,2.5vw,32px);
+}
+.contrib-card {
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:10px;
+  padding:34px 30px;
+  background:rgba(8,24,42,.5);
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  transition:transform .3s, border-color .3s;
+}
+.contrib-card:hover { transform:translateY(-4px); border-color:rgba(43,179,232,.45); }
+.contrib-card h3 { font-weight:300; font-size:30px; }
+.contrib-card p { font-weight:300; font-size:15px; line-height:1.65; color:rgba(255,255,255,.72); flex:1; }
+.contrib-card .dado { font-weight:500; font-size:16px; color:#5bb8e8; word-break:break-all; }
+
+/* ─────────────── PAGE: CÉLULAS ─────────────── */
+.celulas-info {
+  position:relative;
+  padding:clamp(70px,11vh,140px) clamp(24px,6vw,90px);
+  background:#06182e;
+  overflow:hidden;
+}
+.celulas-info-grid {
+  position:relative;
+  z-index:1;
+  max-width:1180px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:clamp(32px,5vw,70px);
+  align-items:center;
+}
+/* desktop: a foto ocupa a coluna direita do grid, com respiro nas bordas e cantos arredondados */
+@media(min-width:901px) {
+  .celulas-info-grid { grid-template-columns:1fr 1fr; }
+  .celulas-img { aspect-ratio:4/3.1; }
+}
+.celulas-info h2 {
+  font-weight:200;
+  font-size:clamp(38px,5.5vw,82px);
+  line-height:1;
+  letter-spacing:-.02em;
+}
+.celulas-info p {
+  margin-top:28px;
+  font-weight:300;
+  font-size:17px;
+  line-height:1.78;
+  color:rgba(255,255,255,.82);
+}
+.celulas-info p + p { margin-top:16px; }
+.celulas-info .cta-mapa {
+  margin-top:28px;
+  font-weight:600;
+  font-size:17px;
+  color:#fff;
+}
+.celulas-img {
+  position:relative;
+  aspect-ratio:4/3;
+  border-radius:14px;
+  overflow:hidden;
+  background:#06182e;
+}
+.celulas-img img {
+  position:absolute;
+  inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center;
+  /* preto e branco, granulado (contraste alto simula grão) */
+  filter:grayscale(1) contrast(1.15) brightness(.92);
+}
+/* grão de filme sobre a foto */
+.celulas-img::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  opacity:.17;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px;
+}
+/* fade-in da esquerda (mesma cor do fundo da seção) para a direita (nítido) */
+.celulas-img::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  background:linear-gradient(90deg, #06182e 0%, rgba(6,24,46,.88) 16%, rgba(6,24,46,.35) 40%, transparent 68%);
+}
+
+/* mapa section */
+#sec-mapa { background:#04111f; }
+.mapa-layout {
+  display:grid;
+  grid-template-columns:minmax(300px,420px) 1fr;
+  min-height:640px;
+}
+@media(max-width:768px) {
+  .mapa-layout { grid-template-columns:1fr; }
+}
+.mapa-painel {
+  padding:clamp(30px,3.5vw,50px) clamp(22px,2.8vw,42px);
+  display:flex;
+  flex-direction:column;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.mapa-label {
+  font-weight:300;
+  font-size:14px;
+  color:rgba(255,255,255,.65);
+  margin-bottom:8px;
+}
+.mapa-input {
+  position:relative;
+  margin-bottom:20px;
+}
+.mapa-input input {
+  width:100%;
+  background:rgba(8,24,42,.7);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;
+  padding:14px 42px 14px 16px;
+  color:#fff;
+  font-family:inherit;
+  font-size:15px;
+  font-weight:300;
+  outline:none;
+  transition:border-color .25s;
+}
+.mapa-input input:focus { border-color:rgba(43,179,232,.5); }
+.mapa-input input::placeholder { color:rgba(255,255,255,.38); }
+.mapa-input span {
+  position:absolute;
+  right:15px; top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,.45);
+  font-size:18px;
+  pointer-events:none;
+}
+.mapa-selects {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:22px;
+}
+.mapa-select-wrap label {
+  display:block;
+  font-weight:300;
+  font-size:13px;
+  color:rgba(255,255,255,.65);
+  margin-bottom:7px;
+}
+.mapa-select-wrap select {
+  width:100%;
+  background:rgba(8,24,42,.7);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;
+  padding:13px 14px;
+  color:#fff;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:300;
+  outline:none;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,.35)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+}
+.mapa-select-wrap select option { background:#06182e; }
+.mapa-count {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:4px 0 22px;
+}
+.mapa-count-badge {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:42px;
+  height:42px;
+  border-radius:50%;
+  background:rgba(43,179,232,.15);
+  color:#5bb8e8;
+  font-weight:500;
+  font-size:17px;
+  padding:0 8px;
+}
+.mapa-count-text {
+  font-weight:300;
+  font-size:16px;
+  color:rgba(255,255,255,.85);
+}
+.celulas-list {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  overflow:auto;
+  max-height:520px;
+  padding-right:4px;
+}
+.celula-empty {
+  border:1px dashed rgba(255,255,255,.16);
+  border-radius:14px;
+  padding:32px 22px;
+  text-align:center;
+  font-weight:300;
+  font-size:15px;
+  line-height:1.6;
+  color:rgba(255,255,255,.6);
+}
+.celula-card {
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  padding:22px 22px;
+  background:rgba(8,24,42,.55);
+  cursor:pointer;
+  transition:transform .3s, border-color .3s;
+}
+.celula-card:hover { transform:translateY(-3px); border-color:rgba(43,179,232,.45); }
+.celula-card h4 { font-weight:600; font-size:19px; }
+.celula-card .tipo {
+  margin:4px 0 14px;
+  font-weight:400;
+  font-size:12px;
+  letter-spacing:.1em;
+  color:#5bb8e8;
+  text-transform:uppercase;
+}
+.celula-card .info {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  font-weight:300;
+  font-size:14px;
+  color:rgba(255,255,255,.8);
+}
+#map-container {
+  width:100%;
+  height:100%;
+  min-height:460px;
+  background:#e9eef2;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(135% 85% at 50% -8%, rgba(20,80,150,.16), transparent 56%),
+    #04121f;
+  border-top:1px solid rgba(255,255,255,.07);
+  padding:clamp(48px,7vh,78px) clamp(22px,5vw,64px) clamp(28px,4vh,42px);
+}
+/* anéis concêntricos (assinatura do site) no canto superior direito */
+footer::before {
+  content:'';
+  position:absolute;
+  top:-140px; right:-140px;
+  width:460px; height:460px;
+  border-radius:50%;
+  background:repeating-radial-gradient(circle at center,
+    transparent 0 48px,
+    rgba(91,184,232,.10) 48px 50px);
+  -webkit-mask:radial-gradient(circle at center, #000 60%, transparent 61%);
+          mask:radial-gradient(circle at center, #000 60%, transparent 61%);
+  pointer-events:none;
+  z-index:0;
+}
+.footer-inner {
+  position:relative;
+  z-index:1;
+  max-width:900px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+/* marca */
+.footer-brand {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:30px;
+}
+.footer-brand img {
+  width:48px; height:48px;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
+}
+.footer-brand .fb-txt { text-align:left; }
+.footer-brand .name {
+  font-weight:300;
+  letter-spacing:.3em;
+  font-size:18px;
+  padding-left:.3em;
+}
+.footer-brand .sub {
+  margin-top:3px;
+  font-weight:300;
+  font-size:12.5px;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.05em;
+}
+/* linhas de ação tocáveis */
+/* info textual (endereço + horários), limpo e leve */
+.footer-info {
+  text-align:center;
+  margin-bottom:28px;
+}
+.footer-info p {
+  font-weight:300;
+  font-size:14px;
+  line-height:1.7;
+  color:rgba(255,255,255,.6);
+  letter-spacing:.01em;
+}
+.footer-info .fi-hor { color:#5bb8e8; font-size:12px; letter-spacing:.16em; text-transform:uppercase; margin-top:8px; }
+/* botões no mesmo estilo do site */
+.footer-cta {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:100%;
+  max-width:340px;
+}
+.footer-cta .btn-outline {
+  width:100%;
+  min-width:0;
+  padding:15px 22px;
+  font-size:12px;
+}
+/* e-mail como link discreto */
+.footer-email-link {
+  margin-top:22px;
+  font-weight:300;
+  font-size:12.5px;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.5);
+  text-decoration:none;
+  border-bottom:1px solid rgba(91,184,232,.3);
+  padding-bottom:3px;
+  transition:color .25s, border-color .25s;
+}
+.footer-email-link:hover { color:#5bb8e8; border-color:#5bb8e8; }
+/* redes sociais */
+.footer-social { display:flex; gap:12px; margin-top:26px; }
+.social-btn {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px; height:44px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.03);
+  cursor:pointer;
+  color:#fff;
+  transition:border-color .25s, background .25s, transform .25s;
+  text-decoration:none;
+}
+.social-btn svg { width:19px; height:19px; }
+.social-btn:hover { border-color:#2bb3e8; background:rgba(43,179,232,.14); transform:translateY(-2px); }
+.footer-bottom {
+  width:100%;
+  margin-top:30px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,.07);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.footer-bottom span {
+  font-weight:300;
+  font-size:12.5px;
+  color:rgba(255,255,255,.38);
+}
+
+/* ─── responsive mobile ─── */
+@media(max-width:768px) {
+  /* header */
+  #header { padding:14px 18px; }
+  .logo-wrap img { width:36px; height:36px; }
+  nav { gap:16px; }
+  .navlink { font-size:11px; letter-spacing:.1em; }
+
+  /* hero */
+  .hero-btns {
+    bottom:4vh;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    padding:0 18px;
+  }
+  .btn-outline {
+    min-width:0;
+    width:100%;
+    max-width:340px;
+    padding:15px 20px;
+    font-size:12px;
+  }
+
+  /* verso */
+  #sec-verso { padding:56px 24px; }
+  .verso-rings { right:-34%; width:125vw; }
+
+  /* horários */
+  #sec-horarios { padding:44px 22px 48px; }
+  #sec-horarios h2 { margin-bottom:26px; }
+  .hor-grid { grid-template-columns:1fr; }
+  .hor-card { min-height:220px; }
+  .hor-cta { margin-top:30px; }
+
+  /* foto do meio */
+  #sec-foto-meio { height:clamp(300px,52vh,460px); }
+
+  /* junte-se */
+  #sec-junte { padding:34px 18px 48px; gap:26px; }
+  .junte-comp { gap:9px; }
+  .junte-btns { max-width:100%; }
+  .junte-btns .btn-outline { padding:14px 20px; }
+
+  /* sobre */
+  .sobre-grid { grid-template-columns:1fr; gap:28px; }
+  .stats-grid { grid-template-columns:1fr 1fr; }
+
+  /* ofertas */
+  .ofertas-intro-grid { grid-template-columns:1fr; gap:24px; }
+  .contrib-grid { grid-template-columns:1fr; }
+  .pix-grid { grid-template-columns:1fr; }
+
+  /* células */
+  .celulas-info-grid { grid-template-columns:1fr; }
+  .celulas-img { aspect-ratio:16/9; }
+  .mapa-layout { grid-template-columns:1fr; }
+  #map-container { min-height:340px; }
+  .mapa-selects { grid-template-columns:1fr 1fr; }
+
+  /* footer */
+  footer { padding:40px 20px 26px; }
+  .footer-brand { margin-bottom:22px; }
+  .footer-cta { max-width:100%; }
+  .footer-social { margin-top:24px; }
+  .footer-bottom {
+    flex-direction:column; align-items:center; text-align:center; gap:5px;
+    margin-top:24px;
+  }
+
+  /* page hero */
+  .page-hero { min-height:36vh; }
+  .page-hero h1 { font-size:clamp(36px,10vw,56px); }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header id="header">
+  <div class="logo-wrap" onclick="goPage('inicio')">
+    <img src="assets/logo.png" alt="Shalom">
+  </div>
+  <nav>
+    <span class="navlink active" id="nav-inicio" onclick="goPage('inicio')">Início</span>
+    <span class="navlink" id="nav-sobre"   onclick="goPage('sobre')">Sobre</span>
+    <span class="navlink" id="nav-ofertas" onclick="goPage('ofertas')">Ofertas</span>
+    <span class="navlink" id="nav-celulas" onclick="goPage('celulas')">Células</span>
+  </nav>
+</header>
+
+<!-- ══════════════════ PÁGINA: INÍCIO ══════════════════ -->
+<div class="page active" id="page-inicio">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg">
+      <img id="hero-img" src="assets/culto-duotone.jpg" alt="">
+      <!-- vídeo (oculto por padrão, ativo via PAINEL) -->
+      <video id="hero-video" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;" autoplay muted loop playsinline></video>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content fade-up">
+      <img class="hero-logo" src="assets/logo.png" alt="Shalom">
+      <div class="hero-title">SHALOM</div>
+      <div class="hero-sub">Comunidade Batista</div>
+    </div>
+    <div class="hero-btns fade-up-3">
+      <button class="btn-outline" onclick="scrollToHorarios()"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg>Horários dos cultos</button>
+      <button class="btn-outline" id="btn-ao-vivo" onclick="abrirAoVivo()" style="display:none;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg>Culto ao vivo</button>
+      <button class="btn-outline" onclick="goPage('celulas')"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg>Faça parte de uma célula</button>
+    </div>
+  </section>
+
+  <!-- VERSÍCULO -->
+  <section id="sec-verso">
+    <div class="verso-rings">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="verso-text">
+      <p id="verso-texto">"Mas eu restaurarei você à saúde e curarei as suas feridas"</p>
+      <p id="verso-ref">Jeremias 30:17</p>
+    </div>
+  </section>
+
+  <!-- HORÁRIOS -->
+  <section id="sec-horarios">
+    <h2>horários</h2>
+    <div class="hor-grid">
+      <div class="hor-card" data-slideshow data-pool="cultos">
+        <div class="hor-slideshow"></div>
+        <div class="hor-card-overlay"></div>
+        <div class="hor-card-body">
+          <h3>Cultos</h3>
+          <p id="hor-presencial">Cultos | Domingos às 9h30 e 19h</p>
+        </div>
+      </div>
+      <div class="hor-card" data-slideshow data-pool="casa">
+        <div class="hor-slideshow"></div>
+        <div class="hor-card-overlay"></div>
+        <div class="hor-card-body">
+          <h3>Shalom em casa</h3>
+          <p id="hor-online">Transmissão ao vivo · 18h · Assista pelo YouTube</p>
+        </div>
+      </div>
+    </div>
+    <div class="hor-cta">
+      <p>Programe-se e esteja conosco</p>
+      <button class="btn-outline" onclick="goPage('celulas')"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg>Confira nossa programação completa</button>
+    </div>
+  </section>
+
+  <!-- FOTO FULL-WIDTH (P&B granulado) -->
+  <section id="sec-foto-meio">
+    <img src="assets/fotodomeio.jpg" alt="Momento de adoração · Comunidade Batista Shalom">
+  </section>
+
+  <!-- JUNTE-SE A NÓS -->
+  <section id="sec-junte">
+    <!-- composição com duas fotos em retrato, escalonadas -->
+    <div class="junte-comp">
+      <div class="junte-card junte-card--left">
+        <img src="assets/casal-esquerda.png" alt="Pastores">
+      </div>
+      <div class="junte-card junte-card--right">
+        <img src="assets/casal-direita.png" alt="Pastores">
+      </div>
+      <!-- texto grande sobreposto -->
+      <div class="junte-text">
+        <h2 class="junte-h2"><span class="l1">Junte-se</span><span class="l2">a nós</span></h2>
+      </div>
+    </div>
+    <!-- botões abaixo -->
+    <div class="junte-btns">
+      <button class="btn-outline" onclick="abrirUltimaPregacao(this)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9"/><path d="M12 8.2v7.6M8.2 12h7.6"/></svg>Assista à última mensagem</button>
+    </div>
+  </section>
+
+</div><!-- /page-inicio -->
+
+
+<!-- ══════════════════ PÁGINA: SOBRE ══════════════════ -->
+<div class="page" id="page-sobre">
+  <div class="page-hero">
+    <img src="assets/culto-band.jpg" alt="">
+    <div class="page-hero-overlay"></div>
+    <h1>Sobre nós</h1>
+  </div>
+  <section class="sobre-body">
+    <div class="sobre-grid">
+      <div>
+        <div class="sobre-kicker">12 anos da Shalom</div>
+        <h2 class="sobre-h2">Comunidade<br>Batista <span>Shalom</span></h2>
+        <p class="sobre-quote">"Até aqui nos ajudou o Senhor."</p>
+      </div>
+      <div class="sobre-text">
+        <p id="sobre-p1">A Comunidade Batista Shalom nasceu do desejo de ver pessoas encontrando vida, propósito e família na presença de Deus. Há mais de 12 anos servimos a cidade de Umuarama e região, anunciando o evangelho de forma simples, acolhedora e real.</p>
+        <p id="sobre-p2">Cremos que a igreja é mais do que um lugar: é um povo. Por isso valorizamos relacionamentos, discipulado e o cuidado de uns com os outros, dentro e fora das quatro paredes do templo.</p>
+        <p id="sobre-p3">Seja qual for a sua história, aqui há lugar para você. Venha como está. Deus faz o resto.</p>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-n">+12</div>
+        <div class="stat-label">anos servindo a cidade de Umuarama</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-n">+40</div>
+        <div class="stat-label">células espalhadas pela região</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-n">+12</div>
+        <div class="stat-label">países alcançados diretamente pelas nossas ofertas</div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-sobre -->
+
+
+<!-- ══════════════════ PÁGINA: OFERTAS ══════════════════ -->
+<div class="page" id="page-ofertas">
+  <div class="page-hero">
+    <img src="assets/culto-duotone.jpg" alt="" style="filter:brightness(.5) saturate(.7);">
+    <div class="page-hero-overlay"></div>
+    <h1>Dízimos e Ofertas</h1>
+  </div>
+
+  <section class="ofertas-intro">
+    <div class="ofertas-intro-grid">
+      <h2 class="ofertas-h2"><span>Dízimos</span><br>e <span>Ofertas</span></h2>
+      <p class="ofertas-p" id="ofertas-p1">A primeira vez que o dízimo é mencionado na Bíblia está registrada em Gênesis 14, quando Abraão honrou a Deus com seus dízimos por meio de Melquizedeque. Desde então, entregar dízimos e ofertas é uma forma de adoração e gratidão.</p>
+      <p class="ofertas-p" id="ofertas-p2">Nós acreditamos que as ofertas são uma forma direta de adorar a Deus. Demonstramos com alegria a nossa devoção, reconhecendo que tudo o que temos vem das mãos do Senhor.</p>
+    </div>
+  </section>
+
+  <section class="ofertas-verse">
+    <img src="assets/culto-band.jpg" alt="">
+    <div class="ofertas-verse-overlay"></div>
+    <div class="ofertas-verse-text">
+      <blockquote>"Honra ao Senhor com teus bens, e com as primícias de toda a tua renda; <span>assim se encherão de fartura os teus celeiros.</span>"</blockquote>
+      <cite>Provérbios 3:9,10</cite>
+    </div>
+  </section>
+
+  <section class="ofertas-formas">
+    <div class="ofertas-formas-inner">
+      <h2>Formas de<br>contribuição</h2>
+      <div class="divider"></div>
+      <h3>Contribuições via PIX</h3>
+      <p class="pix-note">Atenção para as chaves PIX</p>
+      <div class="pix-grid" id="pix-grid">
+        <!-- renderizado via JS -->
+      </div>
+    </div>
+  </section>
+
+  <section class="ofertas-banco">
+    <div class="ofertas-banco-inner">
+      <h2>Transferência bancária</h2>
+      <p class="titular" id="banco-titular">COMUNIDADE BATISTA SHALOM</p>
+      <p class="cnpj">CNPJ: <strong id="banco-cnpj">12.345.678/0001-90</strong></p>
+      <div class="divider"></div>
+      <p style="font-weight:600;font-size:26px;" id="banco-nome">Banco do Brasil</p>
+    </div>
+    <div class="contrib-grid" id="contrib-grid">
+      <!-- renderizado via JS -->
+    </div>
+  </section>
+</div><!-- /page-ofertas -->
+
+
+<!-- ══════════════════ PÁGINA: CÉLULAS ══════════════════ -->
+<div class="page" id="page-celulas">
+  <div class="page-hero" style="position:relative;min-height:50vh;">
+    <img src="assets/culto-duotone.jpg" alt="" style="filter:brightness(.55);">
+    <div class="page-hero-overlay" style="background:linear-gradient(180deg,rgba(4,17,31,.72),rgba(6,24,46,.78));"></div>
+    <!-- anéis decorativos -->
+    <div style="position:absolute;right:-6%;top:50%;transform:translateY(-50%);width:min(640px,58vw);aspect-ratio:1;pointer-events:none;">
+      <div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 55% 50%,rgba(43,179,232,.38),transparent 70%);"></div>
+      <div style="position:absolute;inset:24%;border-radius:50%;background:radial-gradient(circle at 55% 50%,rgba(91,184,232,.36),transparent 70%);"></div>
+    </div>
+    <h1 style="letter-spacing:.06em;">Células</h1>
+  </div>
+
+  <section class="celulas-info">
+    <div class="celulas-info-grid">
+      <div>
+        <h2>Sobre as<br>células</h2>
+        <p id="celula-p1">As células são grupos de conexão que se reúnem como família nos lares, buscando a presença de Deus e compartilhando a vida cristã de forma presencial ou online.</p>
+        <p id="celula-p2">Os grupos são organizados por faixa etária: Rise (12 a 14), Flow (15 a 18), Vox (18 a 29), Eklektos (a partir de 30) e Famílias. Encontre uma célula perto de você!</p>
+        <p class="cta-mapa">Use o mapa abaixo para escolher a sua célula!</p>
+        <button class="btn-outline" style="margin-top:26px;min-width:0;" onclick="scrollToMapa()">Quero encontrar uma célula</button>
+      </div>
+      <div class="celulas-img">
+        <img src="assets/imgcelula.jpeg" alt="Momento de oração em célula">
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPA + lista -->
+  <section id="sec-mapa">
+    <div class="mapa-layout">
+      <div class="mapa-painel">
+        <div class="mapa-label">Endereço</div>
+        <div class="mapa-input">
+          <input type="text" id="f-q" placeholder="Encontre por endereço ou região" oninput="renderCelulas()">
+          <span>⌕</span>
+        </div>
+        <div class="mapa-selects">
+          <div class="mapa-select-wrap">
+            <label>Tipo de célula</label>
+            <select id="f-tipo" onchange="renderCelulas()">
+              <option value="">Todos</option>
+              <option value="rise">Rise · 12–14</option>
+              <option value="flow">Flow · 15–18</option>
+              <option value="vox">Vox · 18–29</option>
+              <option value="eklektos">Eklektos · 30+</option>
+              <option value="familia">Famílias</option>
+            </select>
+          </div>
+          <div class="mapa-select-wrap">
+            <label>Dia da semana</label>
+            <select id="f-dia" onchange="renderCelulas()">
+              <option value="">Todos</option>
+              <option value="Segunda">Segunda</option>
+              <option value="Terça">Terça</option>
+              <option value="Quarta">Quarta</option>
+              <option value="Quinta">Quinta</option>
+              <option value="Sexta">Sexta</option>
+              <option value="Sábado">Sábado</option>
+              <option value="Domingo">Domingo</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-outline" style="align-self:flex-start;margin-bottom:24px;min-width:0;padding:14px 34px;" onclick="fitFiltered()">
+          Buscar
+        </button>
+        <div class="mapa-count">
+          <span class="mapa-count-badge" id="celulas-count">6</span>
+          <span class="mapa-count-text">células disponíveis para você</span>
+        </div>
+        <div class="celulas-list" id="celulas-list">
+          <!-- renderizado via JS -->
+        </div>
+      </div>
+      <div id="map-container"></div>
+    </div>
+  </section>
+</div><!-- /page-celulas -->
+
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Shalom">
+      <div class="fb-txt">
+        <div class="name">SHALOM</div>
+        <div class="sub">Comunidade Batista · Umuarama/PR</div>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      <p id="footer-endereco">Av. Paraná, 3103, Zona I, Umuarama/PR</p>
+      <p class="fi-hor" id="footer-hor-curto">Domingos · 9h30 · 19h</p>
+    </div>
+
+    <div class="footer-cta">
+      <a class="btn-outline" id="footer-maps" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>Como chegar</a>
+      <a class="btn-outline" id="footer-whats" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.93-.26-.1-.45-.14-.64.14-.19.28-.73.93-.9 1.12-.16.19-.33.21-.61.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.03-.17-.28-.02-.43.12-.57.13-.13.28-.33.43-.5.14-.17.19-.28.28-.47.1-.19.05-.35-.02-.5-.07-.14-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.35-.26.28-1 .98-1 2.38 0 1.4 1.02 2.76 1.17 2.95.14.19 2.01 3.06 4.87 4.29.68.29 1.21.47 1.62.6.68.22 1.3.19 1.79.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg>Falar no WhatsApp</a>
+    </div>
+
+    <a class="footer-email-link" id="footer-mail" href="#"><span id="footer-email">contato@comunidadebatistashalom.com.br</span></a>
+
+    <div class="footer-social">
+      <a class="social-btn" id="link-instagram" href="https://www.instagram.com/batistashalomumuarama/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a class="social-btn" id="link-youtube" href="https://www.youtube.com/@ComunidadeBatistaShalom" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.2a3 3 0 0 0-2.1-2.1C18 5.6 12 5.6 12 5.6s-6 0-7.9.5A3 3 0 0 0 2 8.2 31 31 0 0 0 1.7 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2.1 2.1c1.9.5 7.9.5 7.9.5s6 0 7.9-.5a3 3 0 0 0 2.1-2.1c.3-1.9.3-3.8.3-3.8s0-1.9-.3-3.8zM10 15V9l5.2 3z"/></svg></a>
+      <a class="social-btn" id="link-whatsapp" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.93-.26-.1-.45-.14-.64.14-.19.28-.73.93-.9 1.12-.16.19-.33.21-.61.07-.3-.15-1.24-.46-2.36-1.46-.87-.78-1.46-1.74-1.63-2.03-.17-.28-.02-.43.12-.57.13-.13.28-.33.43-.5.14-.17.19-.28.28-.47.1-.19.05-.35-.02-.5-.07-.14-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.35-.26.28-1 .98-1 2.38 0 1.4 1.02 2.76 1.17 2.95.14.19 2.01 3.06 4.87 4.29.68.29 1.21.47 1.62.6.68.22 1.3.19 1.79.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34zM12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2z"/></svg></a>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="footer-year"></span> Comunidade Batista Shalom · Umuarama/PR</span>
+      <span>Feito com fé ✦</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════ SCRIPT ══════════════════ -->
+<script>
+/* ═══════════════════════════════════════════════════════
+   PAINEL · edite este objeto para atualizar o conteúdo
+   do site sem mexer em HTML.
+   ═══════════════════════════════════════════════════════ */
+const PAINEL = {
+
+  hero: {
+    /* 'image' ou 'video' */
+    mode: 'image',
+    /* se mode='video', cole a URL do vídeo aqui */
+    videoUrl: '',
+    /* imagem de fundo (quando mode='image') */
+    bg: 'assets/culto-duotone.jpg',
+    /* link do culto ao vivo · deixe '' para ocultar o botão */
+    aoVivoUrl: '',
+  },
+
+  verso: {
+    texto: '"Mas eu restaurarei você à saúde e curarei as suas feridas"',
+    ref:   'Jeremias 30:17',
+  },
+
+  horarios: {
+    presencial:       'Cultos | Domingos às 9h30 e 19h',
+    presencialCurto:  'Domingos · 9h30 · 19h',
+    online:           'Células | Quintas às 20h30 · Transmissão ao vivo pelo YouTube',
+  },
+
+  sobre: {
+    p1: 'A Comunidade Batista Shalom nasceu do desejo de ver pessoas encontrando vida, propósito e família na presença de Deus. Há mais de 12 anos servimos a cidade de Umuarama e região, anunciando o evangelho de forma simples, acolhedora e real.',
+    p2: 'Cremos que a igreja é mais do que um lugar: é um povo. Por isso valorizamos relacionamentos, discipulado e o cuidado de uns com os outros, dentro e fora das quatro paredes do templo.',
+    p3: 'Seja qual for a sua história, aqui há lugar para você. Venha como está. Deus faz o resto.',
+  },
+
+  ofertas: {
+    p1: 'A primeira vez que o dízimo é mencionado na Bíblia está registrada em Gênesis 14, quando Abraão honrou a Deus com seus dízimos por meio de Melquizedeque. Desde então, entregar dízimos e ofertas é uma forma de adoração e gratidão.',
+    p2: 'Nós acreditamos que as ofertas são uma forma direta de adorar a Deus. Demonstramos com alegria a nossa devoção, reconhecendo que tudo o que temos vem das mãos do Senhor.',
+    banco: {
+      titular: 'COMUNIDADE BATISTA SHALOM',
+      cnpj:    '26.528.080/0001-46',
+      nome:    'Banco do Brasil',
+    },
+  },
+
+  pix: [
+    { label: 'Dízimos e Ofertas', value: '44998698723',   tipo: 'Telefone' },
+    { label: 'Missões',           value: '26528080000146', tipo: 'CNPJ' },
+  ],
+
+  contrib: [
+    { titulo: 'WhatsApp', desc: 'Envie uma mensagem para receber informações de como contribuir.', dado: '(44) 99869-8763', cta: 'Falar no WhatsApp' },
+  ],
+
+  celulaInfo: {
+    p1: 'As células são grupos de conexão que se reúnem como família nos lares, buscando a presença de Deus e compartilhando a vida cristã de forma presencial ou online. É onde a fé deixa de ser teoria e vira convivência.',
+    p2: 'Os grupos são organizados por faixa etária: Rise (12 a 14), Flow (15 a 18), Vox (18 a 29), Eklektos (a partir de 30) e Famílias. Encontre uma célula perto de você em Umuarama e região.',
+  },
+
+  igreja: {
+    nome:     'Comunidade Batista Shalom',
+    endereco: 'Av. Paraná, 3103, Zona I, Umuarama/PR',
+    lat:  -23.7644,
+    lng:  -53.3256,
+  },
+
+  celulas: [
+    { id:'c1', nome:'Jardim Cruzeiro',    tipo:'vox',      tipoLabel:'Vox · 18 a 29 anos',   lider:'Bianca Oliveira', dia:'Quinta', horario:'20:00 às 22:00', lat:-23.7558, lng:-53.3182 },
+    { id:'c2', nome:'Zona 02',            tipo:'eklektos', tipoLabel:'Eklektos · 30+ anos',   lider:'Larissa Vrena',   dia:'Terça',  horario:'20:30 às 22:00', lat:-23.7721, lng:-53.3305 },
+    { id:'c3', nome:'Parque Industrial',  tipo:'familia',  tipoLabel:'Famílias',              lider:'Sandra Silva',    dia:'Quarta', horario:'20:30 às 22:00', lat:-23.7486, lng:-53.3351 },
+    { id:'c4', nome:'Jardim Aratimbó',    tipo:'vox',      tipoLabel:'Vox · 18 a 29 anos',   lider:'Levi Camilo',     dia:'Quinta', horario:'20:00 às 22:00', lat:-23.7803, lng:-53.3104 },
+    { id:'c5', nome:'Centro',             tipo:'flow',     tipoLabel:'Flow · 15 a 18 anos',  lider:'Geórgia Marques', dia:'Sexta',  horario:'19:30 às 21:00', lat:-23.7662, lng:-53.3280 },
+    { id:'c6', nome:'Jardim Itália',      tipo:'rise',     tipoLabel:'Rise · 12 a 14 anos',  lider:'Acsa Freitas',    dia:'Sábado', horario:'16:00 às 17:30', lat:-23.7551, lng:-53.3402 },
+  ],
+
+  contato: {
+    whatsapp: '(44) 99869-8763',
+    email:    'contato@comunidadebatistashalom.com.br',
+  },
+
+  social: {
+    instagram: 'https://www.instagram.com/batistashalomumuarama/',
+    youtube:   'https://www.youtube.com/@ComunidadeBatistaShalom',
+  },
+};
+
+/* ═══════════════════ CÉLULAS (banco de dados) ═══════════════════
+   A lista abaixo começa com os dados do PAINEL e é substituída pelas
+   células cadastradas no painel admin (api/celulas.php) assim que
+   carregarem. Se a API não responder, o site segue com o PAINEL. */
+let CELULAS = PAINEL.celulas.slice();
+
+async function carregarCelulas() {
+  try {
+    const r = await fetch('api/celulas.php', { headers: { 'Accept': 'application/json' } });
+    if (!r.ok) return;
+    const lista = await r.json();
+    if (!Array.isArray(lista)) return;
+    /* o banco é a fonte da verdade — mesmo vazio, evita exibir os
+       exemplos fictícios do PAINEL para visitantes reais */
+    CELULAS = lista;
+    criarMarcadores();
+    renderCelulas();
+  } catch (e) {
+    /* API fora do ar (ou dev local sem PHP): mantém os dados do PAINEL */
+  }
+}
+
+/* ═══════════════════ ÚLTIMO VÍDEO DO YOUTUBE ═══════════════════ */
+const YT_FALLBACK = 'https://www.youtube.com/@ComunidadeBatistaShalom/videos';
+
+window.abrirUltimaPregacao = async function(btn) {
+  const original = btn ? btn.innerHTML : '';
+  if (btn) { btn.textContent = 'Carregando...'; btn.disabled = true; }
+  try {
+    const resp = await fetch('ultimo-video.php');
+    const data = await resp.json();
+    if (data.url) {
+      window.open(data.url, '_blank');
+    } else {
+      window.open(data.fallback || YT_FALLBACK, '_blank');
+    }
+  } catch(e) {
+    window.open(YT_FALLBACK, '_blank');
+  } finally {
+    if (btn) { btn.innerHTML = original; btn.disabled = false; }
+  }
+};
+
+/* ═══════════════════ INICIALIZAÇÃO ═══════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  hydrate();
+  initHero();
+  initHorariosSlideshow();
+  renderPix();
+  renderContrib();
+  renderCelulas();
+  carregarCelulas();          // busca as células cadastradas no painel admin
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  /* scroll → header */
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+});
+
+/* popula campos com dados do PAINEL */
+function hydrate() {
+  const P = PAINEL;
+  setText('verso-texto',      P.verso.texto);
+  setText('verso-ref',        P.verso.ref);
+  setHtmlHoras('hor-presencial', P.horarios.presencial);
+  setHtmlHoras('hor-online',     P.horarios.online);
+  setText('sobre-p1',         P.sobre.p1);
+  setText('sobre-p2',         P.sobre.p2);
+  setText('sobre-p3',         P.sobre.p3);
+  setText('ofertas-p1',       P.ofertas.p1);
+  setText('ofertas-p2',       P.ofertas.p2);
+  setText('banco-titular',    P.ofertas.banco.titular);
+  setText('banco-cnpj',       P.ofertas.banco.cnpj);
+  setText('banco-nome',       P.ofertas.banco.nome);
+  setText('celula-p1',        P.celulaInfo.p1);
+  setText('celula-p2',        P.celulaInfo.p2);
+  setText('footer-endereco',  P.igreja.endereco);
+  setText('footer-hor-curto', P.horarios.presencialCurto);
+  setText('footer-email',     P.contato.email);
+
+  const zap = P.contato.whatsapp.replace(/\D/g, '');           // só dígitos
+  const zapIntl = zap.startsWith('55') ? zap : '55' + zap;     // DDI Brasil
+  const mapsQ = encodeURIComponent(P.igreja.endereco + ' - ' + P.igreja.nome);
+
+  document.getElementById('footer-maps').href   = 'https://www.google.com/maps/search/?api=1&query=' + mapsQ;
+  document.getElementById('footer-whats').href  = 'https://wa.me/' + zapIntl;
+  document.getElementById('footer-mail').href   = 'mailto:' + P.contato.email;
+  document.getElementById('link-whatsapp').href = 'https://wa.me/' + zapIntl;
+  document.getElementById('link-instagram').href = P.social.instagram;
+  document.getElementById('link-youtube').href   = P.social.youtube;
+}
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = val;
+}
+/* envolve horários (ex.: 9h30, 19h, 20h30) em <span class="hora"> para sublinhar */
+function setHtmlHoras(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const safe = val.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[c]));
+  el.innerHTML = safe.replace(/\b\d{1,2}h(\d{2})?\b/g, m => '<span class="hora">' + m + '</span>');
+}
+
+/* slideshow automático dos cards de horários · passa as fotos aleatoriamente */
+function initHorariosSlideshow() {
+  /* fotos de cada card · troque/edite aqui quando enviar novas imagens */
+  const POOLS = {
+    casa:   Array.from({ length: 10 }, (_, i) => 'assets/' + (i + 1) + '.jpeg'),
+    cultos: ['assets/culto-duotone.jpg'], // mesma foto da capa do site
+  };
+  const shuffle = (a) => {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+  const setBg = (layer, url) => { layer.style.backgroundImage = "url('" + url + "')"; };
+  const preload = (url, cb) => { const im = new Image(); im.onload = cb; im.onerror = cb; im.src = url; };
+  const shown = {};   // foto exibida por card · para não repetir entre os cards
+
+  document.querySelectorAll('.hor-card[data-slideshow]').forEach((card, idx) => {
+    const box = card.querySelector('.hor-slideshow');
+    const pool = POOLS[card.dataset.pool] || POOLS.casa;
+    const a = document.createElement('div');
+    const b = document.createElement('div');
+    a.className = 'hor-layer'; b.className = 'hor-layer';
+    box.append(a, b);
+
+    let order = shuffle(pool.slice());
+    let pos = idx % order.length;           // começa em pontos diferentes por card
+    let cur = a, nxt = b;
+
+    setBg(cur, order[pos]);
+    cur.classList.add('active');
+    shown[idx] = order[pos];
+
+    const step = () => {
+      // avança até achar uma foto que nenhum outro card esteja exibindo
+      let guard = 0;
+      do {
+        pos = (pos + 1) % order.length;
+        if (pos === 0) order = shuffle(order);
+      } while (Object.keys(shown).some(k => +k !== idx && shown[k] === order[pos]) && ++guard < order.length);
+
+      const url = order[pos];
+      preload(url, () => {
+        setBg(nxt, url);
+        nxt.classList.add('active');
+        cur.classList.remove('active');
+        [cur, nxt] = [nxt, cur];
+        shown[idx] = url;
+      });
+    };
+    setInterval(step, 5000 + idx * 600);     // ritmos ligeiramente diferentes
+  });
+}
+
+/* hero: imagem ou vídeo */
+function initHero() {
+  const h = PAINEL.hero;
+  if (h.mode === 'video' && h.videoUrl) {
+    const v = document.getElementById('hero-video');
+    v.src = h.videoUrl;
+    v.style.display = 'block';
+    document.getElementById('hero-img').style.display = 'none';
+  } else {
+    document.getElementById('hero-img').src = h.bg;
+  }
+  if (h.aoVivoUrl) {
+    document.getElementById('btn-ao-vivo').style.display = '';
+  }
+}
+window.abrirAoVivo = () => { window.open(PAINEL.hero.aoVivoUrl, '_blank'); };
+
+/* renderiza cards de PIX */
+function renderPix() {
+  const grid = document.getElementById('pix-grid');
+  grid.innerHTML = PAINEL.pix.map(k => `
+    <div class="pix-card">
+      <div class="pix-head">
+        <strong>${k.label}</strong>
+        ${k.tipo ? `<em class="pix-tipo">${k.tipo}</em>` : ''}
+      </div>
+      <span class="pix-value">${k.value}</span>
+      <button class="pix-copy" onclick="copiarPix(this, '${k.value}')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        <span>Copiar chave</span>
+      </button>
+    </div>`).join('');
+}
+window.copiarPix = function(btn, val) {
+  // cópia síncrona (funciona dentro do gesto de toque)
+  try {
+    const t = document.createElement('textarea');
+    t.value = val; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.focus(); t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+  } catch(e) {}
+  // reforço via Clipboard API (quando disponível)
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try { navigator.clipboard.writeText(val); } catch(e) {}
+  }
+  // feedback visual
+  btn.classList.add('copied');
+  btn.querySelector('span').textContent = 'Chave copiada!';
+  clearTimeout(btn._t);
+  btn._t = setTimeout(() => {
+    btn.classList.remove('copied');
+    btn.querySelector('span').textContent = 'Copiar chave';
+  }, 1900);
+};
+
+/* renderiza cards de contribuição */
+function renderContrib() {
+  const grid = document.getElementById('contrib-grid');
+  const zap = PAINEL.contato.whatsapp.replace(/\D/g, '');
+  const zapIntl = zap.startsWith('55') ? zap : '55' + zap;
+  grid.innerHTML = PAINEL.contrib.map(m => `
+    <div class="contrib-card">
+      <h3>${m.titulo}</h3>
+      <p>${m.desc}</p>
+      <div class="dado">${m.dado}</div>
+      <a class="btn-outline" href="https://wa.me/${zapIntl}" target="_blank" rel="noopener" style="align-self:flex-start;min-width:0;padding:12px 24px;font-size:13px;">${m.cta}</a>
+    </div>`).join('');
+}
+
+/* ═══════════════════ NAVEGAÇÃO ═══════════════════ */
+let currentPage = 'inicio';
+let mapInstance = null;
+let cellMarkers = {};
+
+window.goPage = function(p) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.navlink').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + p).classList.add('active');
+  document.getElementById('nav-' + p).classList.add('active');
+  window.scrollTo(0, 0);
+  currentPage = p;
+  if (p === 'celulas') {
+    setTimeout(initMap, 160);
+  } else {
+    destroyMap();
+  }
+};
+
+window.scrollToHorarios = function() {
+  if (currentPage !== 'inicio') {
+    goPage('inicio');
+    setTimeout(() => smoothScrollTo('sec-horarios'), 160);
+  } else {
+    smoothScrollTo('sec-horarios');
+  }
+};
+window.scrollToMapa = function() { smoothScrollTo('sec-mapa'); };
+
+function smoothScrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: 'smooth' });
+}
+
+/* ═══════════════════ MAPA ═══════════════════ */
+function initMap(tries = 0) {
+  if (mapInstance) return;
+  if (!window.L) {
+    if (tries < 30) setTimeout(() => initMap(tries + 1), 200);
+    return;
+  }
+  const container = document.getElementById('map-container');
+  if (!container) return;
+
+  const g = PAINEL.igreja;
+  const map = L.map(container, { scrollWheelZoom: false, zoomControl: true })
+               .setView([g.lat, g.lng], 13);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: 'abcd', maxZoom: 20,
+  }).addTo(map);
+
+  /* marcador da sede */
+  const churchIcon = L.divIcon({
+    className: '', iconSize:[52,52], iconAnchor:[26,26],
+    html: `<div style="width:52px;height:52px;border-radius:50%;background:#fff;border:3px solid #1464a0;box-shadow:0 6px 20px rgba(20,60,110,.5);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+             <img src="assets/logo.png" style="width:34px;height:34px;object-fit:contain;filter:none;">
+           </div>`,
+  });
+  L.marker([g.lat, g.lng], { icon: churchIcon, zIndexOffset: 1000 })
+   .addTo(map)
+   .bindPopup(`<b>${g.nome}</b><br>${g.endereco}`);
+
+  mapInstance = map;
+  criarMarcadores();
+  /* sincroniza com o filtro atual e enquadra as células */
+  renderCelulas();
+  setTimeout(() => { map.invalidateSize(); fitFiltered(); }, 200);
+  setTimeout(() => map.invalidateSize(), 700);
+}
+
+/* (re)cria os marcadores das células a partir da lista atual */
+function criarMarcadores() {
+  if (!mapInstance || !window.L) return;
+  Object.values(cellMarkers).forEach(m => mapInstance.removeLayer(m));
+  cellMarkers = {};
+  CELULAS.forEach(c => {
+    const ic = L.divIcon({
+      className: '', iconSize:[30,30], iconAnchor:[15,30], popupAnchor:[0,-28],
+      html: `<div style="width:30px;height:30px;transform:rotate(-45deg);border-radius:50% 50% 50% 0;background:linear-gradient(135deg,#2bb3e8,#1a8fc4);border:2px solid #fff;box-shadow:0 4px 14px rgba(20,60,110,.45);"></div>`,
+    });
+    const m = L.marker([c.lat, c.lng], { icon: ic }).addTo(mapInstance)
+      .bindPopup(`<b>${c.nome}</b><br>${c.tipoLabel}<br>${c.dia} · ${c.horario}<br>Líder: ${c.lider}`);
+    cellMarkers[c.id] = m;
+  });
+}
+
+function destroyMap() {
+  if (mapInstance) { mapInstance.remove(); mapInstance = null; cellMarkers = {}; }
+}
+
+window.focusCell = function(id) {
+  const c = CELULAS.find(x => x.id === id);
+  if (!c) return;
+  smoothScrollTo('sec-mapa');
+  setTimeout(() => {
+    if (mapInstance) {
+      mapInstance.setView([c.lat, c.lng], 15, { animate: true });
+      const m = cellMarkers[id];
+      if (m) m.openPopup();
+    }
+  }, 420);
+};
+
+window.fitFiltered = function() {
+  if (!mapInstance || !window.L) return;
+  const list = getFiltered();
+  if (!list.length) return;
+  const bounds = L.latLngBounds(list.map(c => [c.lat, c.lng]));
+  bounds.extend([PAINEL.igreja.lat, PAINEL.igreja.lng]);
+  mapInstance.fitBounds(bounds, { padding: [60, 60], maxZoom: 14 });
+};
+
+function getFiltered() {
+  const tipo = document.getElementById('f-tipo').value;
+  const dia  = document.getElementById('f-dia').value;
+  const q    = (document.getElementById('f-q').value || '').trim().toLowerCase();
+  return CELULAS.filter(c =>
+    (!tipo || c.tipo === tipo) &&
+    (!dia  || c.dia  === dia)  &&
+    (!q    || (c.nome + ' ' + c.lider + ' ' + c.tipoLabel).toLowerCase().includes(q))
+  );
+}
+
+window.renderCelulas = function() {
+  const list = getFiltered();
+  document.getElementById('celulas-count').textContent = list.length;
+  const container = document.getElementById('celulas-list');
+  if (!list.length) {
+    container.innerHTML = `<div class="celula-empty">Nenhuma célula encontrada com esses filtros.<br>Tente ampliar a busca.</div>`;
+  } else {
+    container.innerHTML = list.map(c => `
+      <div class="celula-card" onclick="focusCell('${c.id}')">
+        <h4>${c.nome}</h4>
+        <div class="tipo">${c.tipoLabel}</div>
+        <div class="info">
+          <span>◍ ${c.lider}</span>
+          <span>▦ ${c.dia}</span>
+          <span>◷ ${c.horario}</span>
+        </div>
+        <button class="btn-outline" style="margin-top:16px;width:100%;min-width:0;padding:12px;font-size:13px;" onclick="event.stopPropagation();focusCell('${c.id}')">Quero conhecer</button>
+      </div>`).join('');
+  }
+  syncMapMarkers(list);
+};
+
+/* mostra no mapa só os marcadores filtrados e reenquadra */
+function syncMapMarkers(list) {
+  if (!mapInstance || !window.L) return;
+  const ids = new Set(list.map(c => c.id));
+  Object.entries(cellMarkers).forEach(([id, m]) => {
+    const shouldShow = ids.has(id);
+    const isShown = mapInstance.hasLayer(m);
+    if (shouldShow && !isShown) m.addTo(mapInstance);
+    if (!shouldShow && isShown) mapInstance.removeLayer(m);
+  });
+  fitFiltered();
+}
+</script>
+</body>
+</html>

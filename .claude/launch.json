@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "shalom-site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "$PORT", "."],
+      "port": 8765,
+      "autoPort": true
+    }
+  ]
+}

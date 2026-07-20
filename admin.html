@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel Admin · Comunidade Batista Shalom</title>
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Jost',system-ui,sans-serif;background:#04111f;color:#fff;-webkit-font-smoothing:antialiased}
+a{color:#5bb8e8}
+
+/* ---------- topo ---------- */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px clamp(18px,4vw,42px);
+  background:#03101c;border-bottom:1px solid rgba(255,255,255,.08);
+  position:sticky;top:0;z-index:50;
+}
+.topbar .brand{display:flex;align-items:center;gap:12px}
+.topbar img{width:38px;height:38px;object-fit:contain;filter:brightness(0) invert(1)}
+.topbar .nome{font-weight:300;letter-spacing:.26em;font-size:15px;padding-left:.26em}
+.topbar .sub{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#5bb8e8;margin-top:2px}
+
+/* ---------- botões (padrão do site) ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:transparent;border:1px solid rgba(255,255,255,.52);color:#fff;
+  font-family:inherit;font-size:12px;font-weight:300;letter-spacing:.16em;
+  text-transform:uppercase;padding:13px 24px;cursor:pointer;text-decoration:none;
+  transition:background .25s,border-color .25s,color .25s;
+}
+.btn:hover{background:rgba(255,255,255,.09);border-color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn--sm{padding:9px 16px;font-size:11px;letter-spacing:.12em}
+.btn--azul{border-color:rgba(91,184,232,.6);color:#5bb8e8}
+.btn--azul:hover{background:rgba(43,179,232,.12);border-color:#2bb3e8}
+.btn--perigo{border-color:rgba(230,110,110,.5);color:#f0a0a0}
+.btn--perigo:hover{background:rgba(220,80,80,.14);border-color:#e07070}
+
+/* ---------- login ---------- */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{
+  width:100%;max-width:400px;border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:clamp(28px,5vw,42px);background:rgba(8,24,42,.5);
+}
+.login-card img{width:56px;height:56px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 auto}
+.login-card h1{font-weight:200;font-size:26px;text-align:center;margin:18px 0 4px}
+.login-card .kick{text-align:center;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#5bb8e8;margin-bottom:26px}
+
+/* ---------- formulário ---------- */
+.campo{margin-bottom:16px}
+.campo label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:7px}
+.campo input,.campo select,.campo textarea{
+  width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;padding:13px 14px;color:#fff;font-family:inherit;font-size:15px;font-weight:300;
+  transition:border-color .25s,background .25s;
+}
+.campo input:focus,.campo select:focus,.campo textarea:focus{outline:none;border-color:#2bb3e8;background:rgba(43,179,232,.06)}
+.campo select option{background:#06182e;color:#fff}
+.campo .dica{margin-top:6px;font-size:12px;font-weight:300;color:rgba(255,255,255,.42)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 16px}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr}}
+
+.check{display:flex;align-items:center;gap:10px;font-weight:300;font-size:15px;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:#2bb3e8;cursor:pointer}
+
+.msg{padding:12px 14px;border-radius:10px;font-size:14px;font-weight:300;margin-bottom:16px;display:none}
+.msg.err{display:block;background:rgba(220,80,80,.14);border:1px solid rgba(230,110,110,.4);color:#f3b4b4}
+.msg.ok{display:block;background:rgba(70,190,120,.14);border:1px solid rgba(90,210,140,.45);color:#8fe5ae}
+
+/* ---------- layout painel ---------- */
+.painel{display:none;padding:clamp(20px,3vw,34px) clamp(18px,4vw,42px) 60px}
+.painel.ativo{display:block}
+.painel-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,3vw,34px);align-items:start;max-width:1500px;margin:0 auto}
+@media(max-width:1000px){.painel-grid{grid-template-columns:1fr}}
+
+.card{border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(8,24,42,.42);padding:clamp(18px,2.5vw,26px)}
+.card h2{font-weight:300;font-size:21px;margin-bottom:4px}
+.card .kick{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#5bb8e8;margin-bottom:20px}
+
+#map-pick{width:100%;height:340px;border-radius:12px;background:#e9eef2;margin-bottom:8px}
+.coord{display:flex;gap:10px;align-items:center;font-size:13px;font-weight:300;color:rgba(255,255,255,.6);margin-bottom:16px}
+.coord strong{color:#5bb8e8;font-weight:500}
+
+/* ---------- lista ---------- */
+.lista{display:flex;flex-direction:column;gap:12px;max-height:1000px;overflow:auto;padding-right:4px}
+.item{border:1px solid rgba(255,255,255,.11);border-radius:13px;padding:16px 18px;background:rgba(255,255,255,.02)}
+.item.inativa{opacity:.5}
+.item-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+.item h3{font-weight:500;font-size:17px}
+.item .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5bb8e8;border:1px solid rgba(91,184,232,.4);border-radius:20px;padding:3px 10px;white-space:nowrap}
+.item .linhas{display:flex;flex-direction:column;gap:3px;font-weight:300;font-size:14px;color:rgba(255,255,255,.72);margin-bottom:12px}
+.item .acoes{display:flex;gap:8px;flex-wrap:wrap}
+.vazio{border:1px dashed rgba(255,255,255,.16);border-radius:13px;padding:30px 20px;text-align:center;font-weight:300;color:rgba(255,255,255,.55)}
+.contagem{font-size:13px;font-weight:300;color:rgba(255,255,255,.5);margin-bottom:14px}
+.form-acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div class="login-wrap" id="tela-login">
+  <form class="login-card" id="form-login">
+    <img src="assets/logo.png" alt="Shalom">
+    <h1>Painel Admin</h1>
+    <div class="kick">Comunidade Batista Shalom</div>
+
+    <div class="msg" id="login-msg"></div>
+
+    <div class="campo">
+      <label for="l-user">Usuário</label>
+      <input type="text" id="l-user" autocomplete="username" required>
+    </div>
+    <div class="campo">
+      <label for="l-pass">Senha</label>
+      <input type="password" id="l-pass" autocomplete="current-password" required>
+    </div>
+    <button class="btn" type="submit" style="width:100%" id="btn-entrar">Entrar</button>
+  </form>
+</div>
+
+<!-- ══════════ PAINEL ══════════ -->
+<div id="tela-painel" style="display:none">
+  <div class="topbar">
+    <div class="brand">
+      <img src="assets/logo.png" alt="">
+      <div>
+        <div class="nome">SHALOM</div>
+        <div class="sub">Painel de células</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px">
+      <a class="btn btn--sm" href="index.html" target="_blank">Ver site</a>
+      <button class="btn btn--sm" id="btn-sair">Sair</button>
+    </div>
+  </div>
+
+  <div class="painel ativo">
+    <div class="painel-grid">
+
+      <!-- ---------- FORMULÁRIO ---------- -->
+      <div class="card">
+        <h2 id="form-titulo">Nova célula</h2>
+        <div class="kick" id="form-sub">Cadastro</div>
+
+        <div class="msg" id="form-msg"></div>
+
+        <form id="form-celula">
+          <input type="hidden" id="c-id">
+
+          <div class="campo">
+            <label for="c-nome">Nome da célula *</label>
+            <input type="text" id="c-nome" required placeholder="Ex.: Jardim Cruzeiro">
+          </div>
+
+          <div class="grid2">
+            <div class="campo">
+              <label for="c-tipo">Tipo *</label>
+              <select id="c-tipo" required>
+                <option value="rise">Rise · 12 a 14 anos</option>
+                <option value="flow">Flow · 15 a 18 anos</option>
+                <option value="vox">Vox · 18 a 29 anos</option>
+                <option value="eklektos">Eklektos · 30+ anos</option>
+                <option value="familia">Famílias</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label for="c-idade">Idade média</label>
+              <input type="text" id="c-idade" placeholder="Ex.: 24 anos">
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="campo">
+              <label for="c-lider">Líder *</label>
+              <input type="text" id="c-lider" required placeholder="Ex.: Bianca Oliveira">
+            </div>
+            <div class="campo">
+              <label for="c-tel">WhatsApp do líder</label>
+              <input type="text" id="c-tel" placeholder="(44) 99999-0000">
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="campo">
+              <label for="c-dia">Dia da semana *</label>
+              <select id="c-dia" required>
+                <option>Segunda</option><option>Terça</option><option>Quarta</option>
+                <option>Quinta</option><option>Sexta</option><option>Sábado</option><option>Domingo</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label for="c-hora">Horário *</label>
+              <input type="text" id="c-hora" required placeholder="20:00 às 22:00">
+            </div>
+          </div>
+
+          <div class="campo">
+            <label for="c-bairro">Bairro</label>
+            <input type="text" id="c-bairro" placeholder="Ex.: Zona I">
+          </div>
+
+          <div class="campo">
+            <label for="c-end">Endereço</label>
+            <input type="text" id="c-end" placeholder="Rua, número, bairro, cidade">
+            <div class="dica">Digite o endereço e clique em “Localizar no mapa”, ou clique direto no mapa para posicionar o pin.</div>
+          </div>
+
+          <button type="button" class="btn btn--azul btn--sm" id="btn-geo" style="margin-bottom:14px">Localizar no mapa</button>
+
+          <div id="map-pick"></div>
+          <div class="coord">
+            Coordenadas: <strong id="c-coord">não definidas</strong>
+          </div>
+          <input type="hidden" id="c-lat"><input type="hidden" id="c-lng">
+
+          <div class="campo">
+            <label class="check"><input type="checkbox" id="c-ativo" checked> Célula ativa (aparece no site)</label>
+          </div>
+
+          <div class="form-acoes">
+            <button class="btn" type="submit" id="btn-salvar">Salvar célula</button>
+            <button class="btn btn--sm" type="button" id="btn-cancelar" style="display:none">Cancelar edição</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ---------- LISTA ---------- -->
+      <div class="card">
+        <h2>Células cadastradas</h2>
+        <div class="kick">Gerenciar</div>
+        <div class="contagem" id="contagem">Carregando…</div>
+        <div class="lista" id="lista"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const API_AUTH = 'api/auth.php';
+const API_CEL  = 'api/celulas.php';
+const CENTRO   = [-23.7644, -53.3256]; // Umuarama/PR
+
+let mapa = null, pin = null, editandoId = null;
+
+/* ---------- utilidades ---------- */
+const $ = id => document.getElementById(id);
+
+function msg(el, texto, tipo) {
+  el.className = 'msg ' + (tipo || '');
+  el.textContent = texto || '';
+  if (!texto) el.className = 'msg';
+}
+
+async function api(url, opcoes) {
+  const r = await fetch(url, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opcoes || {}));
+  let dados = null;
+  try { dados = await r.json(); } catch (e) {}
+  if (!r.ok) throw new Error((dados && dados.erro) || 'Erro na requisição (' + r.status + ')');
+  return dados;
+}
+
+/* ---------- login ---------- */
+$('form-login').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('btn-entrar');
+  btn.disabled = true; btn.textContent = 'Entrando…';
+  msg($('login-msg'), '');
+  try {
+    await api(API_AUTH + '?acao=login', {
+      method: 'POST',
+      body: JSON.stringify({ usuario: $('l-user').value.trim(), senha: $('l-pass').value })
+    });
+    abrirPainel();
+  } catch (err) {
+    msg($('login-msg'), err.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
+});
+
+$('btn-sair').addEventListener('click', async () => {
+  try { await api(API_AUTH + '?acao=logout', { method: 'POST' }); } catch (e) {}
+  location.reload();
+});
+
+function abrirPainel() {
+  $('tela-login').style.display = 'none';
+  $('tela-painel').style.display = 'block';
+  iniciarMapa();
+  carregarLista();
+}
+
+/* ---------- mapa ---------- */
+function iniciarMapa() {
+  if (mapa || !window.L) { if (!window.L) return setTimeout(iniciarMapa, 200); }
+  if (mapa) return;
+  mapa = L.map('map-pick').setView(CENTRO, 13);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 20
+  }).addTo(mapa);
+  mapa.on('click', e => posicionarPin(e.latlng.lat, e.latlng.lng));
+  setTimeout(() => mapa.invalidateSize(), 250);
+}
+
+function posicionarPin(lat, lng, zoom) {
+  $('c-lat').value = lat;
+  $('c-lng').value = lng;
+  $('c-coord').textContent = Number(lat).toFixed(6) + ', ' + Number(lng).toFixed(6);
+  if (!mapa) return;
+  if (pin) { pin.setLatLng([lat, lng]); }
+  else {
+    pin = L.marker([lat, lng], { draggable: true }).addTo(mapa);
+    pin.on('dragend', () => {
+      const p = pin.getLatLng();
+      posicionarPin(p.lat, p.lng);
+    });
+  }
+  mapa.setView([lat, lng], zoom || Math.max(mapa.getZoom(), 16));
+}
+
+function limparPin() {
+  $('c-lat').value = ''; $('c-lng').value = '';
+  $('c-coord').textContent = 'não definidas';
+  if (pin && mapa) { mapa.removeLayer(pin); pin = null; }
+  if (mapa) mapa.setView(CENTRO, 13);
+}
+
+/* geocodificação por endereço (Nominatim / OpenStreetMap) */
+$('btn-geo').addEventListener('click', async () => {
+  const endereco = $('c-end').value.trim();
+  if (!endereco) return msg($('form-msg'), 'Digite um endereço para localizar.', 'err');
+  const btn = $('btn-geo');
+  btn.disabled = true; btn.textContent = 'Buscando…';
+  msg($('form-msg'), '');
+  try {
+    const q = encodeURIComponent(endereco + (/umuarama/i.test(endereco) ? '' : ', Umuarama, PR, Brasil'));
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + q);
+    const d = await r.json();
+    if (!d || !d.length) {
+      msg($('form-msg'), 'Endereço não encontrado. Clique direto no mapa para marcar.', 'err');
+    } else {
+      posicionarPin(parseFloat(d[0].lat), parseFloat(d[0].lon), 17);
+      msg($('form-msg'), 'Localização encontrada. Ajuste o pin no mapa se precisar.', 'ok');
+    }
+  } catch (e) {
+    msg($('form-msg'), 'Não foi possível buscar o endereço. Clique no mapa para marcar.', 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Localizar no mapa';
+  }
+});
+
+/* ---------- salvar ---------- */
+$('form-celula').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!$('c-lat').value || !$('c-lng').value) {
+    return msg($('form-msg'), 'Defina a localização: busque o endereço ou clique no mapa.', 'err');
+  }
+  const btn = $('btn-salvar');
+  btn.disabled = true; btn.textContent = 'Salvando…';
+  msg($('form-msg'), '');
+
+  const dados = {
+    nome: $('c-nome').value.trim(),
+    tipo: $('c-tipo').value,
+    lider: $('c-lider').value.trim(),
+    telefone: $('c-tel').value.trim(),
+    bairro: $('c-bairro').value.trim(),
+    endereco: $('c-end').value.trim(),
+    dia: $('c-dia').value,
+    horario: $('c-hora').value.trim(),
+    idadeMedia: $('c-idade').value.trim(),
+    lat: parseFloat($('c-lat').value),
+    lng: parseFloat($('c-lng').value),
+    ativo: $('c-ativo').checked
+  };
+
+  try {
+    const url = editandoId ? API_CEL + '?id=' + editandoId + '&_m=PUT' : API_CEL;
+    await api(url, { method: 'POST', body: JSON.stringify(dados) });
+    msg($('form-msg'), editandoId ? 'Célula atualizada com sucesso.' : 'Célula cadastrada com sucesso.', 'ok');
+    novaCelula();
+    carregarLista();
+  } catch (err) {
+    msg($('form-msg'), err.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Salvar célula';
+  }
+});
+
+$('btn-cancelar').addEventListener('click', novaCelula);
+
+function novaCelula() {
+  editandoId = null;
+  $('form-celula').reset();
+  $('c-ativo').checked = true;
+  limparPin();
+  $('form-titulo').textContent = 'Nova célula';
+  $('form-sub').textContent = 'Cadastro';
+  $('btn-cancelar').style.display = 'none';
+}
+
+/* ---------- lista ---------- */
+async function carregarLista() {
+  try {
+    const lista = await api(API_CEL + '?todas=1');
+    render(lista);
+  } catch (err) {
+    $('contagem').textContent = '';
+    $('lista').innerHTML = '<div class="vazio">' + err.message + '</div>';
+  }
+}
+
+function render(lista) {
+  $('contagem').textContent = lista.length
+    ? lista.length + (lista.length === 1 ? ' célula cadastrada' : ' células cadastradas')
+    : '';
+  if (!lista.length) {
+    $('lista').innerHTML = '<div class="vazio">Nenhuma célula cadastrada ainda.<br>Use o formulário ao lado para começar.</div>';
+    return;
+  }
+  $('lista').innerHTML = lista.map(c => `
+    <div class="item ${c.ativo ? '' : 'inativa'}">
+      <div class="item-topo">
+        <h3>${esc(c.nome)}</h3>
+        <span class="tag">${esc(c.tipoLabel)}</span>
+      </div>
+      <div class="linhas">
+        <span>Líder: ${esc(c.lider)}${c.telefone ? ' · ' + esc(c.telefone) : ''}</span>
+        <span>${esc(c.dia)} · ${esc(c.horario)}</span>
+        ${c.bairro ? `<span>Bairro: ${esc(c.bairro)}</span>` : ''}
+        ${c.idadeMedia ? `<span>Idade média: ${esc(c.idadeMedia)}</span>` : ''}
+        ${c.ativo ? '' : '<span style="color:#f0a0a0">Inativa (não aparece no site)</span>'}
+      </div>
+      <div class="acoes">
+        <button class="btn btn--sm btn--azul" onclick="editar(${c.dbId})">Editar</button>
+        <button class="btn btn--sm" onclick="verNoMapa(${c.lat},${c.lng})">Ver no mapa</button>
+        <button class="btn btn--sm btn--perigo" onclick="remover(${c.dbId}, '${esc(c.nome).replace(/'/g, "\\'")}')">Excluir</button>
+      </div>
+    </div>`).join('');
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+}
+
+window.verNoMapa = (lat, lng) => {
+  posicionarPin(lat, lng, 17);
+  $('map-pick').scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+window.editar = async id => {
+  const lista = await api(API_CEL + '?todas=1');
+  const c = lista.find(x => x.dbId === id);
+  if (!c) return;
+  editandoId = id;
+  $('c-nome').value = c.nome;
+  $('c-tipo').value = c.tipo;
+  $('c-lider').value = c.lider;
+  $('c-tel').value = c.telefone || '';
+  $('c-bairro').value = c.bairro || '';
+  $('c-end').value = c.endereco || '';
+  $('c-dia').value = c.dia;
+  $('c-hora').value = c.horario;
+  $('c-idade').value = c.idadeMedia || '';
+  $('c-ativo').checked = !!c.ativo;
+  posicionarPin(c.lat, c.lng, 16);
+  $('form-titulo').textContent = 'Editando: ' + c.nome;
+  $('form-sub').textContent = 'Alteração';
+  $('btn-cancelar').style.display = 'inline-flex';
+  msg($('form-msg'), '');
+  $('form-celula').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+window.remover = async (id, nome) => {
+  if (!confirm('Excluir a célula “' + nome + '”?\n\nEssa ação não pode ser desfeita.')) return;
+  try {
+    await api(API_CEL + '?id=' + id + '&_m=DELETE', { method: 'POST' });
+    if (editandoId === id) novaCelula();
+    carregarLista();
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
+/* ---------- sessão ao abrir ---------- */
+(async () => {
+  try {
+    const r = await api(API_AUTH + '?acao=me');
+    if (r && r.autenticado) abrirPainel();
+  } catch (e) { /* mostra login */ }
+})();
+</script>
+</body>
+</html>

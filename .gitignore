@@ -1,0 +1,26 @@
+# Banco de dados local (gerado pelo dev-server)
+data/shalom.db
+
+# Node modules (se usar npm no futuro)
+node_modules/
+
+# Arquivos de sistema
+.DS_Store
+.thumbnail
+*.swp
+*.swo
+
+# Dev server (local only)
+dev-server.py
+
+# Screenshots e uploads locais
+screenshots/
+uploads/
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
