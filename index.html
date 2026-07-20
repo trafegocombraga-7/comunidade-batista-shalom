@@ -554,15 +554,15 @@ nav { display:flex; align-items:center; gap:clamp(18px,3vw,46px); }
   background:linear-gradient(180deg, rgba(20,70,130,.30) 0%, rgba(10,40,90,.5) 100%);
   pointer-events:none;
 }
-/* escurece a base da composição para o texto */
+/* escurece a base da composição para o texto não sobrepor os rostos */
 .junte-comp::after {
   content:'';
   position:absolute;
   left:0; right:0; bottom:0;
-  height:58%;
+  height:84%;
   z-index:2;
   pointer-events:none;
-  background:linear-gradient(to top, rgba(2,21,32,.9) 8%, transparent 100%);
+  background:linear-gradient(to top, rgba(2,21,32,.96) 26%, rgba(2,21,32,.55) 60%, transparent 100%);
 }
 /* texto grande sobreposto, duas cores (como a referência) */
 .junte-text {
@@ -575,10 +575,10 @@ nav { display:flex; align-items:center; gap:clamp(18px,3vw,46px); }
 }
 .junte-h2 {
   font-weight:200;
-  font-size:clamp(56px,15.5vw,152px);
-  line-height:.82;
+  font-size:clamp(46px,12vw,120px);
+  line-height:.86;
   letter-spacing:-.035em;
-  text-shadow:0 2px 30px rgba(2,21,32,.7);
+  text-shadow:0 4px 40px rgba(2,21,32,.9);
 }
 .junte-h2 .l1 { display:block; color:#fff; }
 .junte-h2 .l2 { display:block; color:rgba(255,255,255,.32); }
