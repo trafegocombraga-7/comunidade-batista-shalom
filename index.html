@@ -1971,19 +1971,41 @@ let currentPage = 'inicio';
 let mapInstance = null;
 let cellMarkers = {};
 
-window.goPage = function(p) {
+const PAGINAS_VALIDAS = ['inicio', 'sobre', 'ofertas', 'celulas'];
+
+window.goPage = function(p, atualizarUrl = true) {
+  if (!PAGINAS_VALIDAS.includes(p)) p = 'inicio';
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.navlink').forEach(el => el.classList.remove('active'));
   document.getElementById('page-' + p).classList.add('active');
   document.getElementById('nav-' + p).classList.add('active');
   window.scrollTo(0, 0);
   currentPage = p;
+  if (atualizarUrl) {
+    const novaUrl = p === 'inicio' ? '/' : '/' + p;
+    if (window.location.pathname !== novaUrl) {
+      history.pushState({ pagina: p }, '', novaUrl);
+    }
+  }
   if (p === 'celulas') {
     setTimeout(initMap, 160);
   } else {
     destroyMap();
   }
 };
+
+/* abre a página certa de acordo com a URL ao carregar */
+function paginaPelaUrl() {
+  const caminho = window.location.pathname.replace(/^\/|\/$/g, '');
+  return PAGINAS_VALIDAS.includes(caminho) ? caminho : 'inicio';
+}
+goPage(paginaPelaUrl(), false);
+
+/* botão voltar/avançar do navegador */
+window.addEventListener('popstate', (ev) => {
+  const p = (ev.state && ev.state.pagina) ? ev.state.pagina : paginaPelaUrl();
+  goPage(p, false);
+});
 
 window.scrollToHorarios = function() {
   if (currentPage !== 'inicio') {
