@@ -1575,11 +1575,13 @@ footer::before {
             <label>Tipo de célula</label>
             <select id="f-tipo" onchange="renderCelulas()">
               <option value="">Todos</option>
-              <option value="rise">Rise · 12–14</option>
-              <option value="flow">Flow · 15–18</option>
-              <option value="vox">Vox · 18–29</option>
-              <option value="eklektos">Eklektos · 30+</option>
+              <option value="rise">12–14 anos</option>
+              <option value="flow">15–18 anos</option>
+              <option value="vox">18–29 anos</option>
+              <option value="eklektos">30+ anos</option>
               <option value="familia">Famílias</option>
+              <option value="todas">Todas as idades</option>
+              <option value="casal">Casal</option>
             </select>
           </div>
           <div class="mapa-select-wrap">
@@ -1718,12 +1720,12 @@ const PAINEL = {
   },
 
   celulas: [
-    { id:'c1', nome:'Jardim Cruzeiro',    tipo:'vox',      tipoLabel:'Vox · 18 a 29 anos',   lider:'Bianca Oliveira', dia:'Quinta', horario:'20:00 às 22:00', lat:-23.7558, lng:-53.3182 },
-    { id:'c2', nome:'Zona 02',            tipo:'eklektos', tipoLabel:'Eklektos · 30+ anos',   lider:'Larissa Vrena',   dia:'Terça',  horario:'20:30 às 22:00', lat:-23.7721, lng:-53.3305 },
+    { id:'c1', nome:'Jardim Cruzeiro',    tipo:'vox',      tipoLabel:'18 a 29 anos',   lider:'Bianca Oliveira', dia:'Quinta', horario:'20:00 às 22:00', lat:-23.7558, lng:-53.3182 },
+    { id:'c2', nome:'Zona 02',            tipo:'eklektos', tipoLabel:'30+ anos',   lider:'Larissa Vrena',   dia:'Terça',  horario:'20:30 às 22:00', lat:-23.7721, lng:-53.3305 },
     { id:'c3', nome:'Parque Industrial',  tipo:'familia',  tipoLabel:'Famílias',              lider:'Sandra Silva',    dia:'Quarta', horario:'20:30 às 22:00', lat:-23.7486, lng:-53.3351 },
-    { id:'c4', nome:'Jardim Aratimbó',    tipo:'vox',      tipoLabel:'Vox · 18 a 29 anos',   lider:'Levi Camilo',     dia:'Quinta', horario:'20:00 às 22:00', lat:-23.7803, lng:-53.3104 },
-    { id:'c5', nome:'Centro',             tipo:'flow',     tipoLabel:'Flow · 15 a 18 anos',  lider:'Geórgia Marques', dia:'Sexta',  horario:'19:30 às 21:00', lat:-23.7662, lng:-53.3280 },
-    { id:'c6', nome:'Jardim Itália',      tipo:'rise',     tipoLabel:'Rise · 12 a 14 anos',  lider:'Acsa Freitas',    dia:'Sábado', horario:'16:00 às 17:30', lat:-23.7551, lng:-53.3402 },
+    { id:'c4', nome:'Jardim Aratimbó',    tipo:'vox',      tipoLabel:'18 a 29 anos',   lider:'Levi Camilo',     dia:'Quinta', horario:'20:00 às 22:00', lat:-23.7803, lng:-53.3104 },
+    { id:'c5', nome:'Centro',             tipo:'flow',     tipoLabel:'15 a 18 anos',  lider:'Geórgia Marques', dia:'Sexta',  horario:'19:30 às 21:00', lat:-23.7662, lng:-53.3280 },
+    { id:'c6', nome:'Jardim Itália',      tipo:'rise',     tipoLabel:'12 a 14 anos',  lider:'Acsa Freitas',    dia:'Sábado', horario:'16:00 às 17:30', lat:-23.7551, lng:-53.3402 },
   ],
 
   contato: {

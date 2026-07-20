@@ -9,15 +9,17 @@
 declare(strict_types=1);
 require __DIR__ . '/db.php';
 
-const TIPOS = ['rise', 'flow', 'vox', 'eklektos', 'familia'];
+const TIPOS = ['rise', 'flow', 'vox', 'eklektos', 'familia', 'todas', 'casal'];
 const DIAS  = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
 
 const TIPO_LABEL = [
-  'rise'     => 'Rise · 12 a 14 anos',
-  'flow'     => 'Flow · 15 a 18 anos',
-  'vox'      => 'Vox · 18 a 29 anos',
-  'eklektos' => 'Eklektos · 30+ anos',
+  'rise'     => '12 a 14 anos',
+  'flow'     => '15 a 18 anos',
+  'vox'      => '18 a 29 anos',
+  'eklektos' => '30+ anos',
   'familia'  => 'Famílias',
+  'todas'    => 'Todas as idades',
+  'casal'    => 'Casal',
 ];
 
 function saida(array $c): array {
