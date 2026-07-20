@@ -1,9 +1,16 @@
 RewriteEngine On
 
+# Se alguém acessar admin.html ou links.html diretamente, redireciona para a URL sem .html
+RewriteCond %{THE_REQUEST} \s/+([^.]+)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
 # Não reescreve arquivos e pastas que realmente existem (assets, api, php etc.)
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
+
+# /admin e /links carregam os respectivos arquivos .html por baixo dos panos
+RewriteRule ^(admin|links)/?$ $1.html [L]
 
 # Páginas da SPA: /sobre, /ofertas, /celulas caem todas no index.html
 RewriteRule ^(sobre|ofertas|celulas)/?$ index.html [L]
