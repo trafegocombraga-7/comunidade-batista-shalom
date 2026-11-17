@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Comunidade Batista Shalom - Todas as Células</title>
+<link rel="icon" type="image/png" href="assets/favicon-branco.png?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=blue7">
+<style>
+.banner{aspect-ratio:1425/577}
+.banner__title{left:17.8%;bottom:12.5%;font-size:7vw;line-height:1;letter-spacing:-.04em;white-space:normal;width:82%}
+
+.loc{position:relative;overflow:hidden;background:var(--bg);padding:68px 0 120px}
+.loc__glow{position:absolute;inset:0;pointer-events:none;background:url(assets/bg-shalom-tile.jpg) center top/var(--bgsize) repeat-y}
+.loc .wrap{width:min(971px,calc(100% - 100px));display:flex;justify-content:space-between;align-items:flex-start}
+.loc .h2{width:483px;font-size:90px;line-height:90px;letter-spacing:-3.6px;margin-top:76px}
+.lista{width:433px;flex-shrink:0}
+.item{border:2px solid rgba(255,255,255,.28);border-bottom-width:0}
+.item:last-child{border-bottom-width:2px}
+.item__head{width:100%;display:flex;align-items:center;gap:22px;padding:26px 4px;background:none;border:0;color:#fff;cursor:pointer;font-family:inherit;text-align:left}
+.item__badge{width:53px;height:32px;flex-shrink:0;border-radius:4px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0a5a8a,#4b9bc4);font-size:12px;font-weight:600;letter-spacing:.02em}
+.item__name{flex:1;font-size:24px;font-weight:500;line-height:26.4px;letter-spacing:.2px}
+.item__toggle{width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:300;transition:transform .3s}
+.item.is-open .item__toggle{transform:rotate(45deg)}
+.item__body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.item.is-open .item__body{grid-template-rows:1fr}
+.item__inner{overflow:hidden;padding:0 4px 0 83px}
+.place{border-top:1px solid rgba(255,255,255,.14);padding:19px 0 20px}
+.place:first-child{border-top:0;padding-top:4px}
+.place h4{font-size:18.88px;font-weight:600;line-height:33.6px;letter-spacing:.2px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.chip{display:inline-flex;align-items:center;height:23px;padding:0 10px;border:1px solid rgba(191,224,240,.45);border-radius:999px;font-size:13.12px;font-weight:500;letter-spacing:-.72px;color:#bfe0f0}
+.place__campus{font-size:11.84px;font-weight:600;line-height:33.6px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:2px}
+.place__addr{font-size:15.2px;line-height:22.8px;letter-spacing:-.72px;color:rgba(255,255,255,.74)}
+.place__zap{display:inline-block;margin-top:10px;font-size:13px;font-weight:600;color:#bfe0f0;text-decoration:underline}
+.item__inner > p.vazio{padding:4px 0 24px;font-size:15px;color:rgba(255,255,255,.6)}
+
+@media(min-width:1025px){.loc .wrap{left:-12px}}
+@media(max-width:1024px){
+  .loc .h2{width:auto;flex:1;font-size:60px;line-height:62px;margin:40px 40px 0 0}
+  .lista{width:400px}
+}
+@media(max-width:600px){
+  .banner__title{left:50px;bottom:60px;font-size:44px;width:calc(100% - 100px)}
+  .loc{padding:60px 0 80px}
+  .loc .wrap{flex-direction:column;width:calc(100% - 40px)}
+  .loc .h2{font-size:48px;line-height:50px;letter-spacing:-1.9px;margin:0 0 36px 10px}
+  .lista{width:100%}
+  .item__head{gap:14px;padding:20px 4px}
+  .item__name{font-size:20px}
+  .item__inner{padding:0 8px 0 70px}
+}
+</style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<section class="banner">
+  <!-- espaço do vídeo: troque o src quando tiver o vídeo da Shalom -->
+  <video class="banner__media" autoplay muted loop playsinline src="https://cdn.subsplash.com/videos/2CD49G/_source/cf173e24-40f1-4444-b1db-8994d3e4cfc3/video.mp4"></video>
+  <div class="banner__shade"></div>
+  <h1 class="banner__title">SOMOS UMA FAMÍLIA EM TODA A CIDADE</h1>
+</section>
+
+<section class="loc">
+  <div class="loc__glow"></div>
+  <div class="wrap">
+    <h2 class="h2">Encontre uma célula perto de você</h2>
+    <div class="lista" id="lista"></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/site.js?v=9"></script>
+<script>
+/* Células de exemplo: troque pelos dados reais (nome, líder, dia, horário, bairro, endereço, WhatsApp). */
+const GRUPOS = [
+  { sigla: '12-14', nome: '12 a 14 anos', celulas: [
+    { nome: 'Jardim Itália', lider: 'Acsa Freitas', dia: 'Sábado', hora: '16h', bairro: 'Jardim Itália', endereco: 'Umuarama/PR', zap: '' },
+  ]},
+  { sigla: '15-18', nome: '15 a 18 anos', celulas: [
+    { nome: 'Centro', lider: 'Geórgia Marques', dia: 'Sexta', hora: '19h30', bairro: 'Centro', endereco: 'Umuarama/PR', zap: '' },
+  ]},
+  { sigla: '18-29', nome: '18 a 29 anos', celulas: [
+    { nome: 'Jardim Cruzeiro', lider: 'Bianca Oliveira', dia: 'Quinta', hora: '20h', bairro: 'Jardim Cruzeiro', endereco: 'Umuarama/PR', zap: '' },
+    { nome: 'Jardim Aratimbó', lider: 'Levi Camilo', dia: 'Quinta', hora: '20h', bairro: 'Jardim Aratimbó', endereco: 'Umuarama/PR', zap: '' },
+  ]},
+  { sigla: '30+', nome: '30+ anos', celulas: [
+    { nome: 'Zona 02', lider: 'Larissa Vrena', dia: 'Terça', hora: '20h30', bairro: 'Zona II', endereco: 'Umuarama/PR', zap: '' },
+  ]},
+  { sigla: 'CASAL', nome: 'Casais', celulas: [] },
+  { sigla: 'FAM', nome: 'Famílias', celulas: [
+    { nome: 'Parque Industrial', lider: 'Sandra Silva', dia: 'Quarta', hora: '20h30', bairro: 'Parque Industrial', endereco: 'Umuarama/PR', zap: '' },
+  ]},
+  { sigla: 'TODAS', nome: 'Todas as idades', celulas: [] },
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+const lista = document.getElementById('lista');
+lista.innerHTML = GRUPOS.map((g, i) => `
+  <div class="item">
+    <button class="item__head" type="button" aria-expanded="false" aria-controls="g${i}">
+      <span class="item__badge">${esc(g.sigla)}</span>
+      <span class="item__name">${esc(g.nome)}</span>
+      <span class="item__toggle" aria-hidden="true">+</span>
+    </button>
+    <div class="item__body" id="g${i}">
+      <div class="item__inner">
+        ${g.celulas.length ? g.celulas.map(c => `
+          <div class="place">
+            <h4>${esc(c.nome)}</h4>
+            <div class="chips"><span class="chip">${esc(c.dia)}</span><span class="chip">${esc(c.hora)}</span></div>
+            <p class="place__campus">Líder: ${esc(c.lider)}</p>
+            <p class="place__addr">${esc(c.bairro)} · ${esc(c.endereco)}</p>
+            ${c.zap ? `<a class="place__zap" href="https://wa.me/55${c.zap.replace(/\D/g, '')}" target="_blank" rel="noopener">Quero participar</a>` : ''}
+          </div>`).join('') : '<p class="vazio">Novas células em breve.</p>'}
+      </div>
+    </div>
+  </div>`).join('');
+
+lista.querySelectorAll('.item__head').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const abrir = !item.classList.contains('is-open');
+    lista.querySelectorAll('.item').forEach(it => { it.classList.remove('is-open'); it.querySelector('.item__head').setAttribute('aria-expanded', 'false'); });
+    item.classList.toggle('is-open', abrir);
+    btn.setAttribute('aria-expanded', String(abrir));
+  });
+});
+</script>
+</body>
+</html>

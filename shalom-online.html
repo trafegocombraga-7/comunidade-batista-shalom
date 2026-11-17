@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Comunidade Batista Shalom - Shalom Online</title>
+<link rel="icon" type="image/png" href="assets/favicon-branco.png?v=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400;1,600;1,700&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css?v=blue7">
+<style>
+:root{--teal:#0a6a9a;--cream:#f2f9fd;--sand:#cfe4f0;--deep:#043a5c}
+.serif{font-family:"Brygada 1918",Georgia,serif;font-style:italic;font-weight:700;letter-spacing:-.05em}
+.t-h2{font-size:60px;line-height:60px}
+.t-h3{font-size:50px;font-weight:300;line-height:60px}
+.t-p{font-size:22px;font-weight:300;line-height:26.4px}
+.t-p b{font-weight:400}
+.bt{display:inline-flex;align-items:center;justify-content:center;padding:20px;border-radius:8px;font-size:19.2px;font-weight:600;line-height:22px;white-space:nowrap;transition:filter .25s,transform .25s}
+.bt:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.bt--grad{background:linear-gradient(90deg,#0b6fa3,#3a92c0);color:#e3f0f7}
+.bt--cream{background:var(--cream);color:var(--deep)}
+.bt--line{border:1px solid #fff;color:#fff}
+.box{position:relative;width:min(1069px,calc(100% - 100px));margin:0 auto}
+
+/* S0 · boas-vindas */
+.s0{position:relative;overflow:hidden;padding:115px 0 110px;color:var(--teal);background:#b9d8e8 url(assets/bg-shalom-tile.jpg) center top/var(--bgsize) repeat-y}
+.welcome{position:relative;width:910px;max-width:calc(100% - 40px);aspect-ratio:910/618;margin:0 auto}
+.welcome__seja{position:absolute;left:0;top:0;font-size:9.6em;font-weight:300;line-height:1;color:#eaf4fa;letter-spacing:-.02em}
+.welcome__bem{position:absolute;left:39%;top:2%;font-size:16em;line-height:.88;color:#f2f9fd;z-index:2}
+.welcome__f1,.welcome__f2{position:absolute;object-fit:cover}
+.welcome__f1{left:0;top:22%;width:40%;height:38%;background:url(assets/pastor-ap.png?v=2) center bottom/contain no-repeat}
+.welcome__f2{left:58%;top:52%;width:34%;height:44%;background:url(assets/pastora-apv.png) center bottom/contain no-repeat}
+.welcome__logo{position:absolute;left:4%;top:66%;display:flex;align-items:center;gap:.25em;color:#f2f9fd}
+.welcome__logo img{width:1.45em;height:1.45em;filter:brightness(0) invert(1)}
+.welcome__logo b{display:block;font-size:.6em;font-weight:600;letter-spacing:.02em;line-height:1}
+.welcome__logo span{display:block;font-size:1em;font-weight:300;line-height:.9;letter-spacing:-.02em}
+.welcome{font-size:min(10px, calc((100vw - 40px) / 91))}
+.s0 .cta1{text-align:center;margin-top:115px}
+.parte{margin-top:100px;max-width:534px}
+.parte .t-p{margin-top:30px}
+.parte .bt{margin-top:30px}
+
+/* S1 · o que é */
+.s1{position:relative;padding:30px 0 120px;text-align:center;color:var(--teal);background:#dcebf4 url(assets/bg-shalom-tile.jpg) center top/var(--bgsize) repeat-y}
+.s1 .t-p{max-width:713px;margin:20px auto 0}
+.s1__img{width:820px;max-width:100%;aspect-ratio:820/317;object-fit:cover;object-position:50% 60%;margin:45px auto 0;display:block;border-radius:18px}
+.s1 .bt{margin-top:90px}
+
+/* S2 · membro online + como se tornar */
+.s2{position:relative;overflow:hidden;padding:100px 0 120px;text-align:center;color:var(--cream);background:#04456b url(assets/bg-shalom-tile.jpg) center top/var(--bgsize) repeat-y}
+.s2 .t-p{font-size:20px;line-height:24px;max-width:780px;margin:30px auto 0}
+.crit{display:grid;grid-template-columns:534px 475px;justify-content:space-between;gap:21px 0;max-width:1188px;width:calc(100% - 100px);margin:50px auto 0;text-align:left}
+.crit__col{display:flex;flex-direction:column;gap:21px}
+.crit__col--2{padding-left:0}
+.crit p{padding:15px 50px;font-size:18px;font-weight:300;line-height:21.6px;min-height:73px;display:flex;align-items:center}
+.crit p.f{background:#0a5f8c}
+.s2 .bt-m{margin-top:45px}
+.tornar{margin-top:115px;color:var(--sand)}
+.tornar .t-p{color:var(--cream);font-size:22px;line-height:26.4px;max-width:1158px}
+.passos{display:grid;grid-template-columns:repeat(4,234px);justify-content:center;gap:10px;margin:55px auto 0}
+.passo{border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#1a6f9f,#0a4668);text-align:center;color:var(--cream);box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.passo__img{filter:hue-rotate(30deg);height:140px;background:#0a3a55 50% 0/100% auto no-repeat}
+.passo__body{padding:14px 16px 20px}
+.passo__n{font-family:"Brygada 1918",Georgia,serif;font-size:28px;letter-spacing:.02em}
+.passo__t{font-size:12px;font-weight:600;margin-top:2px}
+.passo__d{font-size:11px;font-weight:300;line-height:1.4;margin-top:6px;opacity:.9}
+.s2 .bt-i{margin-top:55px}
+
+/* S3 · cultos ao vivo + células + plano/contatos/ofertas */
+.s3{position:relative;overflow:hidden;padding:100px 0 110px;color:var(--sand);background:#2f86b4 url(assets/bg-shalom-tile.jpg) center top/var(--bgsize) repeat-y}
+.vivo__h .serif{font-size:90px;line-height:90px}
+.vivo__h .t-h3{font-size:72px;line-height:86px}
+.vivo__h p{font-size:22px;line-height:26.4px;max-width:300px}
+.locs{display:grid;grid-template-columns:475px 238px;gap:0 0;margin:57px 0 0 178px}
+.loc{margin-bottom:34px}
+.loc h3{font-family:"Brygada 1918",Georgia,serif;font-size:45px;font-weight:400;line-height:45px;letter-spacing:-1.8px;color:#cfe4f0;text-transform:uppercase}
+.loc b{display:block;font-size:22px;font-weight:400;line-height:26.4px;color:var(--cream)}
+.loc a{font-size:16px;font-weight:300;color:#fff;text-decoration:underline}
+.nossas{text-align:center;margin-top:100px;color:#e3f0f7}
+.nossas b{display:block;font-size:27px;font-weight:400;line-height:32.4px;max-width:520px;margin:4px auto 0}
+.cov{position:relative;height:300px;margin-top:40px}
+.cov__card{position:absolute;top:50%;left:50%;width:330px;border-radius:22px;overflow:hidden;background:linear-gradient(180deg,#f2f9fd,#bfe0f0);transition:transform .5s cubic-bezier(.65,.05,.36,1),opacity .5s;box-shadow:0 18px 40px rgba(0,0,0,.25);color:var(--deep)}
+.cov__card div{height:170px;background:50% 0/100% auto no-repeat}
+.cov__card p{font-family:"Brygada 1918",Georgia,serif;font-size:24px;padding:16px 0 4px;text-align:center}
+.cov__card small{display:block;text-align:center;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding-bottom:18px;opacity:.7}
+.cov__nav{position:absolute;top:50%;width:48px;height:48px;border-radius:999px;border:1px solid rgba(255,255,255,.7);background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.06));color:#fff;cursor:pointer;transform:translateY(-50%);z-index:20;font-size:18px}
+.cov__nav--p{left:38px}.cov__nav--n{right:216px}
+.tres{display:grid;grid-template-columns:475px 475px;justify-content:space-between;margin:100px 0 0}
+.tres h3{font-size:43px;font-weight:300;line-height:51.6px;color:#fff}
+.tres h4{font-family:"Brygada 1918",Georgia,serif;font-size:50px;font-weight:400;line-height:50px;color:#043a5c}
+.tres p{font-size:22px;font-weight:300;line-height:26.4px;color:#043a5c;margin-top:10px}
+.tres .bt{margin-top:40px;font-size:19.2px}
+.tres .bloco + .bloco{margin-top:50px}
+.pix{font-size:18px;font-weight:400;color:#043a5c;margin-top:22px}
+.nota{background:#9fcbe3;padding:25px 50px;margin-top:50px;font-size:20px;font-style:italic;font-weight:300;line-height:24px;color:#043a5c}
+
+/* S4 · FAQ */
+.s4{position:relative;overflow:hidden;background:#03324f url(assets/bg-shalom-tile.jpg) center top/var(--bgsize) repeat-y;padding:205px 0 120px}
+.s4 h2{position:relative;font-family:"Brygada 1918",Georgia,serif;font-size:200px;font-weight:400;line-height:200px;color:#a9d0e6;margin-left:-113px}
+.faqs{position:relative;display:grid;grid-template-columns:525px 525px;justify-content:space-between;margin-top:76px;padding:0 0 0 0}
+.faqs details{color:var(--cream);border-bottom:1px solid rgba(252,252,234,.15)}
+.faqs summary{cursor:pointer;list-style:none;padding:14px 30px 14px 0;font-size:16px;font-weight:700;line-height:22px;position:relative}
+.faqs summary::-webkit-details-marker{display:none}
+.faqs summary::after{content:'+';position:absolute;right:4px;top:12px;font-weight:300;font-size:20px;transition:transform .3s}
+.faqs details[open] summary::after{transform:rotate(45deg)}
+.faqs details div{font-size:16px;line-height:25.6px;padding:0 0 14px}
+.faqs a{color:#bfe0f0}
+
+@media(max-width:1024px){
+  .t-h2{font-size:48px;line-height:50px}.t-h3{font-size:40px;line-height:48px}
+  .crit{grid-template-columns:1fr 1fr;gap:16px;width:calc(100% - 60px)}
+  .passos{grid-template-columns:repeat(2,234px)}
+  .locs{margin-left:0}
+  .tres{grid-template-columns:1fr 1fr;gap:40px}
+  .faqs{grid-template-columns:1fr 1fr;gap:30px}
+  .s4 h2{margin-left:0;font-size:140px;line-height:140px}
+  .cov__nav--n{right:20px}.cov__nav--p{left:20px}
+}
+@media(max-width:600px){
+  .box{width:calc(100% - 60px)}
+  .t-h2{font-size:40px;line-height:42px}.t-h3{font-size:32px;line-height:40px}
+  .t-p,.tornar .t-p{font-size:18px;line-height:24px}
+  .s0{padding:100px 0 70px}
+  .welcome{max-width:calc(100% - 40px)}
+  .s0 .cta1{margin-top:50px}
+  .parte{margin-top:70px}
+  .bt{font-size:17px;padding:17px}
+  .s1{padding:30px 0 80px}
+  .s1 .bt{margin-top:50px}
+  .s2{padding:70px 0 80px}
+  .crit{grid-template-columns:1fr;width:calc(100% - 40px);gap:12px}
+  .crit__col{gap:12px}
+  .crit p{padding:14px 22px;font-size:16px}
+  .passos{grid-template-columns:1fr 1fr;width:calc(100% - 40px);gap:10px}
+  .passo__img{height:100px}
+  .vivo__h .serif{font-size:64px;line-height:64px}
+  .vivo__h .t-h3{font-size:50px;line-height:60px}
+  .locs{grid-template-columns:1fr}
+  .loc h3{font-size:34px;line-height:36px}
+  .cov{height:280px}
+  .cov__card{width:250px}
+  .cov__card div{height:130px}
+  .cov__nav{width:40px;height:40px}.cov__nav--p{left:0}.cov__nav--n{right:0}
+  .tres{grid-template-columns:1fr}
+  .tres h3{font-size:34px;line-height:40px}
+  .tres h4{font-size:40px;line-height:42px}
+  .tres p{font-size:18px;line-height:24px}
+  .nota{padding:20px 24px;font-size:17px}
+  .s4{padding:120px 0 80px}
+  .s4 h2{font-size:110px;line-height:110px}
+  .faqs{grid-template-columns:1fr;margin-top:40px;gap:0}
+}
+</style>
+</head>
+<body>
+
+<div id="site-nav"></div>
+
+<!-- S0 · boas-vindas -->
+<section class="s0">
+  <div class="welcome" aria-label="Seja bem-vindo à Shalom Online">
+    <span class="welcome__seja">Seja</span>
+    <span class="welcome__bem serif">bem-<br>vindo</span>
+    <div class="welcome__f1" role="img" aria-label="Pastores da Shalom"></div>
+    <div class="welcome__f2" role="img" aria-label="Pastores da Shalom"></div>
+    <div class="welcome__logo" style="font-size:7.6em"><img src="assets/logo.png" alt=""><div><b>SHALOM</b><span>online</span></div></div>
+  </div>
+  <div class="box">
+    <div class="cta1"><a class="bt bt--grad" href="https://www.youtube.com/@ComunidadeBatistaShalom" target="_blank" rel="noopener">Conheça-nos!</a></div>
+    <div class="parte">
+      <h2 class="serif t-h2">Faça parte da</h2>
+      <h3 class="t-h3">Shalom Online!</h3>
+      <p class="t-p">A <b>Shalom Online é o culto da Comunidade Batista Shalom</b> transmitido ao vivo, conectando pessoas de qualquer lugar à nossa família.<br><br>Não importa onde você esteja, <b>você pode assistir aos cultos ao vivo</b> e dar um passo a mais para fazer parte da nossa igreja.</p>
+      <a class="bt bt--grad" href="#membro">Seja um Membro Online</a>
+    </div>
+  </div>
+</section>
+
+<!-- S1 · o que é -->
+<section class="s1">
+  <div class="box">
+    <h2 class="serif t-h2">O que é</h2>
+    <h3 class="t-h3">Shalom Online?</h3>
+    <p class="t-p">Acreditamos que ninguém deve caminhar sozinho. A Shalom Online é para quem ainda não pode estar presencialmente com a gente, mas quer viver a fé em comunidade, com <b>acompanhamento, oração e cuidado pastoral</b>. (Hb 10:24-25)</p>
+    <img class="s1__img" src="assets/celular-shalom.jpg" alt="Culto ao vivo no celular">
+    <a class="bt bt--grad" href="#membro">Seja um Membro Online</a>
+  </div>
+</section>
+
+<!-- S2 · membro online + como se tornar -->
+<section class="s2" id="membro">
+  <h2 class="serif t-h2">O que é</h2>
+  <h3 class="t-h3" style="font-size:52px;line-height:62.4px">Membro Online?</h3>
+  <p class="t-p">Você é <b>sempre bem-vindo para assistir aos nossos cultos ao vivo</b>, mas também pode fazer parte da nossa família online se:</p>
+  <div class="crit">
+    <div class="crit__col">
+      <p>Mora longe de Umuarama ou não consegue ir aos cultos presenciais</p>
+      <p class="f">Acompanha os cultos e as programações online</p>
+      <p>Deseja participar de uma célula online acompanhado por um líder da Shalom</p>
+    </div>
+    <div class="crit__col">
+      <p class="f">Está comprometido em passar pelo processo de membresia</p>
+      <p>Deseja ser parte da Shalom de forma fiel e comprometida</p>
+      <p class="f">Está comprometido em participar de encontros presenciais sempre que possível</p>
+    </div>
+  </div>
+  <a class="bt bt--cream bt-m" href="https://wa.me/5544998698763" target="_blank" rel="noopener">a Shalom é a minha igreja</a>
+
+  <div class="tornar box">
+    <h2 class="serif t-h2">Como se tornar</h2>
+    <h3 class="t-h3">um Membro da Shalom Online?</h3>
+    <p class="t-p" style="margin-top:34px"><b>Conheça o nosso processo de membresia</b><br>Se você já frequenta a Shalom presencialmente, fale com o líder da sua célula sobre os próximos passos.</p>
+    <div class="passos">
+      <div class="passo"><div class="passo__img" style="background-image:url(assets/zion/passo-1.png)"></div><div class="passo__body"><div class="passo__n">PASSO 01</div><div class="passo__t">Inscrição</div><p class="passo__d">Preencha sua inscrição e nossa equipe entra em contato.</p></div></div>
+      <div class="passo"><div class="passo__img" style="background-image:url(assets/zion/passo-2.png)"></div><div class="passo__body"><div class="passo__n">PASSO 02</div><div class="passo__t">Encontros</div><p class="passo__d">Participe dos encontros online sobre fé, igreja e membresia.</p></div></div>
+      <div class="passo"><div class="passo__img" style="background-image:url(assets/zion/passo-3.png)"></div><div class="passo__body"><div class="passo__n">PASSO 03</div><div class="passo__t">Conversa pastoral</div><p class="passo__d">Um bate-papo com a liderança para conhecer você.</p></div></div>
+      <div class="passo"><div class="passo__img" style="background-image:url(assets/zion/passo-4.png)"></div><div class="passo__body"><div class="passo__n">PASSO 04</div><div class="passo__t">Boas-vindas</div><p class="passo__d">Você é recebido como membro da família Shalom.</p></div></div>
+    </div>
+    <a class="bt bt--cream bt-i" href="https://wa.me/5544998698763" target="_blank" rel="noopener">Fazer minha inscrição</a>
+  </div>
+</section>
+
+<!-- S3 · cultos ao vivo -->
+<section class="s3">
+  <div class="box">
+    <div class="vivo__h">
+      <h2 class="serif">Cultos</h2>
+      <h3 class="t-h3">Ao Vivo!</h3>
+      <p><b style="font-weight:400">Assista de qualquer lugar, sempre disponível</b></p>
+    </div>
+    <div class="locs">
+      <div>
+        <div class="loc"><h3>Manhã</h3><b>Domingo · 9h30</b><a href="https://www.youtube.com/@ComunidadeBatistaShalom" target="_blank" rel="noopener">Assistir ao culto &gt;</a></div>
+        <div class="loc"><h3>Noite</h3><b>Domingo · 19h</b><a href="https://www.youtube.com/@ComunidadeBatistaShalom" target="_blank" rel="noopener">Assistir ao culto &gt;</a></div>
+      </div>
+      <div>
+        <div class="loc"><h3>Células</h3><b>Durante a semana</b><a href="todas-as-localidades.html">Encontrar célula &gt;</a></div>
+        <div class="loc"><h3>Instagram</h3><b>@batistashalomumuarama</b><a href="https://www.instagram.com/batistashalomumuarama/" target="_blank" rel="noopener">Seguir &gt;</a></div>
+      </div>
+    </div>
+
+    <div class="nossas">
+      <h2 class="serif t-h2">Nossas</h2>
+      <h3 class="t-h3">Células:</h3>
+      <b>Encontre a célula mais próxima de você e venha nos visitar</b>
+    </div>
+    <div class="cov" data-cov>
+      <a class="cov__card" href="todas-as-localidades.html"><div style="background-image:url(assets/zion/local-1.png)"></div><p>18 a 29 anos</p><small>Umuarama · PR</small></a>
+      <a class="cov__card" href="todas-as-localidades.html"><div style="background-image:url(assets/zion/local-2.png)"></div><p>Casais</p><small>Umuarama · PR</small></a>
+      <a class="cov__card" href="todas-as-localidades.html"><div style="background-image:url(assets/zion/local-3.png)"></div><p>Famílias</p><small>Umuarama · PR</small></a>
+      <a class="cov__card" href="todas-as-localidades.html"><div style="background-image:url(assets/zion/local-4.png)"></div><p>30+ anos</p><small>Umuarama · PR</small></a>
+      <a class="cov__card" href="todas-as-localidades.html"><div style="background-image:url(assets/zion/local-5.png)"></div><p>15 a 18 anos</p><small>Umuarama · PR</small></a>
+      <button class="cov__nav cov__nav--p" type="button" aria-label="Anterior">&#8249;</button>
+      <button class="cov__nav cov__nav--n" type="button" aria-label="Próximo">&#8250;</button>
+    </div>
+
+    <div class="tres">
+      <div>
+        <div class="bloco">
+          <h3>Plano de</h3><h4>Leitura Bíblica</h4>
+          <p>Alguns minutos por dia com a Palavra, e você atravessa a Bíblia inteira em um ano.</p>
+          <a class="bt bt--line" href="#">Baixe aqui!</a>
+        </div>
+        <div class="bloco">
+          <h3>Contatos</h3>
+          <p>Dúvidas ou sugestões sobre a Shalom Online?<br><b style="font-weight:400">Clique no botão abaixo.</b></p>
+          <a class="bt bt--line" href="https://wa.me/5544998698763" target="_blank" rel="noopener">Entre em contato</a>
+        </div>
+      </div>
+      <div>
+        <h3>Dízimos e</h3><h4>Ofertas</h4>
+        <p>Adoramos a Deus também com a nossa generosidade, devolvendo parte do que Ele nos deu. (2 Co 9:7)</p>
+        <p class="pix">Pix (telefone): 44 99869-8723</p>
+        <div class="nota">Mais formas de contribuir, incluindo o PIX de missões, estão na página de <a href="ofertas.html" style="text-decoration:underline">Ofertas</a>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S4 · FAQ -->
+<section class="s4">
+  <div class="box">
+    <h2>FAQ</h2>
+    <div class="faqs">
+      <div>
+        <details><summary>Quem pode se tornar Membro Online?</summary><div>Quem mora longe ou não consegue estar presencialmente, acompanha os cultos e deseja fazer parte da Shalom com compromisso.</div></details>
+        <details><summary>Qual a diferença entre assistir e ser Membro Online?</summary><div>Qualquer pessoa pode assistir aos cultos. O Membro Online é acompanhado por um líder, participa de uma célula online e faz parte da família da igreja.</div></details>
+        <details><summary>Preciso ser Membro Online para assistir aos cultos?</summary><div>Não. Os cultos são abertos a todos, ao vivo no nosso canal do YouTube.</div></details>
+        <details><summary>O que são as células online?</summary><div>São grupos pequenos que se reúnem pela internet durante a semana para orar, estudar a Palavra e compartilhar a vida.</div></details>
+      </div>
+      <div>
+        <details><summary>Posso participar de uma célula presencial e ser Membro Online?</summary><div>Se você consegue participar presencialmente, recomendamos o caminho presencial. Fale com a liderança para entender o melhor passo.</div></details>
+        <details><summary>Quanto tempo leva o processo de membresia?</summary><div>Depende dos encontros e da conversa pastoral. Nossa equipe acompanha você em cada etapa.</div></details>
+        <details><summary>Como contribuo com dízimos e ofertas?</summary><div>Pelo PIX da igreja. Todas as formas estão na página de <a href="ofertas.html">Ofertas</a>.</div></details>
+        <details><summary>Ainda tenho dúvidas. Com quem falo?</summary><div>Fale com a nossa equipe pelo WhatsApp: <a href="https://wa.me/5544998698763" target="_blank" rel="noopener">(44) 99869-8763</a>.</div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/site.js?v=9"></script>
+<script>
+document.querySelectorAll('[data-cov]').forEach(cov => {
+  const cards = [...cov.querySelectorAll('.cov__card')];
+  let i = 0;
+  function render() {
+    const mob = window.innerWidth <= 600;
+    const step = mob ? 190 : 300;
+    cards.forEach((c, k) => {
+      let d = k - i;
+      if (d > cards.length / 2) d -= cards.length;
+      if (d < -cards.length / 2) d += cards.length;
+      const s = d === 0 ? 1 : 0.78;
+      c.style.transform = `translate(-50%,-50%) translateX(${d * step}px) scale(${s})`;
+      c.style.opacity = Math.abs(d) > 1 ? 0 : d === 0 ? 1 : 0.55;
+      c.style.zIndex = 10 - Math.abs(d);
+      c.style.pointerEvents = d === 0 ? 'auto' : 'none';
+    });
+  }
+  cov.querySelector('.cov__nav--p').addEventListener('click', () => { i = (i - 1 + cards.length) % cards.length; render(); });
+  cov.querySelector('.cov__nav--n').addEventListener('click', () => { i = (i + 1) % cards.length; render(); });
+  window.addEventListener('resize', render);
+  render();
+});
+</script>
+</body>
+</html>
