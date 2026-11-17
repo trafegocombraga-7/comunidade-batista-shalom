@@ -93,4 +93,17 @@
     });
   });
   document.addEventListener('click', () => document.querySelectorAll('[data-drop]').forEach(d => d.classList.remove('is-open')));
+
+  /* Páginas ocultas: os links continuam visíveis, mas não levam a lugar nenhum.
+     Para liberar uma página de novo, basta tirá-la desta lista. */
+  const OCULTAS = ['ofertas.html', 'koinonia.html', 'shalom-online.html', 'todas-as-localidades.html'];
+  const bloqueado = a => OCULTAS.includes((a.getAttribute('href') || '').split(/[?#]/)[0]);
+  const travar = () => document.querySelectorAll('a[href]').forEach(a => {
+    if (!bloqueado(a)) return;
+    a.removeAttribute('href');
+    a.setAttribute('aria-disabled', 'true');
+    a.style.cursor = 'default';
+  });
+  travar();
+  document.addEventListener('DOMContentLoaded', travar);
 })();
