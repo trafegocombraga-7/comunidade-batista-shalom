@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Instrument+Serif&family=Newsreader:ital,opsz,wght@1,6..72,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css?v=blue20">
 <style>
 /* ═════════════ HERO ═════════════ */
@@ -18,17 +18,8 @@
 .hero__media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.55)}
 .hero__tint{position:absolute;inset:0;background:#0b72a8;mix-blend-mode:color;opacity:.92;pointer-events:none}
 .hero__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,40,66,.2) 0%,rgba(3,50,79,.1) 45%,rgba(3,40,66,.4) 100%)}
-.hero__title{position:absolute;inset:0 0 50px 0;color:#fff;pointer-events:none}
-.hero__title span{position:absolute;white-space:nowrap;line-height:.9;text-shadow:0 .02em .12em rgba(0,0,0,.28)}
-.ht-serif{font-family:Newsreader,Georgia,serif;font-style:italic;font-weight:700;letter-spacing:-.02em}
-.ht-sans{font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-.02em}
-/* posições medidas na composição desktop/tablet (% da largura e altura do hero) */
-.ht-1{left:12.4%;top:19%;font-size:10vw}
-.ht-2{left:27.6%;top:34%;font-size:9.4vw}
-.ht-3{left:19.6%;top:50%;font-size:10vw}
-.ht-4{left:60%;top:46%;font-size:9.4vw}
-.ht-5{left:57.4%;top:58%;font-size:10vw}
-.ht-4 img{display:none}
+.hero__title{position:absolute;inset:0 0 50px 0;margin:0;pointer-events:none}
+.hero__title picture,.hero__title img{display:block;width:100%;height:100%}
 
 /* ═════════════ SEÇÃO PRINCIPAL ═════════════ */
 .main{position:relative;overflow:hidden;background:var(--bg)}
@@ -108,16 +99,10 @@
 
 /* ═════════════ MOBILE (≤600) ═════════════ */
 @media(max-width:600px){
-  .hero{padding:50px 0 0}
-  .hero::before{aspect-ratio:auto;height:calc(100svh - 50px);min-height:560px;max-height:820px}
+  .hero{padding:0}
+  .hero::before{aspect-ratio:375/651}
   .hero__media{object-position:46% 50%}
-  .hero__title{inset:50px 0 0 0}
-  .ht-1{left:10%;top:11%;font-size:29vw;line-height:.85}
-  .ht-2{left:44%;top:24%;font-size:25vw;line-height:.85}
-  .ht-3{left:10%;top:42%;font-size:29vw;line-height:.85}
-  .ht-4{left:11%;top:62%;font-size:23vw;line-height:.85}
-  .ht-4 img{display:none}
-  .ht-5{left:24%;top:76%;font-size:17.5vw;line-height:.85}
+  .hero__title{inset:auto 0 0 0;aspect-ratio:1080/1741}
   .block{flex-direction:column}
   .sec-a{padding-top:0}
   .sec-a .h2,.sec-a .col,.sec-b .head .h2{width:100%}
@@ -163,12 +148,11 @@
   <video class="hero__media" autoplay muted loop playsinline src="assets/VideoHomeShalom.mp4"></video>
   <div class="hero__tint"></div>
   <div class="hero__shade"></div>
-  <h1 class="hero__title" aria-label="Bem-vindo à Batista Shalom">
-    <span class="ht-1 ht-serif">Bem&ndash;</span>
-    <span class="ht-2 ht-sans">vindo</span>
-    <span class="ht-3 ht-serif">à</span>
-    <span class="ht-4 ht-sans">Batista</span>
-    <span class="ht-5 ht-serif">Shalom</span>
+  <h1 class="hero__title">
+    <picture>
+      <source media="(max-width:600px)" srcset="assets/hero-titulo-mobile.png?v=1">
+      <img src="assets/hero-titulo.png?v=1" alt="Bem-vindo à Batista Shalom">
+    </picture>
   </h1>
 </section>
 
