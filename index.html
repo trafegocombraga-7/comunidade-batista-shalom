@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@1,700;1,800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=blue17">
+<link rel="stylesheet" href="assets/site.css?v=blue20">
 <style>
 /* ═════════════ HERO ═════════════ */
 .hero{position:relative;overflow:hidden;padding-bottom:50px}
@@ -26,8 +26,8 @@
 .ht-1{left:12.4%;top:21%;font-size:8.6vw}
 .ht-2{left:27.6%;top:34%;font-size:7.4vw}
 .ht-3{left:19.6%;top:51%;font-size:8.6vw}
-.ht-4{left:57.4%;top:49%;font-size:8.6vw}
-.ht-5{left:62.6%;top:64.5%;font-size:7.4vw}
+.ht-4{left:60%;top:48%;font-size:7.4vw}
+.ht-5{left:57.4%;top:58%;font-size:8.6vw}
 .ht-4 img{display:none}
 
 /* ═════════════ SEÇÃO PRINCIPAL ═════════════ */
@@ -109,14 +109,15 @@
 /* ═════════════ MOBILE (≤600) ═════════════ */
 @media(max-width:600px){
   .hero{padding:50px 0 0}
-  .hero::before{aspect-ratio:1080/1741}
+  .hero::before{aspect-ratio:auto;height:calc(100svh - 50px);min-height:560px;max-height:820px}
+  .hero__media{object-position:46% 50%}
   .hero__title{inset:50px 0 0 0}
-  .ht-1{left:10%;top:13.5%;font-size:18vw}
-  .ht-2{left:44%;top:21.5%;font-size:15vw}
-  .ht-3{left:10%;top:38%;font-size:18vw}
-  .ht-4{left:27%;top:58%;font-size:18vw;display:flex;align-items:center;gap:3vw}
-  .ht-4 img{display:block;width:13vw;height:13vw;filter:brightness(0) invert(1)}
-  .ht-5{left:40%;top:70%;font-size:15vw}
+  .ht-1{left:10%;top:15%;font-size:18vw}
+  .ht-2{left:44%;top:22.5%;font-size:15vw}
+  .ht-3{left:10%;top:34%;font-size:18vw}
+  .ht-4{left:44%;top:48%;font-size:15vw}
+  .ht-4 img{display:none}
+  .ht-5{left:22%;top:56%;font-size:18vw}
   .block{flex-direction:column}
   .sec-a{padding-top:0}
   .sec-a .h2,.sec-a .col,.sec-b .head .h2{width:100%}
@@ -162,12 +163,12 @@
   <video class="hero__media" autoplay muted loop playsinline src="assets/VideoHomeShalom.mp4"></video>
   <div class="hero__tint"></div>
   <div class="hero__shade"></div>
-  <h1 class="hero__title" aria-label="Bem-vindo à Shalom Church">
+  <h1 class="hero__title" aria-label="Bem-vindo à Batista Shalom">
     <span class="ht-1 ht-serif">Bem&ndash;</span>
     <span class="ht-2 ht-sans">vindo</span>
     <span class="ht-3 ht-serif">à</span>
-    <span class="ht-4 ht-serif">Shalom<img src="assets/logo.png" alt=""></span>
-    <span class="ht-5 ht-sans">Church</span>
+    <span class="ht-4 ht-sans">Batista</span>
+    <span class="ht-5 ht-serif">Shalom</span>
   </h1>
 </section>
 
