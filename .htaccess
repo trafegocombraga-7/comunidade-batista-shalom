@@ -1,8 +1,13 @@
 RewriteEngine On
 
-# admin.html e links.html: se alguém acessar com .html, redireciona para a URL sem extensão
-RewriteCond %{THE_REQUEST} \s/+(admin|links)\.html[\s?] [NC]
+# Endereços com .html redirecionam para a versão sem extensão (ex.: /koinonia.html -> /koinonia)
+RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+RewriteRule ^ / [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+(admin|links|quem-somos|ofertas|koinonia|shalom-online|todas-as-localidades)\.html[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L]
+
+# Barra no final também vai para a versão sem barra (ex.: /koinonia/ -> /koinonia)
+RewriteRule ^(admin|links|quem-somos|ofertas|koinonia|shalom-online|todas-as-localidades)/$ /$1 [R=301,L]
 
 # Não reescreve arquivos e pastas que realmente existem (assets, api, php, páginas .html etc.)
 RewriteCond %{REQUEST_FILENAME} -f [OR]
@@ -10,11 +15,11 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
 # /admin e /links carregam os respectivos arquivos .html por baixo dos panos
-RewriteRule ^(admin|links)/?$ $1.html [L]
+RewriteRule ^(admin|links)$ $1.html [L]
 
 # URLs limpas das páginas do novo site: /quem-somos, /ofertas, /koinonia...
-RewriteRule ^(quem-somos|ofertas|koinonia|shalom-online|todas-as-localidades)/?$ $1.html [L]
+RewriteRule ^(quem-somos|ofertas|koinonia|shalom-online|todas-as-localidades)$ $1.html [L]
 
 # Endereços antigos continuam funcionando
-RewriteRule ^sobre/?$ /quem-somos.html [R=301,L]
-RewriteRule ^celulas/?$ /todas-as-localidades.html [R=301,L]
+RewriteRule ^sobre/?$ /quem-somos [R=301,L]
+RewriteRule ^celulas/?$ /todas-as-localidades [R=301,L]

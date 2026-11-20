@@ -1,28 +1,29 @@
 /* Menu e rodapé compartilhados: edite os links aqui e todas as páginas atualizam. */
 (function () {
   const MENU = [
-    { label: 'Quem somos', href: 'quem-somos.html' },
-    { label: 'Ofertas', href: 'ofertas.html' },
-    { label: 'Koinonia', href: 'koinonia.html' },
-    { label: 'Shalom Online', href: 'shalom-online.html' },
+    { label: 'Quem somos', href: '/quem-somos' },
+    { label: 'Ofertas', href: '/ofertas' },
+    { label: 'Koinonia', href: '/koinonia' },
+    { label: 'Shalom Online', href: '/shalom-online' },
   ];
   const LOCALIDADES = [
-    { label: 'Todas as Células', href: 'todas-as-localidades.html' },
-    { label: 'Shalom Umuarama', href: 'index.html' },
+    { label: 'Todas as Células', href: '/todas-as-localidades' },
+    { label: 'Shalom Umuarama', href: '/' },
   ];
   const RODAPE = [
-    { label: 'Home', href: 'index.html' },
-    { label: 'Células', href: 'todas-as-localidades.html' },
-    { label: 'Koinonia', href: 'koinonia.html' },
-    { label: 'Shalom Online', href: 'shalom-online.html' },
-    { label: 'Quem somos', href: 'quem-somos.html' },
-    { label: 'Ofertas', href: 'ofertas.html' },
+    { label: 'Home', href: '/' },
+    { label: 'Células', href: '/todas-as-localidades' },
+    { label: 'Koinonia', href: '/koinonia' },
+    { label: 'Shalom Online', href: '/shalom-online' },
+    { label: 'Quem somos', href: '/quem-somos' },
+    { label: 'Ofertas', href: '/ofertas' },
   ];
   const INSTAGRAM = 'https://www.instagram.com/batistashalomumuarama/';
   const YOUTUBE = 'https://www.youtube.com/@ComunidadeBatistaShalom';
 
-  const atual = location.pathname.split('/').pop() || 'index.html';
-  const ativo = href => (href === atual ? ' is-active' : '');
+  const nome = h => (h || '').split(/[?#]/)[0].replace(/^.*\//, '').replace(/\.html$/, '').replace(/^index$/, '');
+  const atual = nome(location.pathname);
+  const ativo = href => (nome(href) === atual ? ' is-active' : '');
   const links = cls => MENU.map(m => `<li><a class="nav__link${ativo(m.href)}" href="${m.href}">${m.label}</a></li>`).join('');
 
   const nav = document.getElementById('site-nav');
@@ -31,7 +32,7 @@
 <header class="nav" id="nav">
   <div class="nav__bg"></div>
   <div class="nav__inner">
-    <a class="nav__logo" href="index.html" aria-label="Comunidade Batista Shalom"><img src="assets/logo.png" alt="Shalom"></a>
+    <a class="nav__logo" href="/" aria-label="Comunidade Batista Shalom"><img src="assets/logo.png" alt="Shalom"></a>
     <div class="nav__right">
       <ul class="nav__menu">${links()}</ul>
       <div class="nav__drop" data-drop>
@@ -63,7 +64,7 @@
     footer.outerHTML = `
 <footer class="footer">
   <div class="footer__row">
-    <a class="footer__brand" href="index.html"><img src="assets/logo.png" alt="Shalom"></a>
+    <a class="footer__brand" href="/"><img src="assets/logo.png" alt="Shalom"></a>
     <nav class="footer__links">${RODAPE.map(l => `<a href="${l.href}">${l.label}</a>`).join('')}</nav>
     <div class="footer__social">
       <a href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
@@ -96,8 +97,8 @@
 
   /* Páginas ocultas: os links continuam visíveis, mas não levam a lugar nenhum.
      Para liberar uma página de novo, basta tirá-la desta lista. */
-  const OCULTAS = ['ofertas.html', 'shalom-online.html', 'todas-as-localidades.html'];
-  const bloqueado = a => OCULTAS.includes((a.getAttribute('href') || '').split(/[?#]/)[0]);
+  const OCULTAS = ['ofertas', 'shalom-online', 'todas-as-localidades'];
+  const bloqueado = a => { const h = a.getAttribute('href') || ''; return !/^(https?:|mailto:|tel:|#)/.test(h) && OCULTAS.includes(nome(h)); };
   const travar = () => document.querySelectorAll('a[href]').forEach(a => {
     if (!bloqueado(a)) return;
     a.removeAttribute('href');
