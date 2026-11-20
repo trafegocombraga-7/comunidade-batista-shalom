@@ -24,7 +24,7 @@ body{background:var(--papel) url(assets/koi-papel.webp) center top/1040px auto r
 ::selection{background:var(--laranja);color:#fff}
 img{max-width:100%;display:block}
 .k-wrap{width:min(1180px,calc(100% - 48px));margin:0 auto;position:relative}
-.k-grao{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grao 1s steps(4) infinite}
+.k-grao{position:fixed;inset:-8%;will-change:transform;z-index:90;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grao 1s steps(4) infinite}
 @keyframes grao{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(1%,3%)}}
 #brasas{position:fixed;inset:0;z-index:80;pointer-events:none;width:100%;height:100%}
 
@@ -50,7 +50,7 @@ img{max-width:100%;display:block}
 .k-btn[aria-disabled="true"]{cursor:default}
 
 /* chamas decorativas que tremulam */
-.k-chama{position:absolute;pointer-events:none;transform-origin:50% 100%;animation:tremula 1.6s ease-in-out infinite alternate;filter:drop-shadow(0 0 18px rgba(251,94,1,.35))}
+.k-chama{position:absolute;pointer-events:none;transform-origin:50% 100%;will-change:transform;animation:tremula 1.6s ease-in-out infinite alternate;filter:drop-shadow(0 0 18px rgba(251,94,1,.35))}
 .k-chama--b{animation-duration:1.15s;animation-delay:-.4s}
 @keyframes tremula{0%{transform:scale(1,1) skewX(0)}30%{transform:scale(.96,1.06) skewX(-3deg)}60%{transform:scale(1.03,.97) skewX(2deg)}100%{transform:scale(.98,1.08) skewX(-1deg)}}
 
@@ -73,7 +73,7 @@ img{max-width:100%;display:block}
 /* ═══════════════ 2. FAIXA CORRENDO ═══════════════ */
 .k-faixa{position:relative;z-index:4;margin:-34px 0 0;transform:rotate(-2.2deg);background:var(--laranja);color:var(--papel);padding:16px 0;overflow:hidden;box-shadow:0 14px 30px rgba(46,17,8,.25)}
 .k-faixa--2{margin:0;transform:rotate(1.6deg);background:var(--marrom);color:var(--laranja)}
-.k-faixa__trilho{display:flex;width:max-content;animation:corre 26s linear infinite}
+.k-faixa__trilho{display:flex;width:max-content;will-change:transform;animation:corre 26s linear infinite}
 .k-faixa--2 .k-faixa__trilho{animation-direction:reverse;animation-duration:32s}
 .k-faixa__item{display:flex;align-items:center;gap:26px;padding-right:26px;font:400 34px/1 var(--display);white-space:nowrap}
 .k-faixa__item img{width:30px;height:auto}
@@ -286,7 +286,7 @@ img{max-width:100%;display:block}
 
 <!-- ═══════════ 1. ABERTURA ═══════════ -->
 <section class="koi" aria-label="Koinonia">
-  <img class="koi__img" src="assets/koinonia-capa.webp?v=1" alt="Koinonia: pessoas reunidas à mesa partilhando o pão">
+  <img class="koi__img" fetchpriority="high" src="assets/koinonia-capa.webp?v=1" alt="Koinonia: pessoas reunidas à mesa partilhando o pão">
   <canvas class="koi__gl" aria-hidden="true"></canvas>
   <canvas class="koi__fx" aria-hidden="true"></canvas>
   <div class="koi__fade"></div>
@@ -468,7 +468,7 @@ window.KOINONIA = {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/site.js?v=12"></script>
-<script src="assets/koinonia-hero.js?v=4"></script>
-<script src="assets/koinonia-pagina.js?v=1"></script>
+<script src="assets/koinonia-hero.js?v=5"></script>
+<script src="assets/koinonia-pagina.js?v=2"></script>
 </body>
 </html>

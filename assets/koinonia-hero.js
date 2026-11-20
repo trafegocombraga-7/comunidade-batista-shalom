@@ -24,17 +24,19 @@ uniform vec2 sc,of;
 float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
  return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
-float fbm(vec2 p){float s=0.,a=.5;for(int k=0;k<4;k++){s+=a*n(p);p*=2.03;a*=.5;}return s;}
+float fbm(vec2 p){return .5*n(p)+.25*n(p*2.03)+.125*n(p*4.12)+.0625;}
+float fb2(vec2 p){return .5*n(p)+.25*n(p*2.03)+.1875;}
 void main(){
  vec2 uv=v*sc+of;                       // cobre a tela mantendo o foco
  float z=1.+.025*sin(t*.12);            // respiração lenta da cena
  uv=(uv-.5)/z+.5;
  vec3 base=texture2D(tB,uv).rgb;
  float a=texture2D(tA,uv).r;
+ if(a<.004){gl_FragColor=vec4(base,1.);return;}   // longe do fogo: nada a calcular
  vec2 q=uv*vec2(1.6,1.);
  float n1=fbm(q*5.-vec2(0.,t*.55));
  float n2=fbm(q*5.+vec2(3.1,7.7)-vec2(0.,t*.75));
- float n3=fbm(q*11.-vec2(0.,t*1.4));
+ float n3=fb2(q*11.-vec2(0.,t*1.4));
  vec2 d=vec2((n1-.5)*1.1+(n3-.5)*.35,(n2-.35)*.9)*a*.038;   // chama sobe: puxa a amostra de baixo
  vec4 f=texture2D(tF,uv+d);
  float fl=.9+.1*sin(t*6.+n1*9.)+.06*(n3-.5);                 // cintilar
@@ -42,8 +44,8 @@ void main(){
  vec3 col=mix(base,fc,f.a);
  // brilho quente em volta do fogo
  float g=0.;
- for(int k=0;k<6;k++){float an=float(k)*1.047+t*.3;g+=texture2D(tF,uv+d+vec2(cos(an),sin(an))*.012).a;}
- g/=6.;
+ for(int k=0;k<4;k++){float an=float(k)*1.5708+t*.3;g+=texture2D(tF,uv+d+vec2(cos(an),sin(an))*.012).a;}
+ g/=4.;
  float pulso=.75+.25*sin(t*2.3+n2*4.);
  col+=vec3(1.,.42,.08)*g*(1.-f.a)*.16*pulso*(.4+a);
  gl_FragColor=vec4(col,1.);
@@ -77,13 +79,17 @@ void main(){
   }
 
   // mapeamento "cover" com foco no logo
-  let sc = [1, 1], of = [0, 0], W = 0, H = 0;
+  // resolução: o fogo é suave, então 1.5x já fica nítido e pesa bem menos que 2x/3x
+  let sc = [1, 1], of = [0, 0], W = 0, H = 0, FW = 0, FH = 0, ultimaL = 0, ultimaA = 0;
   function medir() {
     const r = box.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // no celular a barra de endereço muda a altura ao rolar: só refaz se mudar de verdade
+    if (Math.abs(r.width - ultimaL) < 1 && Math.abs(r.height - ultimaA) < 140) return;
+    ultimaL = r.width; ultimaA = r.height;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     W = Math.round(r.width * dpr); H = Math.round(r.height * dpr);
     cv.width = W; cv.height = H;
-    fx.width = W; fx.height = H;
+    FW = fx.width = Math.round(r.width); FH = fx.height = Math.round(r.height);
     gl.viewport(0, 0, W, H);
     const telaAR = r.width / r.height, imgAR = IMG_W / IMG_H;
     if (telaAR > imgAR) { sc = [1, imgAR / telaAR]; } else { sc = [telaAR / imgAR, 1]; }
@@ -102,15 +108,20 @@ void main(){
   }
   const ctx = fx.getContext('2d');
   const brasas = [];
+  // faísca desenhada uma vez só e reaproveitada (bem mais leve que gradiente por quadro)
+  const sprite = document.createElement('canvas'); sprite.width = sprite.height = 64;
+  (() => { const x = sprite.getContext('2d'), g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, 'rgba(255,214,140,1)'); g.addColorStop(.35, 'rgba(255,120,20,.7)'); g.addColorStop(1, 'rgba(255,80,0,0)');
+    x.fillStyle = g; x.fillRect(0, 0, 64, 64); })();
   function nova() {
     const p = pontos[(Math.random() * pontos.length) | 0];
     return { x: p[0], y: p[1], vx: (Math.random() - .5) * .012, vy: -(.03 + Math.random() * .05), r: .6 + Math.random() * 1.8, vida: 0, dur: 1.6 + Math.random() * 2.4, fase: Math.random() * 6 };
   }
   function desenharBrasas(dt, t) {
-    ctx.clearRect(0, 0, W, H);
+    ctx.clearRect(0, 0, FW, FH);
     if (!pontos.length) return;
     while (brasas.length < 70) brasas.push(nova());
-    const dpr = W / box.clientWidth;
+    const dpr = 1;
     ctx.globalCompositeOperation = 'lighter';
     for (let i = brasas.length - 1; i >= 0; i--) {
       const b = brasas[i];
@@ -118,42 +129,38 @@ void main(){
       if (b.vida > b.dur) { brasas[i] = nova(); continue; }
       b.x += (b.vx + Math.sin(t * 2 + b.fase) * .004) * dt;
       b.y += b.vy * dt;
-      const sx = ((b.x - of[0]) / sc[0]) * W, sy = ((b.y - of[1]) / sc[1]) * H;
+      const sx = ((b.x - of[0]) / sc[0]) * FW, sy = ((b.y - of[1]) / sc[1]) * FH;
       const k = b.vida / b.dur, a = Math.sin(Math.PI * k) * .9;
       const rr = b.r * dpr * (1 - k * .5);
       if (!isFinite(sx + sy + rr) || rr <= 0 || a <= 0) { brasas[i] = nova(); continue; }
-      const gr = ctx.createRadialGradient(sx, sy, 0, sx, sy, rr * 4);
-      gr.addColorStop(0, `rgba(255,214,140,${a})`);
-      gr.addColorStop(.35, `rgba(255,120,20,${a * .7})`);
-      gr.addColorStop(1, 'rgba(255,80,0,0)');
-      ctx.fillStyle = gr;
-      ctx.beginPath(); ctx.arc(sx, sy, rr * 4, 0, 6.283); ctx.fill();
+      ctx.globalAlpha = a;
+      ctx.drawImage(sprite, sx - rr * 4, sy - rr * 4, rr * 8, rr * 8);
     }
   }
 
   Promise.all([
     carregar('assets/koinonia-base.webp?v=1'),
     carregar('assets/koinonia-fogo.webp?v=1'),
-    carregar('assets/koinonia-mov.png?v=1'),
+    carregar('assets/koinonia-mov.png?v=2'),
   ]).then(([b, f, a]) => {
     textura(b, 0, 'tB'); textura(f, 1, 'tF'); textura(a, 2, 'tA');
     pontosDoFogo(f);
     medir();
-    window.addEventListener('resize', medir);
+    let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(medir, 150); });
     const uT = U('t');
-    let visivel = true, ant = performance.now(), t0 = ant;
-    new IntersectionObserver(e => { visivel = e[0].isIntersecting; }).observe(box);
+    let visivel = true, rodando = false, ant = performance.now(), t0 = ant;
     function quadro(agora) {
       const dt = Math.max(0, Math.min((agora - ant) / 1000, .05)); ant = agora;
       const t = calmo ? 0 : (agora - t0) / 1000;
-      if (visivel) {
-        gl.uniform1f(uT, t);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-        if (!calmo) desenharBrasas(dt, t);
-      }
+      gl.uniform1f(uT, t);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      if (!calmo) desenharBrasas(dt, t);
       box.classList.add('is-vivo');
-      if (!calmo) requestAnimationFrame(quadro);
+      if (!calmo && visivel) requestAnimationFrame(quadro); else rodando = false;
     }
-    requestAnimationFrame(quadro);
+    const iniciar = () => { if (rodando) return; rodando = true; ant = performance.now(); requestAnimationFrame(quadro); };
+    // fora da tela o fogo para de ser desenhado (economiza bateria e libera a rolagem)
+    new IntersectionObserver(e => { visivel = e[0].isIntersecting; if (visivel) iniciar(); }).observe(box);
+    iniciar();
   }).catch(() => {});
 })();

@@ -102,9 +102,16 @@
   const cv = $('#brasas');
   if (cv && !calmo) {
     const ctx = cv.getContext('2d');
-    let W, H, dpr;
-    const medir = () => { dpr = Math.min(devicePixelRatio || 1, 2); W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr; };
-    medir(); addEventListener('resize', medir);
+    let W = 0, H = 0;
+    const dpr = 1;   // brasas são borradas: resolução 1x basta e é muito mais leve
+    const medir = () => { if (Math.abs(innerWidth - W) < 1 && Math.abs(innerHeight - H) < 140) return; W = cv.width = innerWidth; H = cv.height = innerHeight; };
+    medir();
+    let espera;
+    addEventListener('resize', () => { clearTimeout(espera); espera = setTimeout(medir, 150); });
+    const sprite = document.createElement('canvas'); sprite.width = sprite.height = 64;
+    (() => { const x = sprite.getContext('2d'), g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+      g.addColorStop(0, 'rgba(255,200,120,1)'); g.addColorStop(.4, 'rgba(251,94,1,.6)'); g.addColorStop(1, 'rgba(251,94,1,0)');
+      x.fillStyle = g; x.fillRect(0, 0, 64, 64); })();
     const N = innerWidth < 600 ? 16 : 30;
     const nova = (inicio) => ({ x: Math.random(), y: inicio ? Math.random() : 1.05, v: .02 + Math.random() * .05, r: .8 + Math.random() * 1.8, f: Math.random() * 6, a: .25 + Math.random() * .45 });
     const bs = Array.from({ length: N }, () => nova(true));
@@ -120,9 +127,8 @@
         b.x += Math.sin(agora / 900 + b.f) * .0006;
         if (b.y < -.05) Object.assign(b, nova(false));
         const x = b.x * W, y = b.y * H, r = b.r * dpr * 3;
-        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-        g.addColorStop(0, `rgba(255,200,120,${b.a})`); g.addColorStop(.4, `rgba(251,94,1,${b.a * .6})`); g.addColorStop(1, 'rgba(251,94,1,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+        ctx.globalAlpha = b.a;
+        ctx.drawImage(sprite, x - r, y - r, r * 2, r * 2);
       }
       requestAnimationFrame(loop);
     })(ant);
@@ -144,10 +150,17 @@
 
   // manifesto acende palavra por palavra
   const palavras = $$('#manifesto .w');
+  let acesas = 0;
   if (palavras.length) {
     ScrollTrigger.create({
       trigger: '#manifesto', start: 'top 75%', end: 'bottom 45%', scrub: true,
-      onUpdate: s => { const n = Math.round(s.progress * palavras.length); palavras.forEach((w, i) => w.classList.toggle('on', i < n)); },
+      onUpdate: s => {   // só mexe nas palavras que mudaram de estado
+        const n = Math.round(s.progress * palavras.length);
+        if (n === acesas) return;
+        const liga = n > acesas, de = Math.min(n, acesas), ate = Math.max(n, acesas);
+        for (let i = de; i < ate; i++) palavras[i].classList.toggle('on', liga);
+        acesas = n;
+      },
     });
   }
 
