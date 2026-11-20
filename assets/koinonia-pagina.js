@@ -20,7 +20,7 @@
   /* ---------- faixas que correm ---------- */
   $$('[data-faixa]').forEach(t => {
     const itens = t.dataset.faixa.split('|');
-    const um = itens.map(x => `<span class="k-faixa__item">${esc(x)}<img src="assets/koi-chama-pequena.webp" alt=""></span>`).join('');
+    const um = itens.map(x => `<span class="k-faixa__item">${esc(x)}<img src="assets/koi-chama-solta.webp" alt=""></span>`).join('');
     t.innerHTML = um + um + um + um;
   });
 
@@ -188,8 +188,6 @@
     gsap.fromTo(b, { y: -160, opacity: 0, rotate: giro * 4 }, { y: 0, opacity: 1, rotate: giro, duration: 1.1, delay: i * .14, ease: 'back.out(1.4)', scrollTrigger: { trigger: '#ingLista', start: 'top 85%' } });
   });
 
-  // faixas aceleram com a rolagem
-  $$('.k-faixa').forEach(f => gsap.fromTo(f, { xPercent: -3 }, { xPercent: 3, ease: 'none', scrollTrigger: { trigger: f, start: 'top bottom', end: 'bottom top', scrub: true } }));
 
   // final: o logo cresce
   gsap.fromTo('.k-final__logo', { scale: .7 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.k-final', start: 'top bottom', end: 'center center', scrub: true } });

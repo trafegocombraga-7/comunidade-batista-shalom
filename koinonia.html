@@ -34,7 +34,6 @@ img{max-width:100%;display:block}
 
 /* títulos e textos */
 .k-cap{display:inline-flex;align-items:center;gap:10px;font:700 12px/1 var(--texto);letter-spacing:.22em;text-transform:uppercase;color:var(--laranja)}
-.k-cap::before{content:"";width:28px;height:2px;background:currentColor}
 .k-h{font-family:var(--display);font-weight:400;line-height:.92;letter-spacing:-.01em;color:var(--marrom)}
 .k-h em{font-style:normal;color:var(--laranja)}
 .k-mao{font-family:var(--mao);color:var(--laranja)}
@@ -62,7 +61,7 @@ img{max-width:100%;display:block}
 .koi.is-vivo .koi__gl,.koi.is-vivo .koi__fx{opacity:1}
 .koi__fx{pointer-events:none}
 .koi__fade{position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(46,17,8,0),rgba(46,17,8,.78));pointer-events:none}
-.koi__info{position:absolute;left:0;right:0;bottom:64px;z-index:3;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;width:min(1180px,calc(100% - 48px));margin:0 auto;color:var(--papel)}
+.koi__info{position:absolute;left:0;right:0;bottom:calc(2.4vw + 62px);z-index:3;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;width:min(1180px,calc(100% - 48px));margin:0 auto;color:var(--papel)}
 .koi__quando{font:800 13px/1.5 var(--texto);letter-spacing:.2em;text-transform:uppercase}
 .koi__quando b{display:block;font:400 34px/1 var(--display);letter-spacing:0;color:#fff;text-transform:none;margin-bottom:6px}
 .koi__rola{display:flex;align-items:center;gap:10px;font:600 12px/1 var(--texto);letter-spacing:.18em;text-transform:uppercase;color:var(--papel);text-decoration:none}
@@ -71,12 +70,13 @@ img{max-width:100%;display:block}
 @keyframes rola{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
 
 /* ═══════════════ 2. FAIXA CORRENDO ═══════════════ */
-.k-faixa{position:relative;z-index:4;margin:-34px 0 0;transform:rotate(-2.2deg);background:var(--laranja);color:var(--papel);padding:16px 0;overflow:hidden;box-shadow:0 14px 30px rgba(46,17,8,.25)}
-.k-faixa--2{margin:0;transform:rotate(1.6deg);background:var(--marrom);color:var(--laranja)}
+.k-faixa{position:relative;z-index:4;width:112%;margin:-1.4vw 0 0 -6%;transform:rotate(-2.2deg);background:var(--laranja);color:var(--papel);padding:16px 0;overflow:hidden;box-shadow:0 14px 30px rgba(46,17,8,.25)}
+.k-faixa--2{margin:0 0 0 -6%;transform:rotate(1.6deg);background:var(--marrom);color:var(--laranja)}
 .k-faixa__trilho{display:flex;width:max-content;will-change:transform;animation:corre 26s linear infinite}
 .k-faixa--2 .k-faixa__trilho{animation-direction:reverse;animation-duration:32s}
 .k-faixa__item{display:flex;align-items:center;gap:26px;padding-right:26px;font:400 34px/1 var(--display);white-space:nowrap}
-.k-faixa__item img{width:30px;height:auto}
+.k-faixa__item img{width:30px;height:auto;filter:brightness(0) invert(93%) sepia(18%) saturate(500%) hue-rotate(330deg)}
+.k-faixa--2 .k-faixa__item img{filter:none}
 @keyframes corre{to{transform:translateX(-50%)}}
 
 /* ═══════════════ 3. O CONVITE (manifesto que acende com a rolagem) ═══════════════ */
@@ -114,6 +114,14 @@ img{max-width:100%;display:block}
 .k-card--cor .k-card__n{color:var(--marrom)}
 .k-card--cor h3{color:var(--marrom)}
 .k-card--cor p{color:rgba(46,17,8,.8)}
+.k-card--escuro{background:#4a1d0e}
+.k-card--escuro::after,.k-card--papel::after{display:none}
+.k-card--papel{background:var(--papel) url(assets/koi-papel.webp) center/700px auto}
+.k-card--papel .k-card__n{color:var(--laranja)}
+.k-card--papel h3{color:var(--marrom)}
+.k-card--papel p{color:rgba(74,29,14,.8)}
+.k-card__ico{position:absolute;top:30px;right:28px;font-size:84px;color:var(--laranja);opacity:.9;transform:rotate(-8deg)}
+.k-card--papel .k-card__ico{color:var(--marrom)}
 .k-card--cor .k-chama{width:160px;right:20px;top:30px;filter:brightness(0) saturate(100%) invert(12%) sepia(55%) saturate(2600%) hue-rotate(352deg) brightness(.75) drop-shadow(0 0 0 transparent)}
 
 /* ═══════════════ 5. LINE-UP ═══════════════ */
@@ -215,15 +223,15 @@ img{max-width:100%;display:block}
 
 /* ═══════════════ 10. FINAL ═══════════════ */
 .k-final{position:relative;padding:160px 0 170px;text-align:center;overflow:hidden;background:radial-gradient(70% 60% at 50% 100%,rgba(251,94,1,.28),transparent 70%)}
-.k-final__logo{width:min(300px,60vw);margin:0 auto 40px;position:relative}
-.k-final__logo .k-chama{width:46%;right:-14%;top:-28%}
-.k-final__logo .k-chama--b{width:30%;left:-12%;right:auto;top:30%}
+.k-final__logo{width:min(300px,60vw);margin:90px auto 40px;position:relative}
+.k-final__logo .k-chama{width:53.06%;left:46.26%;top:-35.08%;filter:none}
+.k-final__logo .k-chama--b{width:30.61%;left:-14.63%;top:40.88%}
 .k-final .k-h{font-size:clamp(46px,6.6vw,104px)}
 .k-final .k-mao{font-size:34px;display:block;margin:18px 0 44px}
 
 /* rodapé marrom */
-.footer{background:var(--marrom-2)}
-.footer__links a{color:var(--accent)}
+.footer{background:#055a85}
+.footer__links a{color:#bfe0f0}
 
 /* revelação ao rolar (base, sem JS fica visível) */
 .js .rv{opacity:0;transform:translateY(50px)}
@@ -239,7 +247,7 @@ img{max-width:100%;display:block}
 }
 @media(max-width:600px){
   .koi{max-height:none}
-  .koi__info{flex-direction:column;align-items:flex-start;gap:14px;bottom:72px}
+  .koi__info{flex-direction:column;align-items:flex-start;gap:14px;bottom:calc(5vw + 66px)}
   .koi__quando b{font-size:28px}
   .koi__rola{display:none}
   .k-faixa__item{font-size:24px;gap:18px;padding-right:18px}
@@ -320,7 +328,7 @@ img{max-width:100%;display:block}
       </blockquote>
     </div>
   </div>
-  <img class="k-chama" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true">
+  <img class="k-chama" src="assets/koi-chama-solta.webp" alt="" aria-hidden="true">
 </section>
 
 <!-- ═══════════ 4. A MESA ═══════════ -->
@@ -336,9 +344,11 @@ img{max-width:100%;display:block}
     <div class="k-trilho" id="trilho">
       <article class="k-card"><img class="k-card__img" src="assets/koi-rosto1.webp" alt="" loading="lazy"><span class="k-card__n">01</span><h3>Adoração</h3><p>Noites de louvor onde o céu toca a terra e o coração se rende.</p></article>
       <article class="k-card"><img class="k-card__img" src="assets/koi-mesa.webp" alt="" loading="lazy"><span class="k-card__n">02</span><h3>Palavra</h3><p>Ministrações que alinham a vida ao Reino e acendem um novo tempo.</p></article>
-      <article class="k-card k-card--cor"><img class="k-chama" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true"><span class="k-card__n">03</span><h3>Fogo</h3><p>Momentos de oração e ministração do Espírito. Ninguém sai igual.</p></article>
+      <article class="k-card k-card--cor"><img class="k-chama" src="assets/koi-chama-solta.webp" alt="" aria-hidden="true"><span class="k-card__n">03</span><h3>Fogo</h3><p>Momentos de oração e ministração do Espírito. Ninguém sai igual.</p></article>
       <article class="k-card"><img class="k-card__img" src="assets/koi-pao.webp" alt="" loading="lazy"><span class="k-card__n">04</span><h3>Partir do pão</h3><p>A mesa como lugar de encontro, como faziam os primeiros discípulos.</p></article>
-      <article class="k-card"><img class="k-card__img" src="assets/koi-rosto2.webp" alt="" loading="lazy"><span class="k-card__n">05</span><h3>Comunhão</h3><p>Novas amizades, células e uma família para caminhar junto.</p></article>
+      <article class="k-card k-card--escuro"><i class="k-card__ico fa-solid fa-trophy" aria-hidden="true"></i><span class="k-card__n">05</span><h3>Gincanas</h3><p>Desafios em equipe, muita risada e aquela disputa saudável que aproxima todo mundo.</p></article>
+      <article class="k-card k-card--papel"><i class="k-card__ico fa-solid fa-puzzle-piece" aria-hidden="true"></i><span class="k-card__n">06</span><h3>Dinâmicas</h3><p>Momentos para quebrar o gelo, se conhecer de verdade e sair com novos amigos.</p></article>
+      <article class="k-card"><img class="k-card__img" src="assets/koi-rosto2.webp" alt="" loading="lazy"><span class="k-card__n">07</span><h3>Tempo de comunhão</h3><p>Mesa cheia, conversa boa e uma família para caminhar junto depois do evento.</p></article>
     </div>
   </div>
 </section>
@@ -348,7 +358,7 @@ img{max-width:100%;display:block}
 <!-- ═══════════ 5. LINE-UP ═══════════ -->
 <section class="k-line" id="lineup">
   <img class="k-chama k-chama--1" src="assets/koi-chama-pequena.webp" alt="" aria-hidden="true">
-  <img class="k-chama k-chama--2 k-chama--b" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true">
+  <img class="k-chama k-chama--2 k-chama--b" src="assets/koi-chama-solta.webp" alt="" aria-hidden="true">
   <div class="k-wrap">
     <div class="k-line__topo rv">
       <span class="k-cap">Capítulo 3 · Quem vai ministrar</span>
@@ -377,7 +387,7 @@ img{max-width:100%;display:block}
 
 <!-- ═══════════ 7. CONTAGEM ═══════════ -->
 <section class="k-conta">
-  <img class="k-chama" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true">
+  <img class="k-chama" src="assets/koi-chama-solta.webp" alt="" aria-hidden="true">
   <div class="k-wrap">
     <h2 class="k-h rv">O fogo <em>acende</em> em</h2>
     <div class="k-relogio rv" id="relogio">
@@ -469,6 +479,6 @@ window.KOINONIA = {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/site.js?v=12"></script>
 <script src="assets/koinonia-hero.js?v=5"></script>
-<script src="assets/koinonia-pagina.js?v=2"></script>
+<script src="assets/koinonia-pagina.js?v=3"></script>
 </body>
 </html>
