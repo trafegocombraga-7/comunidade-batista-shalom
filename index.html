@@ -12,6 +12,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css?v=blue20">
 <style>
+/* ═════════════ CAPA KOINONIA (primeira tela) ═════════════ */
+.koi{position:relative;height:100vh;height:100svh;min-height:520px;max-height:1100px;overflow:hidden;background:#f6dcb6}
+.koi__img,.koi__gl,.koi__fx{position:absolute;inset:0;width:100%;height:100%;display:block}
+.koi__img{object-fit:cover;object-position:50% 42%}
+.koi__gl,.koi__fx{opacity:0;transition:opacity .6s}
+.koi.is-vivo .koi__gl,.koi.is-vivo .koi__fx{opacity:1}
+.koi__fx{pointer-events:none}
+.koi__seta{position:absolute;z-index:3;left:50%;bottom:22px;transform:translateX(-50%);width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#4a1a0b;font-size:22px;animation:koiSeta 1.8s ease-in-out infinite;text-decoration:none}
+@keyframes koiSeta{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+/* menu escuro enquanto está sobre a capa clara */
+.koi-topo .nav:not(.is-open) .nav__logo img{filter:brightness(0) saturate(100%) invert(12%) sepia(55%) saturate(2600%) hue-rotate(352deg) brightness(.75)}
+.koi-topo .nav:not(.is-open) .nav__menu .nav__link,.koi-topo .nav:not(.is-open) .nav__loc-btn,.koi-topo .nav:not(.is-open) .nav__icon-btn{color:#4a1a0b}
+
 /* ═════════════ HERO ═════════════ */
 .hero{position:relative;overflow:hidden;padding-bottom:50px}
 .hero::before{content:'';display:block;aspect-ratio:1920/931}
@@ -138,12 +151,20 @@
 @media(prefers-reduced-motion:reduce){.marquee__row{animation:none}}
 </style>
 </head>
-<body>
+<body class="koi-topo">
 
 <div id="site-nav"></div>
 
+<!-- ═════════════ CAPA KOINONIA ═════════════ -->
+<section class="koi" aria-label="Koinonia">
+  <img class="koi__img" src="assets/koinonia-capa.webp?v=1" alt="Koinonia: pessoas reunidas à mesa partilhando o pão">
+  <canvas class="koi__gl" aria-hidden="true"></canvas>
+  <canvas class="koi__fx" aria-hidden="true"></canvas>
+  <a class="koi__seta" href="#inicio" aria-label="Rolar para baixo"><i class="fa-solid fa-chevron-down"></i></a>
+</section>
+
 <!-- ═════════════ HERO ═════════════ -->
-<section class="hero">
+<section class="hero" id="inicio">
   <!-- espaço do vídeo: troque o src quando tiver o vídeo da Shalom -->
   <video class="hero__media" autoplay muted loop playsinline src="assets/VideoHomeShalom.mp4"></video>
   <div class="hero__tint"></div>
@@ -250,5 +271,6 @@
 <div id="site-footer"></div>
 
 <script src="assets/site.js?v=10"></script>
+<script src="assets/koinonia-hero.js?v=4"></script>
 </body>
 </html>
