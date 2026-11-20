@@ -4,42 +4,471 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Comunidade Batista Shalom - Koinonia</title>
+<title>Koinonia - Comunidade Batista Shalom</title>
+<meta name="description" content="Koinonia: um encontro de comunhão, mesa e fogo. Comunidade Batista Shalom, Umuarama/PR.">
 <link rel="icon" type="image/png" href="assets/favicon-branco.png?v=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Caveat+Brush&family=Manrope:wght@400;500;600;700;800&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css?v=blue20">
 <style>
-/* ═════════════ CAPA KOINONIA ANIMADA ═════════════ */
-.koi{position:relative;height:100vh;height:100svh;min-height:520px;max-height:1100px;overflow:hidden;background:#f6dcb6}
+/* ═══════════════ IDENTIDADE KOINONIA (cores tiradas do banner) ═══════════════ */
+:root{
+  --papel:#f6dcb8; --papel-2:#efd0a6; --marrom:#4a1d0e; --marrom-2:#2e1108; --laranja:#fb5e01; --laranja-2:#ff8a2a; --brasa:#ffd08a;
+  --bg:#2e1108; --nav-bg:46,17,8; --nav-bg-mobile:#2e1108; --accent:#ffb070; --link-active:#fb5e01;
+  --display:"Bagel Fat One",system-ui,sans-serif; --mao:"Caveat Brush",cursive; --texto:Manrope,system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--papel) url(assets/koi-papel.webp) center top/1040px auto repeat;color:var(--marrom);font-family:var(--texto)}
+::selection{background:var(--laranja);color:#fff}
+img{max-width:100%;display:block}
+.k-wrap{width:min(1180px,calc(100% - 48px));margin:0 auto;position:relative}
+.k-grao{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grao 1s steps(4) infinite}
+@keyframes grao{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(1%,3%)}}
+#brasas{position:fixed;inset:0;z-index:80;pointer-events:none;width:100%;height:100%}
+
+/* menu marrom sobre o papel */
+.koi-topo .nav:not(.is-open) .nav__logo img{filter:brightness(0) saturate(100%) invert(12%) sepia(55%) saturate(2600%) hue-rotate(352deg) brightness(.75)}
+.koi-topo .nav:not(.is-open) .nav__menu .nav__link,.koi-topo .nav:not(.is-open) .nav__loc-btn,.koi-topo .nav:not(.is-open) .nav__icon-btn{color:var(--marrom)}
+
+/* títulos e textos */
+.k-cap{display:inline-flex;align-items:center;gap:10px;font:700 12px/1 var(--texto);letter-spacing:.22em;text-transform:uppercase;color:var(--laranja)}
+.k-cap::before{content:"";width:28px;height:2px;background:currentColor}
+.k-h{font-family:var(--display);font-weight:400;line-height:.92;letter-spacing:-.01em;color:var(--marrom)}
+.k-h em{font-style:normal;color:var(--laranja)}
+.k-mao{font-family:var(--mao);color:var(--laranja)}
+.k-p{font-size:18px;line-height:1.6;color:rgba(74,29,14,.82)}
+
+/* botões */
+.k-btn{position:relative;display:inline-flex;align-items:center;gap:12px;height:62px;padding:0 30px;border-radius:999px;background:var(--laranja);color:#fff;font:800 15px/1 var(--texto);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:0;cursor:pointer;box-shadow:0 10px 0 var(--marrom);transition:transform .2s,box-shadow .2s,background .2s;isolation:isolate}
+.k-btn:hover{transform:translateY(4px);box-shadow:0 6px 0 var(--marrom);background:#ff6b10}
+.k-btn:active{transform:translateY(10px);box-shadow:0 0 0 var(--marrom)}
+.k-btn i{font-size:18px}
+.k-btn--claro{background:var(--papel);color:var(--marrom);box-shadow:0 10px 0 var(--laranja)}
+.k-btn--claro:hover{background:#fff;box-shadow:0 6px 0 var(--laranja)}
+.k-btn[aria-disabled="true"]{cursor:default}
+
+/* chamas decorativas que tremulam */
+.k-chama{position:absolute;pointer-events:none;transform-origin:50% 100%;animation:tremula 1.6s ease-in-out infinite alternate;filter:drop-shadow(0 0 18px rgba(251,94,1,.35))}
+.k-chama--b{animation-duration:1.15s;animation-delay:-.4s}
+@keyframes tremula{0%{transform:scale(1,1) skewX(0)}30%{transform:scale(.96,1.06) skewX(-3deg)}60%{transform:scale(1.03,.97) skewX(2deg)}100%{transform:scale(.98,1.08) skewX(-1deg)}}
+
+/* ═══════════════ 1. ABERTURA (banner animado) ═══════════════ */
+.koi{position:relative;height:100vh;height:100svh;min-height:560px;max-height:1100px;overflow:hidden;background:var(--papel)}
 .koi__img,.koi__gl,.koi__fx{position:absolute;inset:0;width:100%;height:100%;display:block}
 .koi__img{object-fit:cover;object-position:50% 42%}
 .koi__gl,.koi__fx{opacity:0;transition:opacity .6s}
 .koi.is-vivo .koi__gl,.koi.is-vivo .koi__fx{opacity:1}
 .koi__fx{pointer-events:none}
-.koi__seta{position:absolute;z-index:3;left:50%;bottom:22px;transform:translateX(-50%);width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#4a1a0b;font-size:22px;animation:koiSeta 1.8s ease-in-out infinite;text-decoration:none}
-@keyframes koiSeta{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
-/* menu escuro enquanto está sobre a capa clara */
-.koi-topo .nav:not(.is-open) .nav__logo img{filter:brightness(0) saturate(100%) invert(12%) sepia(55%) saturate(2600%) hue-rotate(352deg) brightness(.75)}
-.koi-topo .nav:not(.is-open) .nav__menu .nav__link,.koi-topo .nav:not(.is-open) .nav__loc-btn,.koi-topo .nav:not(.is-open) .nav__icon-btn{color:#4a1a0b}
+.koi__fade{position:absolute;left:0;right:0;bottom:0;height:22%;background:linear-gradient(180deg,rgba(46,17,8,0),rgba(46,17,8,.78));pointer-events:none}
+.koi__info{position:absolute;left:0;right:0;bottom:64px;z-index:3;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;width:min(1180px,calc(100% - 48px));margin:0 auto;color:var(--papel)}
+.koi__quando{font:800 13px/1.5 var(--texto);letter-spacing:.2em;text-transform:uppercase}
+.koi__quando b{display:block;font:400 34px/1 var(--display);letter-spacing:0;color:#fff;text-transform:none;margin-bottom:6px}
+.koi__rola{display:flex;align-items:center;gap:10px;font:600 12px/1 var(--texto);letter-spacing:.18em;text-transform:uppercase;color:var(--papel);text-decoration:none}
+.koi__rola span{width:26px;height:42px;border:2px solid currentColor;border-radius:20px;position:relative}
+.koi__rola span::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:currentColor;animation:rola 1.6s ease-in-out infinite}
+@keyframes rola{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
 
+/* ═══════════════ 2. FAIXA CORRENDO ═══════════════ */
+.k-faixa{position:relative;z-index:4;margin:-34px 0 0;transform:rotate(-2.2deg);background:var(--laranja);color:var(--papel);padding:16px 0;overflow:hidden;box-shadow:0 14px 30px rgba(46,17,8,.25)}
+.k-faixa--2{margin:0;transform:rotate(1.6deg);background:var(--marrom);color:var(--laranja)}
+.k-faixa__trilho{display:flex;width:max-content;animation:corre 26s linear infinite}
+.k-faixa--2 .k-faixa__trilho{animation-direction:reverse;animation-duration:32s}
+.k-faixa__item{display:flex;align-items:center;gap:26px;padding-right:26px;font:400 34px/1 var(--display);white-space:nowrap}
+.k-faixa__item img{width:30px;height:auto}
+@keyframes corre{to{transform:translateX(-50%)}}
+
+/* ═══════════════ 3. O CONVITE (manifesto que acende com a rolagem) ═══════════════ */
+.k-convite{position:relative;padding:150px 0 140px}
+.k-convite__grid{display:grid;grid-template-columns:1fr 1.6fr;gap:60px;align-items:start}
+.k-convite__lado{position:sticky;top:120px}
+.k-convite__lado .k-h{font-size:clamp(54px,7vw,104px);margin-top:18px}
+.k-convite__lado .k-mao{font-size:32px;margin-top:18px;transform:rotate(-3deg);display:inline-block}
+.k-manifesto{font:700 clamp(28px,3.4vw,46px)/1.22 var(--texto);letter-spacing:-.02em}
+.k-manifesto p+p{margin-top:.8em}
+.k-manifesto .w{color:rgba(74,29,14,.16);transition:color .35s}
+.k-manifesto .w.on{color:var(--marrom)}
+.k-manifesto .w.on.fogo{color:var(--laranja)}
+.k-verso{margin-top:60px;padding:30px 34px;border:2px dashed rgba(74,29,14,.35);border-radius:22px;max-width:640px;position:relative;background:rgba(255,240,220,.4)}
+.k-verso p{font:400 30px/1.25 var(--mao);color:var(--marrom)}
+.k-verso small{display:block;margin-top:10px;font:800 12px/1 var(--texto);letter-spacing:.2em;text-transform:uppercase;color:var(--laranja)}
+.k-convite .k-chama{width:120px;right:-10px;top:40px}
+
+/* ═══════════════ 4. A MESA (o que te espera, rolagem lateral) ═══════════════ */
+.k-mesa{position:relative;background:var(--marrom-2);color:var(--papel);overflow:hidden}
+.k-mesa__fixo{height:100vh;height:100svh;display:flex;flex-direction:column;justify-content:center;gap:42px;padding:90px 0 60px}
+.k-mesa__topo{display:flex;align-items:flex-end;justify-content:space-between;gap:30px}
+.k-mesa .k-h{color:var(--papel);font-size:clamp(48px,6.4vw,96px)}
+.k-mesa .k-p{color:rgba(246,220,184,.7);max-width:380px}
+.k-trilho{display:flex;gap:26px;width:max-content;padding:0 max(24px,calc((100vw - 1180px)/2))}
+.k-card{position:relative;width:340px;height:440px;flex-shrink:0;border-radius:26px;overflow:hidden;background:#3b1a0d;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;isolation:isolate}
+.k-card__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .8s}
+.k-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(46,17,8,0) 30%,rgba(46,17,8,.92) 85%)}
+.k-card:hover .k-card__img{transform:scale(1.06)}
+.k-card__n{position:absolute;top:22px;left:26px;font:400 64px/1 var(--display);color:var(--laranja);-webkit-text-stroke:0}
+.k-card h3{font:400 38px/1 var(--display);color:var(--papel)}
+.k-card p{margin-top:10px;font-size:15px;line-height:1.5;color:rgba(246,220,184,.78)}
+.k-card--cor{background:var(--laranja)}
+.k-card--cor::after{display:none}
+.k-card--cor .k-card__n{color:var(--marrom)}
+.k-card--cor h3{color:var(--marrom)}
+.k-card--cor p{color:rgba(46,17,8,.8)}
+.k-card--cor .k-chama{width:160px;right:20px;top:30px;filter:brightness(0) saturate(100%) invert(12%) sepia(55%) saturate(2600%) hue-rotate(352deg) brightness(.75) drop-shadow(0 0 0 transparent)}
+
+/* ═══════════════ 5. LINE-UP ═══════════════ */
+.k-line{position:relative;padding:150px 0 130px;overflow:hidden}
+.k-line__topo{text-align:center;margin-bottom:70px}
+.k-line__topo .k-h{font-size:clamp(60px,9vw,150px);margin-top:16px}
+.k-line__topo .k-mao{font-size:30px;display:inline-block;transform:rotate(-2deg);margin-top:8px}
+.k-line__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.k-pessoa{position:relative;perspective:1000px}
+.k-pessoa__foto{position:relative;aspect-ratio:3/4;border-radius:200px 200px 26px 26px;overflow:hidden;background:var(--papel-2);border:3px solid var(--marrom);box-shadow:8px 8px 0 var(--laranja);transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}
+.k-pessoa:hover .k-pessoa__foto{transform:translateY(-10px) rotate(-1.5deg);box-shadow:14px 16px 0 var(--laranja)}
+.k-pessoa__foto img{position:absolute;left:50%;bottom:0;width:112%;max-width:none;transform:translateX(-50%);filter:sepia(.75) saturate(1.15) contrast(1.05) brightness(.98)}
+.k-pessoa__foto::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 70% at 50% 100%,rgba(251,94,1,.18),transparent 60%);mix-blend-mode:multiply}
+.k-pessoa__brilho{position:absolute;left:-10%;right:-10%;bottom:-6%;height:42%;background:url(assets/koi-pincel-dir.webp) center/contain no-repeat;opacity:.9;z-index:0;pointer-events:none}
+.k-pessoa h3{margin-top:22px;font:400 30px/1 var(--display);color:var(--marrom)}
+.k-pessoa small{display:block;margin-top:8px;font:700 12px/1.4 var(--texto);letter-spacing:.16em;text-transform:uppercase;color:var(--laranja)}
+.k-pessoa--misterio .k-pessoa__foto{background:var(--marrom);display:flex;align-items:center;justify-content:center}
+.k-pessoa--misterio .k-pessoa__foto span{font:400 110px/1 var(--display);color:var(--laranja);animation:pisca 2.4s ease-in-out infinite}
+.k-pessoa--misterio .k-pessoa__foto i{position:absolute;bottom:24px;left:0;right:0;text-align:center;font:400 22px/1 var(--mao);color:var(--papel);font-style:normal}
+@keyframes pisca{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.94)}}
+.k-line .k-chama{width:140px}
+.k-line .k-chama--1{left:4%;top:120px}
+.k-line .k-chama--2{right:5%;top:220px;width:90px}
+
+/* ═══════════════ 6. VÍDEO ═══════════════ */
+.k-video{position:relative;padding:40px 0 140px}
+.k-video__moldura{position:relative;max-width:1040px;margin:0 auto;border-radius:30px;padding:14px;background:var(--marrom);box-shadow:0 30px 80px rgba(46,17,8,.35);transform-origin:50% 100%}
+.k-video__tela{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#1d0a04}
+.k-video__tela iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.k-video__capa{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;background:url(assets/koinonia-capa.webp?v=1) center 40%/cover;color:var(--papel)}
+.k-video__capa::before{content:"";position:absolute;inset:0;background:rgba(29,10,4,.62)}
+.k-video__capa>*{position:relative}
+.k-play{width:110px;height:110px;border-radius:50%;border:0;background:var(--laranja);color:#fff;font-size:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 0 0 rgba(251,94,1,.6);animation:pulsa 2s infinite}
+.k-play i{margin-left:6px}
+@keyframes pulsa{0%{box-shadow:0 0 0 0 rgba(251,94,1,.55)}70%{box-shadow:0 0 0 34px rgba(251,94,1,0)}100%{box-shadow:0 0 0 0 rgba(251,94,1,0)}}
+.k-video__capa b{font:400 clamp(28px,4vw,48px)/1 var(--display)}
+.k-video__capa small{font:700 12px/1 var(--texto);letter-spacing:.2em;text-transform:uppercase;color:var(--brasa)}
+.k-video__etiqueta{position:absolute;top:-26px;right:40px;z-index:2;background:var(--laranja);color:#fff;font:400 26px/1 var(--mao);padding:12px 20px;border-radius:10px;transform:rotate(4deg);box-shadow:4px 4px 0 var(--marrom)}
+
+/* ═══════════════ 7. CONTAGEM ═══════════════ */
+.k-conta{position:relative;background:var(--laranja);color:var(--marrom-2);padding:90px 0;overflow:hidden}
+.k-conta .k-wrap{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.k-conta .k-h{font-size:clamp(44px,5.4vw,80px);color:var(--marrom-2)}
+.k-conta .k-h em{color:var(--papel)}
+.k-relogio{display:flex;gap:14px}
+.k-relogio div{min-width:112px;padding:20px 10px 16px;border-radius:20px;background:var(--marrom-2);color:var(--papel);text-align:center}
+.k-relogio b{display:block;font:400 64px/1 var(--display);color:var(--laranja);font-variant-numeric:tabular-nums}
+.k-relogio span{display:block;margin-top:8px;font:700 11px/1 var(--texto);letter-spacing:.2em;text-transform:uppercase}
+.k-conta .k-chama{width:230px;right:-30px;bottom:-40px;opacity:.25;filter:brightness(0) saturate(100%) invert(12%) sepia(55%) saturate(2600%) hue-rotate(352deg) brightness(.75)}
+
+/* ═══════════════ 8. INGRESSOS ═══════════════ */
+.k-ing{position:relative;padding:150px 0 120px;background:var(--marrom-2);color:var(--papel);overflow:hidden}
+.k-ing__topo{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:end;margin-bottom:80px}
+.k-ing .k-h{color:var(--papel);font-size:clamp(56px,7.6vw,120px)}
+.k-ing .k-h em{color:var(--laranja)}
+.k-ing .k-p{color:rgba(246,220,184,.72)}
+.k-ing__lista{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:start}
+.k-bilhete{position:relative;display:flex;flex-direction:column;background:var(--papel) url(assets/koi-papel.webp) center/700px auto;color:var(--marrom);border-radius:20px;transition:transform .45s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 24px 40px rgba(0,0,0,.35))}
+.k-bilhete:hover{transform:translateY(-14px) rotate(0deg)!important}
+.k-bilhete__corpo{padding:30px 28px 26px;position:relative;overflow:hidden;border-radius:20px 20px 0 0}
+.k-bilhete__tipo{display:flex;align-items:center;justify-content:space-between;font:800 11px/1 var(--texto);letter-spacing:.22em;text-transform:uppercase;color:var(--laranja)}
+.k-bilhete__tipo img{width:66px}
+.k-bilhete h3{margin-top:26px;font:400 50px/.9 var(--display)}
+.k-bilhete ul{list-style:none;margin-top:20px;display:grid;gap:9px}
+.k-bilhete li{display:flex;gap:10px;font-size:14px;font-weight:600;line-height:1.4;color:rgba(74,29,14,.85)}
+.k-bilhete li i{color:var(--laranja);margin-top:3px}
+.k-bilhete__corte{position:relative;height:28px;margin:0 14px;border-top:3px dashed rgba(74,29,14,.3)}
+.k-bilhete__corte::before,.k-bilhete__corte::after{content:"";position:absolute;top:-17px;width:32px;height:32px;border-radius:50%;background:var(--marrom-2)}
+.k-bilhete__corte::before{left:-30px}.k-bilhete__corte::after{right:-30px}
+.k-bilhete__pe{padding:0 28px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.k-preco{font:400 46px/1 var(--display);color:var(--marrom)}
+.k-preco small{font:800 14px/1 var(--texto);vertical-align:top;margin-right:3px}
+.k-preco--breve{font-size:28px;color:var(--laranja)}
+.k-bilhete .k-btn{height:52px;padding:0 20px;font-size:12px;box-shadow:0 6px 0 var(--marrom)}
+.k-bilhete--destaque{background-color:var(--laranja);background-blend-mode:multiply}
+.k-bilhete--destaque .k-bilhete__tipo,.k-bilhete--destaque li i{color:var(--marrom)}
+.k-bilhete--destaque .k-btn{background:var(--marrom);box-shadow:0 6px 0 #000}
+.k-bilhete--destaque .k-preco--breve{color:var(--marrom)}
+.k-selo{position:absolute;top:-20px;right:18px;z-index:2;background:var(--marrom);color:var(--laranja);font:400 22px/1 var(--mao);padding:10px 16px;border-radius:999px;transform:rotate(6deg)}
+.k-ing__extra{margin-top:70px;display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.k-extra{display:flex;gap:22px;align-items:flex-start;padding:30px;border:2px solid rgba(246,220,184,.16);border-radius:24px;transition:border-color .3s,background .3s}
+.k-extra:hover{border-color:var(--laranja);background:rgba(251,94,1,.06)}
+.k-extra i{font-size:30px;color:var(--laranja);margin-top:4px}
+.k-extra h4{font:400 30px/1 var(--display);color:var(--papel)}
+.k-extra p{margin-top:10px;font-size:15px;line-height:1.55;color:rgba(246,220,184,.7)}
+.k-extra a{display:inline-block;margin-top:14px;font:800 12px/1 var(--texto);letter-spacing:.18em;text-transform:uppercase;color:var(--laranja)}
+
+/* ═══════════════ 9. FAQ ═══════════════ */
+.k-faq{position:relative;padding:140px 0}
+.k-faq__grid{display:grid;grid-template-columns:1fr 1.5fr;gap:60px}
+.k-faq .k-h{font-size:clamp(52px,6vw,92px);margin-top:16px}
+.k-faq__lista details{border-bottom:2px solid rgba(74,29,14,.18)}
+.k-faq__lista summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0;font:700 20px/1.3 var(--texto);color:var(--marrom)}
+.k-faq__lista summary::-webkit-details-marker{display:none}
+.k-faq__lista summary::after{content:"+";flex-shrink:0;width:42px;height:42px;border-radius:50%;background:var(--marrom);color:var(--papel);display:flex;align-items:center;justify-content:center;font:400 26px/1 var(--texto);transition:transform .3s,background .3s}
+.k-faq__lista details[open] summary::after{transform:rotate(45deg);background:var(--laranja)}
+.k-faq__lista details p{padding:0 60px 26px 0;font-size:17px;line-height:1.6;color:rgba(74,29,14,.8)}
+.k-faq__zap{margin-top:30px;display:inline-flex;align-items:center;gap:10px;font:800 13px/1 var(--texto);letter-spacing:.14em;text-transform:uppercase;color:var(--laranja);text-decoration:none}
+
+/* ═══════════════ 10. FINAL ═══════════════ */
+.k-final{position:relative;padding:160px 0 170px;text-align:center;overflow:hidden;background:radial-gradient(70% 60% at 50% 100%,rgba(251,94,1,.28),transparent 70%)}
+.k-final__logo{width:min(300px,60vw);margin:0 auto 40px;position:relative}
+.k-final__logo .k-chama{width:46%;right:-14%;top:-28%}
+.k-final__logo .k-chama--b{width:30%;left:-12%;right:auto;top:30%}
+.k-final .k-h{font-size:clamp(46px,6.6vw,104px)}
+.k-final .k-mao{font-size:34px;display:block;margin:18px 0 44px}
+
+/* rodapé marrom */
+.footer{background:var(--marrom-2)}
+.footer__links a{color:var(--accent)}
+
+/* revelação ao rolar (base, sem JS fica visível) */
+.js .rv{opacity:0;transform:translateY(50px)}
+
+/* ═══════════════ RESPONSIVO ═══════════════ */
+@media(max-width:1024px){
+  .k-convite__grid{grid-template-columns:1fr;gap:30px}
+  .k-convite__lado{position:relative;top:0}
+  .k-line__grid{grid-template-columns:repeat(2,1fr);gap:40px 22px}
+  .k-ing__topo,.k-faq__grid{grid-template-columns:1fr;gap:24px}
+  .k-ing__lista{grid-template-columns:1fr;max-width:460px;margin:0 auto}
+  .k-ing__extra{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .koi{max-height:none}
+  .koi__info{flex-direction:column;align-items:flex-start;gap:14px;bottom:72px}
+  .koi__quando b{font-size:28px}
+  .koi__rola{display:none}
+  .k-faixa__item{font-size:24px;gap:18px;padding-right:18px}
+  .k-faixa__item img{width:22px}
+  .k-convite{padding:110px 0 90px}
+  .k-manifesto{font-size:27px}
+  .k-verso{padding:22px}
+  .k-verso p{font-size:25px}
+  .k-mesa__fixo{height:auto;padding:90px 0}
+  .k-mesa__topo{flex-direction:column;align-items:flex-start}
+  .k-trilho{flex-direction:column;width:auto;padding:0 24px}
+  .k-card{width:100%;height:380px}
+  .k-line{padding:110px 0 90px}
+  .k-line__grid{gap:34px 14px}
+  .k-pessoa h3{font-size:22px}
+  .k-pessoa small{font-size:10px}
+  .k-pessoa--misterio .k-pessoa__foto span{font-size:70px}
+  .k-video{padding:20px 0 100px}
+  .k-video__moldura{padding:8px;border-radius:22px}
+  .k-play{width:78px;height:78px;font-size:24px}
+  .k-video__etiqueta{right:16px;font-size:20px}
+  .k-relogio{gap:8px;width:100%}
+  .k-relogio div{min-width:0;flex:1;padding:16px 4px 12px;border-radius:14px}
+  .k-relogio b{font-size:40px}
+  .k-relogio span{font-size:9px;letter-spacing:.12em}
+  .k-ing{padding:110px 0 90px}
+  .k-bilhete h3{font-size:42px}
+  .k-faq{padding:100px 0}
+  .k-faq__lista summary{font-size:17px}
+  .k-faq__lista details p{padding-right:0}
+  .k-btn{height:56px;padding:0 24px;font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){
+  .k-chama,.k-faixa__trilho,.k-grao,.k-play{animation:none!important}
+}
 </style>
 </head>
 <body class="koi-topo">
 
+<div class="k-grao" aria-hidden="true"></div>
+<canvas id="brasas" aria-hidden="true"></canvas>
+
 <div id="site-nav"></div>
 
+<!-- ═══════════ 1. ABERTURA ═══════════ -->
 <section class="koi" aria-label="Koinonia">
   <img class="koi__img" src="assets/koinonia-capa.webp?v=1" alt="Koinonia: pessoas reunidas à mesa partilhando o pão">
   <canvas class="koi__gl" aria-hidden="true"></canvas>
   <canvas class="koi__fx" aria-hidden="true"></canvas>
+  <div class="koi__fade"></div>
+  <div class="koi__info">
+    <p class="koi__quando"><b data-k="dataTexto">Data em breve</b><span data-k="local">Comunidade Batista Shalom · Umuarama/PR</span></p>
+    <a class="k-btn" href="#ingressos"><i class="fa-solid fa-ticket"></i> Garanta seu lugar</a>
+    <a class="koi__rola" href="#convite"><span></span> Role para entrar</a>
+  </div>
+</section>
+
+<!-- ═══════════ 2. FAIXAS ═══════════ -->
+<div class="k-faixa" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Koinonia|Comunhão|Partir do pão|Oração|Fogo|Ninguém come sozinho"></div></div>
+
+<!-- ═══════════ 3. O CONVITE ═══════════ -->
+<section class="k-convite" id="convite">
+  <div class="k-wrap k-convite__grid">
+    <div class="k-convite__lado rv">
+      <span class="k-cap">Capítulo 1 · O convite</span>
+      <h2 class="k-h">Uma <em>mesa</em> posta.</h2>
+      <span class="k-mao">e um lugar com o seu nome</span>
+    </div>
+    <div>
+      <div class="k-manifesto" id="manifesto">
+        <p>Antes de ser um evento, Koinonia é uma mesa. Um lugar onde ninguém chega sozinho e ninguém sai do mesmo jeito.</p>
+        <p>É o pão partido de mão em mão. É a vida dividida sem máscara. É gente comum vivendo o extraordinário de Deus junto.</p>
+        <p>E quando a igreja se reúne assim, o *fogo* desce.</p>
+      </div>
+      <blockquote class="k-verso rv">
+        <p>“E perseveravam na doutrina dos apóstolos, na comunhão, no partir do pão e nas orações.”</p>
+        <small>Atos 2:42</small>
+      </blockquote>
+    </div>
+  </div>
+  <img class="k-chama" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true">
+</section>
+
+<!-- ═══════════ 4. A MESA ═══════════ -->
+<section class="k-mesa" id="sobre">
+  <div class="k-mesa__fixo">
+    <div class="k-wrap k-mesa__topo">
+      <div>
+        <span class="k-cap">Capítulo 2 · A mesa</span>
+        <h2 class="k-h" style="margin-top:16px">O que te <em style="color:var(--laranja);font-style:normal">espera</em></h2>
+      </div>
+      <p class="k-p">Dias para sentar, ouvir, adorar e ser alcançado. Cada momento foi preparado para que você viva a comunhão de verdade.</p>
+    </div>
+    <div class="k-trilho" id="trilho">
+      <article class="k-card"><img class="k-card__img" src="assets/koi-rosto1.webp" alt="" loading="lazy"><span class="k-card__n">01</span><h3>Adoração</h3><p>Noites de louvor onde o céu toca a terra e o coração se rende.</p></article>
+      <article class="k-card"><img class="k-card__img" src="assets/koi-mesa.webp" alt="" loading="lazy"><span class="k-card__n">02</span><h3>Palavra</h3><p>Ministrações que alinham a vida ao Reino e acendem um novo tempo.</p></article>
+      <article class="k-card k-card--cor"><img class="k-chama" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true"><span class="k-card__n">03</span><h3>Fogo</h3><p>Momentos de oração e ministração do Espírito. Ninguém sai igual.</p></article>
+      <article class="k-card"><img class="k-card__img" src="assets/koi-pao.webp" alt="" loading="lazy"><span class="k-card__n">04</span><h3>Partir do pão</h3><p>A mesa como lugar de encontro, como faziam os primeiros discípulos.</p></article>
+      <article class="k-card"><img class="k-card__img" src="assets/koi-rosto2.webp" alt="" loading="lazy"><span class="k-card__n">05</span><h3>Comunhão</h3><p>Novas amizades, células e uma família para caminhar junto.</p></article>
+    </div>
+  </div>
+</section>
+
+<div class="k-faixa k-faixa--2" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Line-up|Quem vai ministrar|Line-up|Em breve novos nomes"></div></div>
+
+<!-- ═══════════ 5. LINE-UP ═══════════ -->
+<section class="k-line" id="lineup">
+  <img class="k-chama k-chama--1" src="assets/koi-chama-pequena.webp" alt="" aria-hidden="true">
+  <img class="k-chama k-chama--2 k-chama--b" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true">
+  <div class="k-wrap">
+    <div class="k-line__topo rv">
+      <span class="k-cap">Capítulo 3 · Quem vai ministrar</span>
+      <h2 class="k-h">Line-<em>up</em></h2>
+      <span class="k-mao">vozes que vão servir à mesa</span>
+    </div>
+    <div class="k-line__grid" id="lineupGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════════ 6. VÍDEO ═══════════ -->
+<section class="k-video" id="video">
+  <div class="k-wrap">
+    <div class="k-video__moldura rv" id="moldura">
+      <span class="k-video__etiqueta">aperta o play</span>
+      <div class="k-video__tela" id="tela">
+        <div class="k-video__capa">
+          <button class="k-play" type="button" id="play" aria-label="Assistir ao vídeo"><i class="fa-solid fa-play"></i></button>
+          <b>Sinta o que vem aí</b>
+          <small id="videoAviso">Vídeo em breve</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 7. CONTAGEM ═══════════ -->
+<section class="k-conta">
+  <img class="k-chama" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true">
+  <div class="k-wrap">
+    <h2 class="k-h rv">O fogo <em>acende</em> em</h2>
+    <div class="k-relogio rv" id="relogio">
+      <div><b data-u="d">--</b><span>dias</span></div>
+      <div><b data-u="h">--</b><span>horas</span></div>
+      <div><b data-u="m">--</b><span>min</span></div>
+      <div><b data-u="s">--</b><span>seg</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 8. INGRESSOS ═══════════ -->
+<section class="k-ing" id="ingressos">
+  <div class="k-wrap">
+    <div class="k-ing__topo">
+      <div class="rv">
+        <span class="k-cap">Capítulo 4 · Seu lugar</span>
+        <h2 class="k-h" style="margin-top:16px">Já entendeu que <em>não pode</em> ficar de fora.</h2>
+      </div>
+      <p class="k-p rv">Escolha seu ingresso e reserve o seu lugar à mesa. Vagas limitadas para viver tudo de perto.</p>
+    </div>
+    <div class="k-ing__lista" id="ingLista"></div>
+    <div class="k-ing__extra">
+      <div class="k-extra rv"><i class="fa-solid fa-people-group"></i><div><h4>Caravana</h4><p>Vem com a sua célula, igreja ou galera? Reúna 10 pessoas ou mais e fale com a nossa equipe para condições especiais.</p><a data-k="zapLink" href="#">Montar minha caravana →</a></div></div>
+      <div class="k-extra rv"><i class="fa-solid fa-hand-holding-heart"></i><div><h4>Doe um ingresso</h4><p>Abençoe alguém que sonha em estar na Koinonia, mas não consegue comprar agora. Vocês não precisam se conhecer.</p><a data-k="zapLink" href="#">Quero doar →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="k-faixa" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Últimos ingressos|Garanta seu lugar|Últimos ingressos|Koinonia"></div></div>
+
+<!-- ═══════════ 9. FAQ ═══════════ -->
+<section class="k-faq" id="faq">
+  <div class="k-wrap k-faq__grid">
+    <div class="rv">
+      <span class="k-cap">Ficou alguma dúvida?</span>
+      <h2 class="k-h">Pergun<em>tas</em></h2>
+      <a class="k-faq__zap" data-k="zapLink" href="#"><i class="fa-brands fa-whatsapp"></i> Fale com a equipe</a>
+    </div>
+    <div class="k-faq__lista" id="faqLista"></div>
+  </div>
+</section>
+
+<!-- ═══════════ 10. FINAL ═══════════ -->
+<section class="k-final">
+  <div class="k-final__logo rv">
+    <img src="assets/koi-logo.webp" alt="Koinonia">
+    <img class="k-chama" src="assets/koi-chama-grande.webp" alt="" aria-hidden="true">
+    <img class="k-chama k-chama--b" src="assets/koi-chama-pequena.webp" alt="" aria-hidden="true">
+  </div>
+  <h2 class="k-h rv">A mesa está posta.<br><em>Falta você.</em></h2>
+  <span class="k-mao rv">puxa uma cadeira</span>
+  <a class="k-btn rv" href="#ingressos"><i class="fa-solid fa-ticket"></i> Garanta seu ingresso</a>
 </section>
 
 <div id="site-footer"></div>
 
+<script>
+/* ═══════════════ EDITE AQUI: informações do evento ═══════════════
+   Tudo que estiver vazio aparece como "em breve" no site. */
+window.KOINONIA = {
+  data: '',                       // ex.: '2027-03-20T19:00:00-03:00' (liga a contagem regressiva)
+  dataTexto: 'Data em breve',     // ex.: '20 e 21 de março'
+  local: 'Comunidade Batista Shalom · Umuarama/PR',
+  video: '',                      // link do YouTube, ex.: 'https://www.youtube.com/watch?v=XXXX'
+  whatsapp: '',                   // ex.: '44999999999'
+  lineup: [
+    { nome: 'Ap. Fábio Campos', papel: 'Comunidade Batista Shalom', foto: 'assets/pastor-ap.png?v=2' },
+    { nome: 'Ap. Valéria Campos', papel: 'Comunidade Batista Shalom', foto: 'assets/pastora-apv.png' },
+    { nome: '', papel: 'Convidado especial' },
+    { nome: '', papel: 'Convidado especial' },
+  ],
+  ingressos: [
+    { tipo: 'Lote 1', nome: 'Individual', preco: '', link: '', itens: ['Acesso a todas as sessões', 'Kit Koinonia', 'Lugar à mesa'] },
+    { tipo: 'Mais vendido', nome: 'Dupla', preco: '', link: '', destaque: true, selo: 'vem junto!', itens: ['2 ingressos individuais', 'Acesso a todas as sessões', 'Kit Koinonia para os dois'] },
+    { tipo: 'Grupo', nome: 'Célula', preco: '', link: '', itens: ['Pacote para 5 pessoas', 'Acesso a todas as sessões', 'Lugares juntos'] },
+  ],
+  faq: [
+    ['Quando e onde vai acontecer?', 'As datas e o local serão anunciados em breve aqui e no nosso Instagram.'],
+    ['Para quem é a Koinonia?', 'Para todos que querem viver a comunhão de verdade: membros, visitantes, jovens, casais e famílias.'],
+    ['O ingresso dá acesso a todas as sessões?', 'Sim. Cada ingresso dá direito a todas as sessões do evento.'],
+    ['Crianças pagam?', 'As regras para crianças serão divulgadas junto com a abertura das vendas.'],
+    ['Posso transferir meu ingresso?', 'Sim, fale com a nossa equipe pelo WhatsApp para fazer a troca de titularidade.'],
+    ['Quais as formas de pagamento?', 'PIX e cartão. Os detalhes aparecem na página de compra.'],
+  ],
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/site.js?v=11"></script>
 <script src="assets/koinonia-hero.js?v=4"></script>
+<script src="assets/koinonia-pagina.js?v=1"></script>
 </body>
 </html>
