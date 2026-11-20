@@ -10,130 +10,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=blue7">
+<link rel="stylesheet" href="assets/site.css?v=blue20">
 <style>
-:root{--olive:#2e78a3;--cream:#e3f0f7;--ink:#1c1c19}
-.painel{position:relative;display:block;overflow:hidden;color:var(--cream)}
-.marca{display:inline-flex;align-items:center;gap:.5em;font-weight:600;letter-spacing:-.02em}
-.marca img{width:1.35em;height:1.35em;filter:brightness(0) invert(1)}
-.cta{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--cream);font-weight:500;border-radius:4px;white-space:nowrap;transition:transform .25s}
-.painel:hover .cta{transform:translateY(-2px)}
+/* ═════════════ CAPA KOINONIA ANIMADA ═════════════ */
+.koi{position:relative;height:100vh;height:100svh;min-height:520px;max-height:1100px;overflow:hidden;background:#f6dcb6}
+.koi__img,.koi__gl,.koi__fx{position:absolute;inset:0;width:100%;height:100%;display:block}
+.koi__img{object-fit:cover;object-position:50% 42%}
+.koi__gl,.koi__fx{opacity:0;transition:opacity .6s}
+.koi.is-vivo .koi__gl,.koi.is-vivo .koi__fx{opacity:1}
+.koi__fx{pointer-events:none}
+.koi__seta{position:absolute;z-index:3;left:50%;bottom:22px;transform:translateX(-50%);width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#4a1a0b;font-size:22px;animation:koiSeta 1.8s ease-in-out infinite;text-decoration:none}
+@keyframes koiSeta{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+/* menu escuro enquanto está sobre a capa clara */
+.koi-topo .nav:not(.is-open) .nav__logo img{filter:brightness(0) saturate(100%) invert(12%) sepia(55%) saturate(2600%) hue-rotate(352deg) brightness(.75)}
+.koi-topo .nav:not(.is-open) .nav__menu .nav__link,.koi-topo .nav:not(.is-open) .nav__loc-btn,.koi-topo .nav:not(.is-open) .nav__icon-btn{color:#4a1a0b}
 
-/* painel 1 */
-.p1{aspect-ratio:1425/957;background:var(--olive)}
-.p1__img{position:absolute;top:0;object-fit:cover;object-position:50% 0!important;height:176%}
-.p1__img--pb{left:40%;width:30%;filter:grayscale(1) contrast(1.35) brightness(.75);clip-path:polygon(30% 0,100% 0,100% 100%,0 100%);object-position:30% 50%}
-.p1__img--cor{left:66%;width:34%;clip-path:polygon(8% 0,100% 0,100% 100%,0 100%);object-position:75% 50%}
-.p1__txt{position:absolute;left:8.4%;top:24%;font-family:Oswald,Impact,sans-serif;font-weight:600;font-size:8.2vw;line-height:.95;text-transform:uppercase;letter-spacing:-.01em}
-.p1__txt small{font-size:.62em}
-.p1 .marca{position:absolute;left:14.5%;top:65.5%;font-size:2vw}
-.p1 .cta{position:absolute;left:12.1%;top:75%;font-size:1.6vw;padding:1.05vw 1.6vw}
-
-/* painel 2 */
-.p2{aspect-ratio:1425/753;background:var(--olive)}
-.p2__img{position:absolute;right:0;top:0;width:61%;height:83%;object-fit:cover;border-radius:0 0 0 22% / 0 0 0 30%}
-.p2__h{position:absolute;left:5.2%;top:9%;width:36%;font-size:3.9vw;font-weight:300;line-height:1.05;letter-spacing:-.03em}
-.p2__p{position:absolute;left:9.4%;top:38%;width:34%;font-size:1.04vw;font-weight:500;line-height:1.45}
-.p2__p p+p{margin-top:1.1em}
-.p2__base{position:absolute;left:0;right:0;bottom:0;height:17%;background:var(--cream)}
-.p2__base .marca{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);font-size:2vw;color:var(--ink)}
-.p2__base .marca img{filter:brightness(0)}
-
-/* painel 3 */
-.p3{aspect-ratio:1425/951;background:var(--cream);color:var(--ink)}
-.pedra{position:absolute;background:var(--ink)}
-.pedra--1{left:-4%;top:2%;width:34%;height:58%;clip-path:polygon(18% 0,82% 6%,100% 40%,78% 92%,30% 100%,0 70%,4% 18%)}
-.pedra--2{left:24%;top:14%;width:52%;height:66%;clip-path:polygon(30% 0,72% 8%,100% 52%,84% 100%,10% 96%,0 46%)}
-.pedra--3{right:-6%;top:-4%;width:36%;height:96%;clip-path:polygon(20% 4%,74% 0,100% 30%,96% 84%,52% 100%,8% 76%,0 30%)}
-.p3 .marca{position:absolute;left:50%;top:8%;transform:translateX(-50%);font-size:2vw;color:var(--ink)}
-.p3 .marca img{filter:brightness(0)}
-.p3__txt{position:absolute;left:30%;width:40%;top:20%;font-size:2.7vw;font-weight:500;line-height:1.1;text-transform:uppercase;text-align:left;text-align-last:left;color:var(--cream);mix-blend-mode:difference}
-.p3__logo{position:absolute;left:37%;top:66%;font-family:Oswald,Impact,sans-serif;font-weight:600;font-size:3.3vw;text-transform:uppercase;color:var(--cream);letter-spacing:-.01em}
-.p3__logo small{font-size:.5em;vertical-align:middle}
-.p3 .cta{position:absolute;left:50%;top:86%;transform:translateX(-50%);font-size:1.6vw;padding:1.05vw 1.6vw}
-.p3:hover .cta{transform:translate(-50%,-2px)}
-
-/* vídeos */
-.videos{position:relative;background:#03324f url(assets/bg-shalom-tile.jpg) center top/var(--bgsize) repeat-y;padding:60px 50px 65px}
-.videos__glow{position:absolute;inset:0;background:radial-gradient(70% 90% at 50% 0%,rgba(20,130,190,.45),transparent 70%);pointer-events:none}
-.videos__grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1325px;margin:0 auto}
-.videos iframe{width:100%;aspect-ratio:16/9;border:0;display:block;background:#000}
-
-@media(max-width:600px){
-  .p1{aspect-ratio:auto;height:auto;padding:120px 30px 0;display:flex;flex-direction:column;align-items:flex-start}
-  .p1__img{position:relative;display:block;width:100%;height:190px;left:auto;clip-path:none}
-  .p1__img--pb{display:none}
-  .p1__txt,.p1 .marca,.p1 .cta{position:relative;left:auto;top:auto}
-  .p1__txt{font-size:22vw}
-  .p1 .marca{display:flex;margin-top:18px;font-size:20px}
-  .p1 .cta{margin:24px 0 40px;font-size:16px;padding:14px 22px}
-  .p1__img--cor{order:5;margin:0 -30px;width:calc(100% + 60px);max-width:none}
-  .p2{aspect-ratio:auto;padding:50px 30px 0;display:flex;flex-direction:column}
-  .p2__img{order:3}
-  .p2__base{order:4}
-  .p2__h,.p2__p,.p2__img,.p2__base{position:relative;left:auto;top:auto;right:auto;width:100%}
-  .p2__h{font-size:36px}
-  .p2__p{margin-top:22px;font-size:15px}
-  .p2__img{height:280px;margin:36px -30px 0;width:calc(100% + 60px);max-width:none;border-radius:0}
-  .p2__base{height:80px;margin:0 -30px;width:calc(100% + 60px)}
-  .p2__base .marca{font-size:18px}
-  .p3{aspect-ratio:auto;padding:60px 30px 50px;text-align:center}
-  .pedra--1{width:60%;height:30%}.pedra--2{left:10%;width:80%;height:55%;top:20%}.pedra--3{width:55%;height:40%}
-  .p3 .marca,.p3__txt,.p3__logo,.p3 .cta{position:relative;left:auto;top:auto;transform:none;width:auto}
-  .p3 .marca{font-size:18px;justify-content:center;display:flex}
-  .p3__txt{margin:40px auto 0;font-size:24px;max-width:300px}
-  .p3__logo{display:block;margin-top:30px;font-size:30px}
-  .p3 .cta{margin-top:36px;font-size:16px;padding:14px 22px}
-  .p3:hover .cta{transform:translateY(-2px)}
-  .videos{padding:40px 20px}
-  .videos__grid{grid-template-columns:1fr;gap:16px}
-}
-@media(min-width:601px) and (max-width:1024px){
-  .p2__p{font-size:1.25vw}
-}
 </style>
 </head>
-<body>
+<body class="koi-topo">
 
 <div id="site-nav"></div>
 
-<a class="painel p1" href="todas-as-localidades.html" aria-label="Koinonia: encontre uma célula">
-  <img class="p1__img p1__img--pb" src="assets/zion/local-1.png" alt="">
-  <img class="p1__img p1__img--cor" src="assets/zion/local-1.png" alt="">
-  <p class="p1__txt">Vida<br><small>em</small> comunhão</p>
-  <span class="marca"><img src="assets/logo.png" alt="">koinonia</span>
-  <span class="cta">encontre uma célula</span>
-</a>
-
-<section class="painel p2">
-  <img class="p2__img" src="assets/celular-shalom.jpg" alt="Culto ao vivo no celular">
-  <h2 class="p2__h">Uma família que caminha junta</h2>
-  <div class="p2__p">
-    <p>Koinonia é a palavra bíblica para comunhão: partilhar a vida, a fé e a mesa. Na Shalom, ela acontece nas casas, nas células e em cada culto, onde ninguém caminha sozinho.</p>
-    <p>Aqui você é conhecido pelo nome, acolhido nas suas lutas e celebrado nas suas vitórias. Não é sobre eventos, é sobre pessoas vivendo o Reino de Deus juntas.</p>
-  </div>
-  <div class="p2__base"><span class="marca"><img src="assets/logo.png" alt="">koinonia</span></div>
-</section>
-
-<a class="painel p3" href="todas-as-localidades.html" aria-label="Koinonia: encontre uma célula">
-  <span class="pedra pedra--1"></span><span class="pedra pedra--2"></span><span class="pedra pedra--3"></span>
-  <span class="marca"><img src="assets/logo.png" alt="">koinonia</span>
-  <p class="p3__txt">Perseveravam na comunhão, no partir do pão e nas orações, com alegria e singeleza de coração</p>
-  <p class="p3__logo">Vida <small>em</small> comunhão</p>
-  <span class="cta">encontre uma célula</span>
-</a>
-
-<section class="videos">
-  <div class="videos__glow"></div>
-  <div class="videos__grid">
-    <iframe src="https://www.youtube.com/embed/yu2VQDanRFw" title="Mensagem da Shalom 1" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe src="https://www.youtube.com/embed/Q8041w0yQm4" title="Mensagem da Shalom 2" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe src="https://www.youtube.com/embed/9dcej736myE" title="Mensagem da Shalom 3" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  </div>
+<section class="koi" aria-label="Koinonia">
+  <img class="koi__img" src="assets/koinonia-capa.webp?v=1" alt="Koinonia: pessoas reunidas à mesa partilhando o pão">
+  <canvas class="koi__gl" aria-hidden="true"></canvas>
+  <canvas class="koi__fx" aria-hidden="true"></canvas>
 </section>
 
 <div id="site-footer"></div>
 
 <script src="assets/site.js?v=11"></script>
+<script src="assets/koinonia-hero.js?v=4"></script>
 </body>
 </html>
