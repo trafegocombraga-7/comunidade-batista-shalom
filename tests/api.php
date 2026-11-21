@@ -119,7 +119,7 @@ ok($c === 200 && count($q['cobrancas']) === 2 && $q['cobrancas'][0]['base'] === 
 echo "\n== Compra com PIX ==\n";
 [$c, $r] = $pub->post('/ingressos/api/publico.php?acao=comprar', ['slug' => 'koinonia', 'itens' => [$T['Individual'] => 1], 'metodo' => 'pix'] + $comprador);
 ok($c === 200 && $r['status'] === 'pendente' && str_starts_with($r['pix']['copia_cola'] ?? '', '000201'), 'gera PIX pendente com copia e cola', $r);
-ok(crc_ok($r['pix']['copia_cola'] ?? '0000'), 'copia e cola com CRC válido');
+ok(crc_ok($r['pix']['copia_cola'] ?? '0000'), 'copia e cola com CRC válido', $r['pix']['copia_cola'] ?? null);
 $pix1 = $r;
 [$c, $r] = $pub->post('/ingressos/api/publico.php?acao=comprar', ['slug' => 'koinonia', 'itens' => [$T['Individual'] => 1], 'metodo' => 'pix'] + array_merge($comprador, ['cpf' => '111.111.111-11']));
 ok($c === 422 && str_contains($r['erro'] ?? '', 'CPF'), 'CPF inválido é recusado', $r);
