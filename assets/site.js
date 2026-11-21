@@ -97,7 +97,7 @@
 
   /* Páginas ocultas: os links continuam visíveis, mas não levam a lugar nenhum.
      Para liberar uma página de novo, basta tirá-la desta lista. */
-  const OCULTAS = ['ofertas', 'shalom-online', 'todas-as-localidades'];
+  const OCULTAS = ['ofertas', 'shalom-online', 'todas-as-localidades', 'quem-somos'];
   const bloqueado = a => { const h = a.getAttribute('href') || ''; return !/^(https?:|mailto:|tel:|#)/.test(h) && OCULTAS.includes(nome(h)); };
   const travar = () => document.querySelectorAll('a[href]').forEach(a => {
     if (!bloqueado(a)) return;
