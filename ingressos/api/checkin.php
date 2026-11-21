@@ -32,7 +32,8 @@ if ($acao === 'buscar') {
                        FROM ingressos g JOIN pedidos p ON p.id = g.pedido_id JOIN tipos t ON t.id = g.tipo_id
                        WHERE g.evento_id = ? AND p.status = 'pago' AND (g.titular LIKE ? OR p.nome LIKE ? OR p.email LIKE ? OR p.codigo LIKE ? OR g.codigo LIKE ? OR p.cpf LIKE ?)
                        ORDER BY g.titular LIMIT 30");
-  $st->execute([(int)($_GET['evento'] ?? 0), $like, $like, $like, $like, $like, '%' . so_digitos($q) . '%']);
+  $cpf = so_digitos($q);
+  $st->execute([(int)($_GET['evento'] ?? 0), $like, $like, $like, $like, $like, $cpf !== '' ? '%' . $cpf . '%' : '__nenhum__']);
   json_out($st->fetchAll());
 }
 

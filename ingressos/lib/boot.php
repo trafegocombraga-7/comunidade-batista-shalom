@@ -48,7 +48,7 @@ function ing_migrar(PDO $pdo): void {
     papel TEXT NOT NULL CHECK (papel IN ('admin','checkin')),
     ativo INTEGER NOT NULL DEFAULT 1,
     ultimo_login TEXT,
-    criado_em TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    criado_em TEXT NOT NULL DEFAULT (datetime('now','-3 hours'))
   )");
 
   $pdo->exec("CREATE TABLE IF NOT EXISTS tentativas_login (
@@ -70,7 +70,7 @@ function ing_migrar(PDO $pdo): void {
     taxa_cartao_fixa INTEGER NOT NULL DEFAULT 0,
     taxa_parcela_pct REAL NOT NULL DEFAULT 0,
     ativo INTEGER NOT NULL DEFAULT 1,
-    criado_em TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    criado_em TEXT NOT NULL DEFAULT (datetime('now','-3 hours'))
   )");
 
   $pdo->exec("CREATE TABLE IF NOT EXISTS eventos (
@@ -98,7 +98,7 @@ function ing_migrar(PDO $pdo): void {
     cartao_conta_id INTEGER REFERENCES contas(id),
     pix_minutos INTEGER NOT NULL DEFAULT 30,
     pedir_cpf INTEGER NOT NULL DEFAULT 1,
-    criado_em TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    criado_em TEXT NOT NULL DEFAULT (datetime('now','-3 hours'))
   )");
 
   $pdo->exec("CREATE TABLE IF NOT EXISTS tipos (
@@ -148,7 +148,7 @@ function ing_migrar(PDO $pdo): void {
     pago_em TEXT,
     obs TEXT NOT NULL DEFAULT '',
     ip TEXT NOT NULL DEFAULT '',
-    criado_em TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    criado_em TEXT NOT NULL DEFAULT (datetime('now','-3 hours'))
   )");
   $pdo->exec("CREATE INDEX IF NOT EXISTS idx_pedidos_evento ON pedidos(evento_id, status)");
 
@@ -176,7 +176,7 @@ function ing_migrar(PDO $pdo): void {
     cartao_final TEXT NOT NULL DEFAULT '',
     cartao_bandeira TEXT NOT NULL DEFAULT '',
     mensagem TEXT NOT NULL DEFAULT '',
-    criado_em TEXT NOT NULL DEFAULT (datetime('now','localtime')),
+    criado_em TEXT NOT NULL DEFAULT (datetime('now','-3 hours')),
     atualizado_em TEXT
   )");
   $pdo->exec("CREATE INDEX IF NOT EXISTS idx_pag_ref ON pagamentos(provedor, ref)");
@@ -191,7 +191,7 @@ function ing_migrar(PDO $pdo): void {
     status TEXT NOT NULL DEFAULT 'valido' CHECK (status IN ('valido','cancelado')),
     checkin_em TEXT,
     checkin_por INTEGER REFERENCES usuarios(id),
-    criado_em TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    criado_em TEXT NOT NULL DEFAULT (datetime('now','-3 hours'))
   )");
   $pdo->exec("CREATE INDEX IF NOT EXISTS idx_ing_evento ON ingressos(evento_id)");
 
@@ -202,13 +202,13 @@ function ing_migrar(PDO $pdo): void {
     usuario_id INTEGER REFERENCES usuarios(id),
     evento_id INTEGER,
     resultado TEXT NOT NULL,
-    em TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    em TEXT NOT NULL DEFAULT (datetime('now','-3 hours'))
   )");
 
   $pdo->exec("CREATE TABLE IF NOT EXISTS log_webhooks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     conta_id INTEGER, corpo TEXT, resultado TEXT,
-    em TEXT NOT NULL DEFAULT (datetime('now','localtime'))
+    em TEXT NOT NULL DEFAULT (datetime('now','-3 hours'))
   )");
 
   /* segredo usado para assinar links de ingresso: gerado uma vez, só no servidor */

@@ -19,8 +19,9 @@ input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--linh
 textarea{min-height:90px;resize:vertical}
 input:focus,select:focus,textarea:focus{border-color:var(--pri)}
 input[type=color]{padding:4px;height:44px}
-input[type=checkbox]{width:18px;height:18px;accent-color:var(--pri)}
-.check{flex-direction:row;align-items:center;gap:10px;color:var(--tinta);font-weight:600;font-size:14px}
+input[type=checkbox],input[type=radio]{width:18px;height:18px;flex-shrink:0;padding:0;accent-color:var(--pri)}
+.check span{flex:1}
+.check{flex-direction:row;align-items:flex-start;gap:10px;color:var(--tinta);font-weight:600;font-size:14px}
 .ajuda{font-size:12px;font-weight:500;color:var(--suave)}
 .grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 16px}
 .erro{color:var(--ruim);font-size:14px;font-weight:600;min-height:1em;margin-top:10px}

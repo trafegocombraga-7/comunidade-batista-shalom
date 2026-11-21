@@ -42,7 +42,7 @@ try {
 
   if ($acao === 'comprar') {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') erro('Método inválido.', 405);
-    $st = db()->prepare("SELECT COUNT(*) FROM pedidos WHERE ip = ? AND criado_em > datetime('now','localtime','-10 minutes')");
+    $st = db()->prepare("SELECT COUNT(*) FROM pedidos WHERE ip = ? AND criado_em > datetime('now','-3 hours','-10 minutes')");
     $st->execute([ip_cliente()]);
     if ((int)$st->fetchColumn() >= 15 && !getenv('INGRESSOS_TESTE')) erro('Muitas tentativas seguidas. Aguarde alguns minutos.', 429);
     $b = corpo();

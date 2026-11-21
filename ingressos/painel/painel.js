@@ -244,7 +244,7 @@
         <label>Descrição curta<input data-k="descricao" value="${esc(t.descricao)}" placeholder="Ex.: Acesso a todas as sessões"></label>
         <label>Vende a partir de<input data-k="vendas_inicio" type="datetime-local" value="${paraInput(t.vendas_inicio)}"></label>
         <label>Vende até<input data-k="vendas_fim" type="datetime-local" value="${paraInput(t.vendas_fim)}"></label>
-        <label class="check" style="margin-top:22px"><input data-k="ativo" type="checkbox" ${t.ativo === undefined || +t.ativo ? 'checked' : ''}> Ativo</label>
+        <label class="check" style="margin-top:22px"><input data-k="ativo" type="checkbox" ${t.ativo === undefined || +t.ativo ? 'checked' : ''}> <span>Ativo</span></label>
       </div>
       ${t.id ? `<span class="vend">${t.vendidos || 0} vendidos/reservados</span>` : ''}
     </div>`;
@@ -253,7 +253,7 @@
       <label>Tipo<select data-k="tipo"><option value="pct" ${c.tipo !== 'valor' ? 'selected' : ''}>% de desconto</option><option value="valor" ${c.tipo === 'valor' ? 'selected' : ''}>R$ de desconto</option></select></label>
       <label>Valor<input data-k="valor" inputmode="decimal" value="${c.tipo === 'valor' ? reais(c.valor) : (c.valor || '')}"></label>
       <label>Uso máximo<input data-k="usos_max" type="number" min="0" value="${c.usos_max || 0}"></label>
-      <label class="check" style="margin-top:22px"><input data-k="ativo" type="checkbox" ${c.ativo === undefined || +c.ativo ? 'checked' : ''}> Ativo</label>
+      <label class="check" style="margin-top:22px"><input data-k="ativo" type="checkbox" ${c.ativo === undefined || +c.ativo ? 'checked' : ''}> <span>Ativo</span></label>
       <button class="btn btn--perigo btn--peq" type="button" data-rem><i class="fa-solid fa-trash"></i></button>
     </div>`;
     $('#tipos').innerHTML = e.tipos.map(linhaTipo).join('');
@@ -467,7 +467,7 @@
         <form id="formUsu"><div class="grade"><label>Nome<input name="nome" value="${esc(x.nome)}" required></label><label>E-mail (login)<input name="email" type="email" value="${esc(x.email)}" required></label>
           <label>Acesso<select name="papel"><option value="checkin" ${x.papel === 'checkin' ? 'selected' : ''}>Check-in</option><option value="admin" ${x.papel === 'admin' ? 'selected' : ''}>Administrador</option></select></label>
           <label>${u ? 'Nova senha (opcional)' : 'Senha'}<input name="senha" type="password" minlength="8" ${u ? '' : 'required'} autocomplete="new-password"></label></div>
-          <label class="check"><input type="checkbox" name="ativo" ${+x.ativo ? 'checked' : ''}> Ativo</label>
+          <label class="check"><input type="checkbox" name="ativo" ${+x.ativo ? 'checked' : ''}> <span>Ativo</span></label>
           <div class="cab__acoes">${u ? '<button class="btn btn--perigo" type="button" id="excUsu">Excluir</button>' : ''}<button class="btn btn--pri" type="submit">Salvar</button></div><p class="erro"></p></form>`);
       $('#formUsu').onsubmit = async e => {
         e.preventDefault(); const f = e.target; const d = dadosForm(f); d.id = u ? u.id : 0;

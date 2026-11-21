@@ -207,6 +207,8 @@ ok($r['resultado'] === 'ja_usado', 'mesmo QR de novo: "já utilizado"', $r);
 ok($r['resultado'] === 'invalido', 'código inexistente é recusado', $r);
 [$c, $r] = $chk->get('/ingressos/api/checkin.php?acao=buscar&evento=1&q=Maria');
 ok($c === 200 && count($r) >= 3, 'busca por nome encontra os ingressos', count($r));
+[$c, $r] = $chk->get('/ingressos/api/checkin.php?acao=buscar&evento=1&q=Fulano');
+ok($c === 200 && count($r) === 0, 'busca por nome que não existe não traz ninguém', count($r));
 [$c, $r] = $chk->get('/ingressos/api/checkin.php?acao=resumo&evento=1');
 ok((int)$r['presentes'] === 1, 'contador de presentes', $r);
 
