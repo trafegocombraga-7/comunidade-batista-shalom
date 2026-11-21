@@ -127,13 +127,16 @@ function brcode_teste(int $valor, string $ref): string {
 }
 
 function crc16(string $s): string {
+  /* CRC16-CCITT (polinômio 0x1021, início 0xFFFF), exigido pelo padrão PIX do Banco Central */
   $crc = 0xFFFF;
-  for ($i = 0; $i < strlen($s); $i++) {
-    $crc ^= ord($s[$i]) << 8;
-    for ($b = 0; $b < 8; $b++) $crc = ($crc & 0x8000) ? (($crc << 1) ^ 0x1021) : ($crc << 1);
-    $crc &= 0xFFFF;
+  $n = strlen($s);
+  for ($i = 0; $i < $n; $i++) {
+    $crc = ($crc ^ (ord($s[$i]) << 8)) & 0xFFFF;
+    for ($b = 0; $b < 8; $b++) {
+      $crc = ($crc & 0x8000) !== 0 ? ((($crc << 1) & 0xFFFF) ^ 0x1021) : (($crc << 1) & 0xFFFF);
+    }
   }
-  return strtoupper(str_pad(dechex($crc), 4, '0', STR_PAD_LEFT));
+  return sprintf('%04X', $crc);
 }
 
 /* ================= MERCADO PAGO ================= */

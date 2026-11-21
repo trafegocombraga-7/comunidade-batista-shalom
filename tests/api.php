@@ -43,16 +43,19 @@ function tokenSbx(string $numero): string {
   return 'sbx_' . rtrim(strtr(base64_encode(json_encode($d)), '+/', '-_'), '=');
 }
 function crc_ok(string $pix): bool {
-  $corpo = substr($pix, 0, -4);
-  $crc = 0xFFFF;
-  for ($i = 0; $i < strlen($corpo); $i++) { $crc ^= ord($corpo[$i]) << 8; for ($b = 0; $b < 8; $b++) $crc = ($crc & 0x8000) ? (($crc << 1) ^ 0x1021) : ($crc << 1); $crc &= 0xFFFF; }
-  return strtoupper(str_pad(dechex($crc), 4, '0', STR_PAD_LEFT)) === substr($pix, -4);
+  require_once __DIR__ . '/../ingressos/lib/pagamentos.php';
+  return crc16(substr($pix, 0, -4)) === substr($pix, -4);
 }
 
 $adm = new Cliente();
 $pub = new Cliente();
 $chk = new Cliente();
 $comprador = ['nome' => 'Maria Teste da Silva', 'email' => 'maria@exemplo.com', 'telefone' => '(44) 99999-1234', 'cpf' => '529.982.247-25'];
+
+echo "\n== Padrão PIX ==\n";
+require_once __DIR__ . '/../ingressos/lib/pagamentos.php';
+$ex = '00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-4266554400005204000053039865802BR5913Fulano de Tal6008BRASILIA62070503***6304';
+ok(crc16($ex) === '1D3D', 'CRC confere com o exemplo oficial do Banco Central', crc16($ex));
 
 echo "\n== Instalação e login ==\n";
 [$c, $r] = $adm->get('/ingressos/api/auth.php?acao=me');
