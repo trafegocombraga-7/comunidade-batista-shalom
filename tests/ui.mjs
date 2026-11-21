@@ -139,7 +139,7 @@ const SLUG = 'koinonia-copia';
   await p.waitForTimeout(800);
   await print(p, 'checkin-camera');
   await p.click('#trocaModo');
-  await p.fill('#busca', 'João');
+  await p.fill('#busca', 'Maria');
   await p.waitForSelector('#lista .item');
   await print(p, 'checkin-busca');
   const liberar = p.locator('#lista button[data-c]').first();
