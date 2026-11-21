@@ -98,6 +98,27 @@
     tic(); setInterval(tic, 1000);
   }
 
+  /* ---------- manifesto acende palavra por palavra (funciona em qualquer celular, sem depender do GSAP) ---------- */
+  const palavras = $$('#manifesto .w');
+  if (palavras.length) {
+    let acesas = 0, pedido = false;
+    const atualizar = () => {
+      pedido = false;
+      const r = man.getBoundingClientRect(), vh = innerHeight;
+      const ini = vh * .78, fim = vh * .42;                 // começa a acender ao entrar, termina perto do meio da tela
+      const prog = Math.min(1, Math.max(0, (ini - r.top) / (r.height + ini - fim)));
+      const n = Math.round(prog * palavras.length);
+      if (n === acesas) return;
+      const liga = n > acesas, de = Math.min(n, acesas), ate = Math.max(n, acesas);
+      for (let i = de; i < ate; i++) palavras[i].classList.toggle('on', liga);
+      acesas = n;
+    };
+    const pedir = () => { if (!pedido) { pedido = true; requestAnimationFrame(atualizar); } };
+    addEventListener('scroll', pedir, { passive: true });
+    addEventListener('resize', pedir);
+    atualizar();
+  }
+
   /* ---------- brasas pela página inteira ---------- */
   const cv = $('#brasas');
   if (cv && !calmo) {
@@ -147,22 +168,6 @@
   $$('.rv').forEach(el => {
     gsap.to(el, { opacity: 1, y: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
   });
-
-  // manifesto acende palavra por palavra
-  const palavras = $$('#manifesto .w');
-  let acesas = 0;
-  if (palavras.length) {
-    ScrollTrigger.create({
-      trigger: '#manifesto', start: 'top 75%', end: 'bottom 45%', scrub: true,
-      onUpdate: s => {   // só mexe nas palavras que mudaram de estado
-        const n = Math.round(s.progress * palavras.length);
-        if (n === acesas) return;
-        const liga = n > acesas, de = Math.min(n, acesas), ate = Math.max(n, acesas);
-        for (let i = de; i < ate; i++) palavras[i].classList.toggle('on', liga);
-        acesas = n;
-      },
-    });
-  }
 
   // a mesa: rolagem lateral presa (só telas maiores)
   ScrollTrigger.matchMedia({

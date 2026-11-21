@@ -19,7 +19,8 @@
   --bg:#2e1108; --nav-bg:46,17,8; --nav-bg-mobile:#2e1108; --accent:#ffb070; --link-active:#fb5e01;
   --display:"Bagel Fat One",system-ui,sans-serif; --mao:"Caveat Brush",cursive; --texto:Manrope,system-ui,sans-serif;
 }
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
 body{background:var(--papel) url(assets/koi-papel.webp) center top/1040px auto repeat;color:var(--marrom);font-family:var(--texto)}
 ::selection{background:var(--laranja);color:#fff}
 img{max-width:100%;display:block}
@@ -70,8 +71,11 @@ img{max-width:100%;display:block}
 @keyframes rola{0%{opacity:0;transform:translateY(0)}40%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
 
 /* ═══════════════ 2. FAIXA CORRENDO ═══════════════ */
-.k-faixa{position:relative;z-index:4;width:112%;margin:-1.4vw 0 0 -6%;transform:rotate(-2.2deg);background:var(--laranja);color:var(--papel);padding:16px 0;overflow:hidden;box-shadow:0 14px 30px rgba(46,17,8,.25)}
-.k-faixa--2{margin:0 0 0 -6%;transform:rotate(1.6deg);background:var(--marrom);color:var(--laranja)}
+/* a caixa corta o que passa da tela: assim a página não 'samba' para o lado no celular */
+.k-faixa-box{position:relative;z-index:4;overflow:hidden;padding:4vw 0;margin:-4vw 0}
+.k-faixa-box--topo{margin-top:calc(-4vw - 1.4vw)}
+.k-faixa{position:relative;z-index:4;width:112%;margin:0 0 0 -6%;transform:rotate(-2.2deg);background:var(--laranja);color:var(--papel);padding:16px 0;overflow:hidden;box-shadow:0 14px 30px rgba(46,17,8,.25)}
+.k-faixa--2{transform:rotate(1.6deg);background:var(--marrom);color:var(--laranja)}
 .k-faixa__trilho{display:flex;width:max-content;will-change:transform;animation:corre 26s linear infinite}
 .k-faixa--2 .k-faixa__trilho{animation-direction:reverse;animation-duration:32s}
 .k-faixa__item{display:flex;align-items:center;gap:26px;padding-right:26px;font:400 34px/1 var(--display);white-space:nowrap}
@@ -93,7 +97,7 @@ img{max-width:100%;display:block}
 .k-verso{margin-top:60px;padding:30px 34px;border:2px dashed rgba(74,29,14,.35);border-radius:22px;max-width:640px;position:relative;background:rgba(255,240,220,.4)}
 .k-verso p{font:400 30px/1.25 var(--mao);color:var(--marrom)}
 .k-verso small{display:block;margin-top:10px;font:800 12px/1 var(--texto);letter-spacing:.2em;text-transform:uppercase;color:var(--laranja)}
-.k-convite .k-chama{width:120px;right:-10px;top:40px}
+.k-convite .k-chama{width:120px;right:0;top:40px}
 
 /* ═══════════════ 4. A MESA (o que te espera, rolagem lateral) ═══════════════ */
 .k-mesa{position:relative;background:var(--marrom-2);color:var(--papel);overflow:hidden}
@@ -314,7 +318,7 @@ img{max-width:100%;display:block}
 </section>
 
 <!-- ═══════════ 2. FAIXAS ═══════════ -->
-<div class="k-faixa" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Koinonia|Comunhão|Partir do pão|Oração|Fogo|Ninguém come sozinho"></div></div>
+<div class="k-faixa-box k-faixa-box--topo"><div class="k-faixa" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Koinonia|Comunhão|Partir do pão|Oração|Fogo|Ninguém come sozinho"></div></div></div>
 
 <!-- ═══════════ 3. O CONVITE ═══════════ -->
 <section class="k-convite" id="convite">
@@ -361,7 +365,7 @@ img{max-width:100%;display:block}
   </div>
 </section>
 
-<div class="k-faixa k-faixa--2" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Line-up|Quem vai ministrar|Line-up|Em breve novos nomes"></div></div>
+<div class="k-faixa-box"><div class="k-faixa k-faixa--2" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Line-up|Quem vai ministrar|Line-up|Em breve novos nomes"></div></div></div>
 
 <!-- ═══════════ 5. LINE-UP ═══════════ -->
 <section class="k-line" id="lineup">
@@ -425,7 +429,7 @@ img{max-width:100%;display:block}
   </div>
 </section>
 
-<div class="k-faixa" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Últimos ingressos|Garanta seu lugar|Últimos ingressos|Koinonia"></div></div>
+<div class="k-faixa-box"><div class="k-faixa" aria-hidden="true"><div class="k-faixa__trilho" data-faixa="Últimos ingressos|Garanta seu lugar|Últimos ingressos|Koinonia"></div></div></div>
 
 <!-- ═══════════ 9. FAQ ═══════════ -->
 <section class="k-faq" id="faq">
@@ -487,6 +491,6 @@ window.KOINONIA = {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="assets/site.js?v=13"></script>
 <script src="assets/koinonia-hero.js?v=5"></script>
-<script src="assets/koinonia-pagina.js?v=3"></script>
+<script src="assets/koinonia-pagina.js?v=4"></script>
 </body>
 </html>
