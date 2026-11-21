@@ -1,0 +1,43 @@
+name: Testes do sistema de ingressos
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+  workflow_call:
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: PHP 8.3 (mesma versão da Hostinger)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, sqlite3, mbstring, curl, iconv, fileinfo
+          coverage: none
+
+      - name: Node e navegador para o teste visual
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar Playwright
+        run: |
+          npm init -y > /dev/null
+          npm install playwright@1.47.2 > /dev/null
+          npx playwright install --with-deps chromium > /dev/null
+
+      - name: Rodar testes (API + telas)
+        run: UI=1 bash tests/rodar.sh
+
+      - name: Guardar prints das telas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prints
+          path: tests/prints
+          if-no-files-found: ignore

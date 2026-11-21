@@ -1,0 +1,6 @@
+# Código interno do sistema de ingressos: nunca acessível pela web
+Require all denied
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>

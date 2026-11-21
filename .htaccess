@@ -9,6 +9,11 @@ RewriteRule ^ /%1 [R=301,L]
 # Barra no final também vai para a versão sem barra (ex.: /koinonia/ -> /koinonia)
 RewriteRule ^(admin|links|quem-somos|ofertas|koinonia|shalom-online|todas-as-localidades)/$ /$1 [R=301,L]
 
+# Sistema de ingressos: link de venda /e/{evento}, painel e check-in
+RewriteRule ^e/([a-z0-9-]+)/?$ ingressos/checkout.php?evento=$1 [L,QSA]
+RewriteRule ^painel/?$ ingressos/painel/index.html [L]
+RewriteRule ^checkin/?$ ingressos/checkin/index.html [L]
+
 # Não reescreve arquivos e pastas que realmente existem (assets, api, php, páginas .html etc.)
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d

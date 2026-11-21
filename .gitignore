@@ -24,3 +24,12 @@ uploads/
 # Python
 __pycache__/
 *.pyc
+
+# Sistema de ingressos (banco e certificados ficam só no servidor)
+data/*.db
+data/*.db-wal
+data/*.db-shm
+data/certs/
+tests/prints/
+package.json
+package-lock.json

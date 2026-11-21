@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#111">
+<title>Check-in · Shalom</title>
+<link rel="icon" type="image/png" href="/assets/favicon-branco.png?v=1">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--ok:#12b76a;--ruim:#f04438;--aviso:#f79009;--fundo:#0f0f10;--card:#1b1b1d;--linha:#2c2c30;--texto:#f5f5f5;--suave:#9a9aa2;--cor:#fb5e01}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--fundo);color:var(--texto);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.tela{min-height:100%;display:flex;flex-direction:column;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
+.centro{margin:auto;width:100%;max-width:380px}
+h1{font-size:24px;margin-bottom:6px}
+.sub{color:var(--suave);font-size:14px;margin-bottom:22px}
+label{display:block;font-size:13px;font-weight:700;color:var(--suave);margin:14px 0 6px}
+input,select{width:100%;height:52px;padding:0 14px;border-radius:12px;border:1.5px solid var(--linha);background:var(--card);font-size:16px;outline:none}
+input:focus,select:focus{border-color:var(--cor)}
+.btn{width:100%;height:54px;margin-top:20px;border:0;border-radius:14px;background:var(--cor);color:#fff;font-weight:800;font-size:16px;cursor:pointer}
+.btn--sec{background:var(--card);border:1.5px solid var(--linha)}
+.erro{color:var(--ruim);font-size:14px;font-weight:600;margin-top:12px;min-height:1em}
+.marca{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.marca img{width:36px;height:36px;filter:brightness(0) invert(1)}
+.marca b{font-size:15px}
+
+.barra{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.barra__ev{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra__ev small{display:block;font-size:12px;color:var(--suave);font-weight:600}
+.ico{width:44px;height:44px;flex-shrink:0;border-radius:12px;border:1.5px solid var(--linha);background:var(--card);display:grid;place-items:center;cursor:pointer}
+.contador{display:flex;gap:10px;margin-bottom:12px}
+.contador div{flex:1;background:var(--card);border-radius:14px;padding:12px;text-align:center}
+.contador b{display:block;font-size:26px}
+.contador span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--suave)}
+.camera{position:relative;flex:1;min-height:320px;border-radius:22px;overflow:hidden;background:#000}
+.camera video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.camera__mira{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.camera__mira span{width:64%;aspect-ratio:1;border:3px solid rgba(255,255,255,.85);border-radius:24px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
+.camera__msg{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:14px;font-weight:700;text-shadow:0 1px 4px #000}
+.camera__off{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:var(--suave);font-size:14px}
+.manual{display:flex;gap:10px;margin-top:12px}
+.manual input{flex:1;text-transform:uppercase}
+.manual button{width:56px;height:52px;border:0;border-radius:12px;background:var(--card);border:1.5px solid var(--linha);cursor:pointer}
+.lista{margin-top:12px;display:grid;gap:8px}
+.item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border-radius:14px}
+.item div{flex:1;min-width:0}
+.item b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item small{color:var(--suave);font-size:12px}
+.item button{height:40px;padding:0 14px;border:0;border-radius:10px;background:var(--ok);color:#fff;font-weight:800;cursor:pointer}
+.item .feito{color:var(--ok);font-size:12px;font-weight:800}
+
+.resultado{position:fixed;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:30px;text-align:center;animation:entra .18s ease-out}
+@keyframes entra{from{opacity:0;transform:scale(1.04)}}
+.resultado i{font-size:84px}
+.resultado h2{font-size:32px}
+.resultado p{font-size:18px;opacity:.95}
+.resultado .nome{font-size:24px;font-weight:800;margin-top:6px}
+.resultado small{opacity:.8}
+.resultado button{margin-top:22px;width:min(320px,100%);height:56px;border:0;border-radius:14px;background:rgba(0,0,0,.25);color:#fff;font-weight:800;font-size:16px}
+.r-ok{background:var(--ok)}.r-ruim{background:var(--ruim)}.r-aviso{background:var(--aviso)}
+</style>
+</head>
+<body>
+
+<!-- login -->
+<section class="tela" id="telaLogin" hidden>
+  <div class="centro">
+    <div class="marca"><img src="/assets/logo.png" alt=""><b>Check-in · Shalom</b></div>
+    <h1>Entrar</h1>
+    <p class="sub">Use o login que a coordenação criou para você.</p>
+    <form id="formLogin">
+      <label for="lEmail">E-mail</label><input id="lEmail" type="email" autocomplete="username" required>
+      <label for="lSenha">Senha</label><input id="lSenha" type="password" autocomplete="current-password" required>
+      <button class="btn" type="submit">Entrar</button>
+      <p class="erro" id="lErro"></p>
+    </form>
+  </div>
+</section>
+
+<!-- escolher evento -->
+<section class="tela" id="telaEvento" hidden>
+  <div class="centro">
+    <div class="marca"><img src="/assets/logo.png" alt=""><b id="olaUsuario"></b></div>
+    <h1>Qual evento?</h1>
+    <p class="sub">Escolha o evento em que você está fazendo a entrada.</p>
+    <select id="selEvento"></select>
+    <button class="btn" id="btnComecar" type="button">Começar check-in</button>
+    <button class="btn btn--sec" id="btnSair" type="button">Sair</button>
+  </div>
+</section>
+
+<!-- leitor -->
+<section class="tela" id="telaLeitor" hidden>
+  <div class="barra">
+    <button class="ico" id="voltar" type="button" aria-label="Trocar evento"><i class="fa-solid fa-arrow-left"></i></button>
+    <div class="barra__ev" id="nomeEvento"></div>
+    <button class="ico" id="trocaModo" type="button" aria-label="Buscar por nome"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <div class="contador"><div><b id="cPresentes">0</b><span>Entraram</span></div><div><b id="cTotal">0</b><span>Ingressos</span></div></div>
+
+  <div id="modoCamera" style="display:flex;flex-direction:column;flex:1">
+    <div class="camera">
+      <video id="video" playsinline muted></video>
+      <div class="camera__mira"><span></span></div>
+      <div class="camera__msg" id="camMsg">Aponte para o QR Code do ingresso</div>
+      <div class="camera__off" id="camOff" hidden></div>
+    </div>
+    <form class="manual" id="formManual"><input id="codManual" placeholder="Digitar código do ingresso" autocomplete="off"><button type="submit" aria-label="Validar"><i class="fa-solid fa-check"></i></button></form>
+  </div>
+
+  <div id="modoBusca" hidden>
+    <input id="busca" placeholder="Nome, e-mail, CPF ou código do pedido" autocomplete="off">
+    <div class="lista" id="lista"></div>
+  </div>
+</section>
+
+<div class="resultado" id="resultado" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+<script src="/ingressos/checkin/checkin.js?v=1"></script>
+</body>
+</html>

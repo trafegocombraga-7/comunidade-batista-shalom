@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel de ingressos · Shalom</title>
+<link rel="icon" type="image/png" href="/assets/favicon-branco.png?v=1">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="/ingressos/painel/painel.css?v=1">
+</head>
+<body>
+
+<!-- entrada -->
+<section class="entrada" id="telaEntrada" hidden>
+  <div class="entrada__caixa">
+    <div class="entrada__marca"><img src="/assets/logo.png" alt=""><span>Ingressos · Shalom</span></div>
+    <form id="formInstalar" hidden>
+      <h1>Primeiro acesso</h1>
+      <p class="sub">Crie o administrador principal. Use o código de instalação que você recebeu.</p>
+      <label>Código de instalação<input name="codigo" required autocomplete="off"></label>
+      <label>Seu nome<input name="nome" required></label>
+      <label>E-mail<input name="email" type="email" required autocomplete="username"></label>
+      <label>Senha (mínimo 8 caracteres)<input name="senha" type="password" minlength="8" required autocomplete="new-password"></label>
+      <button class="btn btn--pri btn--largo" type="submit">Criar administrador</button>
+      <p class="erro"></p>
+    </form>
+    <form id="formLogin" hidden>
+      <h1>Entrar no painel</h1>
+      <p class="sub">Acesso da equipe de eventos.</p>
+      <label>E-mail<input name="email" type="email" required autocomplete="username"></label>
+      <label>Senha<input name="senha" type="password" required autocomplete="current-password"></label>
+      <button class="btn btn--pri btn--largo" type="submit">Entrar</button>
+      <p class="erro"></p>
+    </form>
+  </div>
+</section>
+
+<!-- app -->
+<div class="app" id="app" hidden>
+  <aside class="menu">
+    <div class="menu__marca"><img src="/assets/logo.png" alt=""><span>Ingressos</span></div>
+    <nav>
+      <a href="#inicio" data-r="inicio"><i class="fa-solid fa-chart-simple"></i>Início</a>
+      <a href="#eventos" data-r="eventos"><i class="fa-solid fa-calendar-days"></i>Eventos</a>
+      <a href="#vendas" data-r="vendas"><i class="fa-solid fa-receipt"></i>Vendas</a>
+      <a href="#cortesias" data-r="cortesias"><i class="fa-solid fa-gift"></i>Cortesias</a>
+      <a href="#contas" data-r="contas"><i class="fa-solid fa-building-columns"></i>Recebimentos</a>
+      <a href="#equipe" data-r="equipe"><i class="fa-solid fa-users"></i>Equipe</a>
+      <a href="/checkin" target="_blank" rel="noopener"><i class="fa-solid fa-qrcode"></i>Check-in</a>
+    </nav>
+    <div class="menu__eu">
+      <span id="euNome"></span>
+      <a href="#conta" data-r="conta"><i class="fa-solid fa-gear"></i>Minha conta</a>
+      <button type="button" id="sair"><i class="fa-solid fa-arrow-right-from-bracket"></i>Sair</button>
+    </div>
+  </aside>
+  <main class="conteudo" id="conteudo"></main>
+</div>
+
+<div class="modal" id="modal" hidden><div class="modal__caixa" id="modalCaixa"></div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="/ingressos/painel/painel.js?v=1"></script>
+</body>
+</html>
