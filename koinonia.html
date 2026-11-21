@@ -230,8 +230,16 @@ img{max-width:100%;display:block}
 .k-final .k-mao{font-size:34px;display:block;margin:18px 0 44px}
 
 /* rodapé marrom */
-.footer{background:#055a85}
-.footer__links a{color:#bfe0f0}
+/* rodapé no clima da Koinonia: papel rasgado sobre a mesa marrom */
+.footer{position:relative;background:var(--marrom-2) url(assets/koi-papel.webp) center/1040px auto;background-blend-mode:multiply;padding-top:70px;font-family:var(--texto)}
+.footer::before{content:"";position:absolute;left:0;right:0;top:-22px;height:24px;background:inherit;background-blend-mode:multiply;clip-path:polygon(0% 100%,0.0% 38%,1.5% 56%,2.8% 49%,4.8% 23%,7.0% 22%,9.1% 24%,10.4% 43%,13.3% 27%,14.9% 55%,18.0% 52%,20.0% 74%,21.3% 67%,23.1% 28%,24.5% 37%,27.4% 30%,29.7% 55%,31.7% 50%,33.0% 23%,34.6% 57%,36.7% 37%,39.0% 45%,40.8% 64%,43.4% 33%,45.8% 49%,48.7% 60%,50.5% 74%,52.0% 43%,54.7% 28%,56.8% 22%,59.4% 62%,61.7% 68%,63.6% 58%,65.9% 52%,68.1% 66%,71.1% 46%,73.7% 23%,76.3% 56%,79.5% 65%,81.2% 41%,83.8% 21%,85.9% 29%,87.3% 23%,90.1% 27%,91.8% 42%,94.7% 24%,96.8% 50%,99.8% 65%,100% 40%,100% 100%)}
+.footer::after{content:"";position:absolute;left:50%;top:-50px;width:64px;height:72px;transform:translateX(-50%);background:url(assets/koi-chama-solta.webp) center bottom/contain no-repeat;filter:drop-shadow(0 0 16px rgba(251,94,1,.5));animation:tremula 1.4s ease-in-out infinite alternate;transform-origin:50% 100%}
+.footer__brand img{filter:brightness(0) saturate(100%) invert(56%) sepia(93%) saturate(3900%) hue-rotate(5deg) brightness(101%)}
+.footer__links a{font-family:var(--display);font-size:22px;letter-spacing:0;color:var(--papel);transition:color .25s}
+.footer__links a:hover{opacity:1;color:var(--laranja)}
+.footer__social a{color:var(--papel);transition:color .25s,transform .25s}
+.footer__social a:hover{color:var(--laranja);transform:translateY(-3px)}
+.footer__bottom{color:rgba(246,220,184,.45);font-family:var(--texto)}
 
 /* revelação ao rolar (base, sem JS fica visível) */
 .js .rv{opacity:0;transform:translateY(50px)}
