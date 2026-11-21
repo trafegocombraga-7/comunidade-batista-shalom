@@ -15,11 +15,29 @@ const vigiar = (p, onde) => {
 
 const nav = await chromium.launch();
 
+/* prepara um evento com vagas sobrando (o teste de API esgotou o Koinonia): publica a cópia "koinonia-copia" */
+{
+  const ctx = await nav.newContext();
+  const r = ctx.request;
+  const login = await (await r.post(`${BASE}/ingressos/api/auth.php?acao=login`, { data: { email: 'admin@teste.com', senha: 'senhaforte1' } })).json();
+  const h = { 'X-CSRF': login.csrf };
+  const lista = await (await r.get(`${BASE}/ingressos/api/admin.php?acao=eventos`, { headers: h })).json();
+  const copia = lista.find(e => e.slug === 'koinonia-copia');
+  const ev = await (await r.get(`${BASE}/ingressos/api/admin.php?acao=evento&id=${copia.id}`, { headers: h })).json();
+  ev.status = 'publicado'; ev.lotacao = 0; ev.nome = 'Koinonia';
+  ev.tipos = ev.tipos.map(t => ({ ...t, quantidade: 0, preco: (t.preco / 100).toFixed(2).replace('.', ',') }));
+  ev.cupons = [];
+  const s = await r.post(`${BASE}/ingressos/api/admin.php?acao=evento_salvar`, { headers: h, data: ev });
+  if (!s.ok()) throw new Error('não publicou o evento de teste: ' + await s.text());
+  await ctx.close();
+}
+const SLUG = 'koinonia-copia';
+
 /* ---------- checkout (computador) com PIX ---------- */
 {
   const ctx = await nav.newContext({ viewport: { width: 1366, height: 900 } });
   const p = await ctx.newPage(); vigiar(p, 'checkout');
-  await p.goto(`${BASE}/e/koinonia`);
+  await p.goto(`${BASE}/e/${SLUG}`);
   await p.waitForSelector('.tipo');
   await print(p, 'checkout-inicio');
   const dupla = p.locator('.tipo', { hasText: 'Dupla' });
@@ -43,15 +61,13 @@ const nav = await chromium.launch();
 {
   const ctx = await nav.newContext({ ...devices['iPhone 13'] });
   const p = await ctx.newPage(); vigiar(p, 'checkout-celular');
-  await p.goto(`${BASE}/e/koinonia`);
+  await p.goto(`${BASE}/e/${SLUG}`);
   await p.waitForSelector('.tipo');
-  const cel = p.locator('.tipo', { hasText: 'Célula' });
-  const ind = p.locator('.tipo', { hasText: 'Individual' });
-  const alvo = (await cel.locator('button[data-d="1"]').isEnabled()) ? cel : ind;
-  if (await alvo.locator('button[data-d="1"]').isEnabled()) await alvo.locator('button[data-d="1"]').click();
+  await p.locator('.tipo', { hasText: 'Individual' }).locator('button[data-d="1"]').click();
+  await p.waitForFunction(() => document.querySelector('#total').textContent.includes('120'));
   await p.click('label.metodo:has-text("Dois cartões")');
   await p.waitForSelector('#divisor');
-  await p.waitForTimeout(600);
+  await p.waitForFunction(() => document.querySelectorAll('#resumoContas dt').length >= 2);
   await print(p, 'celular-dois-cartoes');
   // cartão recusado mostra erro sem sair da página
   await p.fill('#nome', 'Ana Teste Celular'); await p.fill('#email', 'ana@exemplo.com'); await p.fill('#telefone', '44988887777'); await p.fill('#cpf', '52998224725');
