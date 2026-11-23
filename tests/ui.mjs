@@ -147,6 +147,33 @@ const SLUG = 'koinonia-copia';
   await ctx.close();
 }
 
+/* ---------- painel antigo de células: troca obrigatória da senha que ficou pública ---------- */
+{
+  const ctx = await nav.newContext({ viewport: { width: 1366, height: 900 } });
+  const p = await ctx.newPage(); vigiar(p, 'admin-celulas');
+  await p.goto(`${BASE}/admin.html`);
+  await p.waitForSelector('#tela-login', { state: 'visible' });
+  await p.fill('#l-user', 'shalomadmin'); await p.fill('#l-pass', 'jesus' + 'teama');
+  await p.click('#btn-entrar');
+  await p.waitForSelector('#tela-senha', { state: 'visible' });
+  if (!(await p.isVisible('#campo-codigo'))) erros.push('[admin-celulas] campo do código não apareceu na troca obrigatória');
+  await print(p, 'celulas-troca-obrigatoria');
+  await p.fill('#t-atual', 'jesus' + 'teama');
+  await p.fill('#t-codigo', 'TESTE-CODIGO');
+  await p.fill('#t-nova', 'senha-visual-123'); await p.fill('#t-nova2', 'senha-visual-123');
+  await p.click('#btn-trocar');
+  await p.waitForSelector('#tela-painel', { state: 'visible' });
+  await p.waitForSelector('#lista .item');
+  await print(p, 'celulas-painel');
+  await p.click('#btn-abrir-senha');
+  await p.waitForSelector('#tela-senha', { state: 'visible' });
+  if (await p.isVisible('#campo-codigo')) erros.push('[admin-celulas] troca normal não deveria pedir código');
+  await print(p, 'celulas-trocar-senha');
+  await p.click('#btn-senha-voltar');
+  await p.waitForSelector('#tela-painel', { state: 'visible' });
+  await ctx.close();
+}
+
 await nav.close();
 if (erros.length) { console.error('Erros de JavaScript nas páginas:\n' + erros.join('\n')); process.exit(1); }
 console.log(`UI ok: ${n} prints em ${PASTA}`);

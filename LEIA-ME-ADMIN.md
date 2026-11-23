@@ -3,8 +3,12 @@
 ## Acesso
 
 - **Endereço:** `https://comunidadebatistashalom.com.br/admin.html`
-- **Usuário:** `shalomadmin`
-- **Senha:** `jesusteama`
+- **Usuário e senha:** não ficam no código nem neste arquivo (o repositório é público).
+  Quem cuida do site guarda a senha; para trocar, use o botão **“Trocar senha”** no topo do painel.
+- **Primeiro acesso** (banco novo, sem usuário): o painel pede o **código de instalação**,
+  que foi entregue ao responsável fora do GitHub (o repositório só tem o sha256 dele, em `api/db.php`).
+- A senha antiga, que chegou a ficar publicada aqui, **não funciona mais para nada além de trocá-la**:
+  quem entra com ela cai direto na tela de troca, e a troca exige também o código de instalação.
 
 ---
 
@@ -28,8 +32,8 @@ Assim que salva, a célula aparece automaticamente no mapa e na lista da página
 
 ```
 admin.html            → painel administrativo
-api/db.php            → conexão SQLite + criação das tabelas + usuário admin
-api/auth.php          → login / logout / sessão
+api/db.php            → conexão SQLite + criação das tabelas + regras de senha
+api/auth.php          → primeiro acesso / login / troca de senha / logout / sessão
 api/celulas.php       → cadastrar, listar, editar e excluir células
 data/                 → onde fica o banco (shalom.db), protegido por .htaccess
 dev-server.py         → APENAS para testes locais (não precisa subir)
@@ -47,7 +51,8 @@ dev-server.py         → APENAS para testes locais (não precisa subir)
    - a pasta `data/` **contendo apenas o `.htaccess`**
 
 2. **Não suba o arquivo `data/shalom.db`.**
-   O PHP cria o banco sozinho no primeiro acesso ao painel, já com o usuário admin.
+   O PHP cria o banco sozinho no primeiro acesso ao painel; aí o painel pede o
+   código de instalação para criar o usuário.
 
    > Motivo: o banco gerado pelo servidor de testes local usa outro formato de
    > senha. Se ele for enviado junto, o login não funciona. Deixe o PHP criar o dele.
@@ -67,8 +72,8 @@ dev-server.py         → APENAS para testes locais (não precisa subir)
   além do que já aparece no site.
 - A pasta do banco é bloqueada para acesso via navegador pelo `.htaccess`.
 
-**Recomendação:** troque a senha padrão depois do primeiro acesso. Para isso, me peça
-que eu adiciono a tela de “alterar senha” no painel.
+- Senha com pelo menos 10 caracteres. Ao trocar a senha, todas as outras sessões abertas caem.
+- Login e código de instalação: no máximo 10 erros por IP a cada 15 minutos.
 
 ---
 

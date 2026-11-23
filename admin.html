@@ -125,6 +125,72 @@ a{color:#5bb8e8}
   </form>
 </div>
 
+<!-- ══════════ PRIMEIRO ACESSO (nenhum usuário ainda) ══════════ -->
+<div class="login-wrap" id="tela-instalar" style="display:none">
+  <form class="login-card" id="form-instalar">
+    <img src="assets/logo.png" alt="Shalom">
+    <h1>Primeiro acesso</h1>
+    <div class="kick">Criar o usuário do painel</div>
+
+    <div class="msg" id="inst-msg"></div>
+
+    <div class="campo">
+      <label for="i-codigo">Código de instalação</label>
+      <input type="text" id="i-codigo" autocomplete="off" required>
+      <div class="dica">Entregue ao responsável pelo site, fora do GitHub.</div>
+    </div>
+    <div class="campo">
+      <label for="i-user">Usuário</label>
+      <input type="text" id="i-user" autocomplete="username" required>
+    </div>
+    <div class="campo">
+      <label for="i-pass">Senha</label>
+      <input type="password" id="i-pass" autocomplete="new-password" minlength="10" required>
+      <div class="dica">Pelo menos 10 caracteres.</div>
+    </div>
+    <div class="campo">
+      <label for="i-pass2">Repita a senha</label>
+      <input type="password" id="i-pass2" autocomplete="new-password" minlength="10" required>
+    </div>
+    <button class="btn" type="submit" style="width:100%" id="btn-instalar">Criar e entrar</button>
+  </form>
+</div>
+
+<!-- ══════════ TROCAR SENHA ══════════ -->
+<div class="login-wrap" id="tela-senha" style="display:none">
+  <form class="login-card" id="form-senha">
+    <img src="assets/logo.png" alt="Shalom">
+    <h1>Trocar senha</h1>
+    <div class="kick" id="senha-kick">Painel de células</div>
+
+    <div class="msg" id="senha-msg"></div>
+
+    <div class="campo">
+      <label for="t-atual">Senha atual</label>
+      <input type="password" id="t-atual" autocomplete="current-password" required>
+    </div>
+    <div class="campo" id="campo-codigo" style="display:none">
+      <label for="t-codigo">Código de instalação</label>
+      <input type="text" id="t-codigo" autocomplete="off">
+      <div class="dica">Exigido porque a senha antiga ficou pública.</div>
+    </div>
+    <div class="campo">
+      <label for="t-nova">Senha nova</label>
+      <input type="password" id="t-nova" autocomplete="new-password" minlength="10" required>
+      <div class="dica">Pelo menos 10 caracteres.</div>
+    </div>
+    <div class="campo">
+      <label for="t-nova2">Repita a senha nova</label>
+      <input type="password" id="t-nova2" autocomplete="new-password" minlength="10" required>
+    </div>
+    <button class="btn" type="submit" style="width:100%" id="btn-trocar">Salvar senha nova</button>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:14px">
+      <button class="btn btn--sm" type="button" id="btn-senha-voltar">Voltar</button>
+      <button class="btn btn--sm" type="button" id="btn-senha-sair" style="display:none">Sair</button>
+    </div>
+  </form>
+</div>
+
 <!-- ══════════ PAINEL ══════════ -->
 <div id="tela-painel" style="display:none">
   <div class="topbar">
@@ -137,6 +203,7 @@ a{color:#5bb8e8}
     </div>
     <div style="display:flex;gap:10px">
       <a class="btn btn--sm" href="index.html" target="_blank">Ver site</a>
+      <button class="btn btn--sm" id="btn-abrir-senha">Trocar senha</button>
       <button class="btn btn--sm" id="btn-sair">Sair</button>
     </div>
   </div>
@@ -301,7 +368,12 @@ async function api(url, opcoes) {
   const r = await fetch(url, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opcoes || {}));
   let dados = null;
   try { dados = await r.json(); } catch (e) {}
-  if (!r.ok) throw new Error((dados && dados.erro) || 'Erro na requisição (' + r.status + ')');
+  if (!r.ok) {
+    const erro = new Error((dados && dados.erro) || 'Erro na requisição (' + r.status + ')');
+    erro.precisaCodigo = !!(dados && dados.precisa_codigo);
+    if (dados && dados.trocar_senha) abrirTrocaSenha(true);
+    throw erro;
+  }
   return dados;
 }
 
@@ -312,11 +384,11 @@ $('form-login').addEventListener('submit', async e => {
   btn.disabled = true; btn.textContent = 'Entrando…';
   msg($('login-msg'), '');
   try {
-    await api(API_AUTH + '?acao=login', {
+    const r = await api(API_AUTH + '?acao=login', {
       method: 'POST',
       body: JSON.stringify({ usuario: $('l-user').value.trim(), senha: $('l-pass').value })
     });
-    abrirPainel();
+    if (r.trocar_senha) abrirTrocaSenha(true); else abrirPainel();
   } catch (err) {
     msg($('login-msg'), err.message, 'err');
   } finally {
@@ -324,14 +396,81 @@ $('form-login').addEventListener('submit', async e => {
   }
 });
 
-$('btn-sair').addEventListener('click', async () => {
+async function sair() {
   try { await api(API_AUTH + '?acao=logout', { method: 'POST' }); } catch (e) {}
   location.reload();
+}
+$('btn-sair').addEventListener('click', sair);
+$('btn-senha-sair').addEventListener('click', sair);
+
+function mostrarTela(id) {
+  ['tela-login', 'tela-instalar', 'tela-senha', 'tela-painel'].forEach(t => {
+    $(t).style.display = t === id ? 'block' : 'none';
+  });
+  if (id !== 'tela-painel') $(id).style.display = 'flex';
+  else setTimeout(() => { if (mapa) mapa.invalidateSize(); if (mapaSede) mapaSede.invalidateSize(); }, 60);
+}
+
+/* ---------- primeiro acesso ---------- */
+$('form-instalar').addEventListener('submit', async e => {
+  e.preventDefault();
+  msg($('inst-msg'), '');
+  if ($('i-pass').value !== $('i-pass2').value) return msg($('inst-msg'), 'As senhas não conferem.', 'err');
+  const btn = $('btn-instalar');
+  btn.disabled = true;
+  try {
+    await api(API_AUTH + '?acao=instalar', {
+      method: 'POST',
+      body: JSON.stringify({ codigo: $('i-codigo').value.trim(), usuario: $('i-user').value.trim(), senha: $('i-pass').value })
+    });
+    abrirPainel();
+  } catch (err) {
+    msg($('inst-msg'), err.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ---------- trocar senha ---------- */
+let senhaObrigatoria = false;
+function abrirTrocaSenha(obrigatoria) {
+  senhaObrigatoria = !!obrigatoria;
+  $('form-senha').reset();
+  msg($('senha-msg'), obrigatoria ? 'Sua senha atual ficou pública na internet. Crie uma senha nova para continuar.' : '', obrigatoria ? 'err' : '');
+  $('senha-kick').textContent = obrigatoria ? 'Troca obrigatória' : 'Painel de células';
+  $('campo-codigo').style.display = obrigatoria ? 'block' : 'none';
+  $('t-codigo').required = !!obrigatoria;
+  $('btn-senha-voltar').style.display = obrigatoria ? 'none' : 'inline-flex';
+  $('btn-senha-sair').style.display = obrigatoria ? 'inline-flex' : 'none';
+  mostrarTela('tela-senha');
+}
+$('btn-abrir-senha').addEventListener('click', () => abrirTrocaSenha(false));
+$('btn-senha-voltar').addEventListener('click', () => mostrarTela('tela-painel'));
+
+$('form-senha').addEventListener('submit', async e => {
+  e.preventDefault();
+  msg($('senha-msg'), '');
+  if ($('t-nova').value !== $('t-nova2').value) return msg($('senha-msg'), 'As senhas novas não conferem.', 'err');
+  const btn = $('btn-trocar');
+  btn.disabled = true;
+  try {
+    await api(API_AUTH + '?acao=senha', {
+      method: 'POST',
+      body: JSON.stringify({ atual: $('t-atual').value, nova: $('t-nova').value, codigo: $('t-codigo').value.trim() })
+    });
+    $('form-senha').reset();
+    abrirPainel();
+    alert('Senha alterada.');
+  } catch (err) {
+    if (err.precisaCodigo) { $('campo-codigo').style.display = 'block'; $('t-codigo').required = true; }
+    msg($('senha-msg'), err.message, 'err');
+  } finally {
+    btn.disabled = false;
+  }
 });
 
 function abrirPainel() {
-  $('tela-login').style.display = 'none';
-  $('tela-painel').style.display = 'block';
+  mostrarTela('tela-painel');
   iniciarMapa();
   iniciarMapaSede();
   carregarLista();
@@ -622,7 +761,8 @@ window.remover = async (id, nome) => {
 (async () => {
   try {
     const r = await api(API_AUTH + '?acao=me');
-    if (r && r.autenticado) abrirPainel();
+    if (r && r.autenticado) r.trocar_senha ? abrirTrocaSenha(true) : abrirPainel();
+    else if (r && r.instalado === false) mostrarTela('tela-instalar');
   } catch (e) { /* mostra login */ }
 })();
 </script>
